@@ -1,0 +1,5 @@
+hxs/node_modules
+hxs/build
+.dockerignore
+Dockerfile
+Dockerfile.dev
