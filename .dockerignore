@@ -1,5 +1,4 @@
-hxs/node_modules
-hxs/build
+build
 .dockerignore
 Dockerfile
 Dockerfile.dev
