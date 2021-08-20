@@ -1,5 +1,5 @@
 FROM node:lts-alpine
 WORKDIR /app
-COPY hxs /app
+COPY . /app
 RUN npm install
 CMD ["npm", "start"]
