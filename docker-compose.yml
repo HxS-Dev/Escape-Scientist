@@ -11,4 +11,4 @@ services:
       - "786:3000"
     volumes:
       - "/app/node_modules"
-      - "./hxs:/app"
+      - ".:/app"
