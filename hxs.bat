@@ -15,6 +15,7 @@ IF %1% == -h (
     Echo *      inside container,   *
     Echo *      put the package     *
     Echo *      after -i            *
+    Echo *                          *
     Echo *-stop Stops the docker    *
     Echo *      containers          *
     Echo ****************************
@@ -97,7 +98,7 @@ IF NOT %errorlevel% == 0 (
     Echo *The container is not      *
     Echo *running, run the following*
     Echo *command:                  *
-    Echo *        ./hxs.bat -s      *
+    Echo *         hxs.bat -s       *
     Echo ****************************
     Goto End
 ) ELSE (
