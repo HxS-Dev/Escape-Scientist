@@ -94,7 +94,5 @@ IF NOT %errorlevel% == 0 (
 Echo ****************************
 Echo *** ABORTED DUE TO ERROR ***
 Echo ****************************
-Pause
 
 :End
-Pause
