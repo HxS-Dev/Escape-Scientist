@@ -104,4 +104,16 @@ if [[ $1 == -s || $1 == --start || $1 == -sc || $1 == --sc ]]; then
     exit 0
 fi
 
+if [[ $1 == -stop || $1 == --stop ]]; then
+    echo >&2 '
+****************************
+********* HXS Stop *********
+****************************
+'
+    checkUp
+    # Put the container down
+    docker-compose -f docker-compose.yml down
+
+    exit 0
+fi
 trap : 0
