@@ -6,7 +6,6 @@ abort() {
 *** ABORTED DUE TO ERROR ***
 ****************************
 '
-    echo "An error occurred. Exiting..." >&2
     exit 1
 }
 
