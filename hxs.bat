@@ -63,8 +63,8 @@ IF %1 == -stop (
     Echo ****************************
     Echo ********* HXS Stop *********
     Echo ****************************
-    Goto checkUpB
-    :checkUpBR
+    Goto checkUpC
+    :checkUpCR
     :: Put the container down
     docker-compose -f docker-compose.yml down
     IF NOT %errorlevel% == 0 Goto ErrorTrap
@@ -103,6 +103,23 @@ IF NOT %errorlevel% == 0 (
     Goto End
 ) ELSE (
     Goto checkUpBR
+)
+
+:checkUpC
+:: Check if docker container is running, returns error if not running
+docker top hxs 2>nul
+IF NOT %errorlevel% == 0 (
+    Echo ****************************
+    Echo *** ABORTED DUE TO ERROR ***
+    Echo ****************************
+    Echo *The container is not      *
+    Echo *running, run the following*
+    Echo *command:                  *
+    Echo *         hxs.bat -s       *
+    Echo ****************************
+    Goto End
+) ELSE (
+    Goto checkUpCR
 )
 
 :ErrorTrap
