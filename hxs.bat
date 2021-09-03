@@ -15,6 +15,8 @@ IF %1% == -h (
     Echo *      inside container,   *
     Echo *      put the package     *
     Echo *      after -i            *
+    Echo *-stop Stops the docker    *
+    Echo *      containers          *
     Echo ****************************
     Goto End
 )

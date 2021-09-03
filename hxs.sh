@@ -61,6 +61,9 @@ if [[ $1 == -h || $1 == --help ]]; then
 *      inside container,   *
 *      put the package     *
 *      after -i            *
+*                          *
+*-stop Stops the docker    *
+*      containers          *
 ****************************
 '
     exit 0
