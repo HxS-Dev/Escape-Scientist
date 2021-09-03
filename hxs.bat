@@ -34,7 +34,7 @@ IF %1 == -sc (
     Echo ****************************
     Echo ********* Cleaning *********
     Echo ****************************
-    docker-compose -f docker-compose.yml down --rmi 'all' -v --remove-orphans > nul 2>&1
+    docker-compose -f docker-compose.yml down --rmi all -v --remove-orphans > nul 2>&1
     Echo ****************************
     Echo ********* HXS Start ********
     Echo ****************************
@@ -52,6 +52,18 @@ IF %1 == -s (
     :checkUpAR
     :: Put the container up
     docker-compose -f docker-compose.yml up -d
+    IF NOT %errorlevel% == 0 Goto ErrorTrap
+    Goto End
+)
+
+IF %1 == -stop (
+    Echo ****************************
+    Echo ********* HXS Stop *********
+    Echo ****************************
+    Goto checkUpB
+    :checkUpBR
+    :: Put the container down
+    docker-compose -f docker-compose.yml down
     IF NOT %errorlevel% == 0 Goto ErrorTrap
     Goto End
 )
