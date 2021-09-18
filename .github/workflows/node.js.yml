@@ -31,4 +31,5 @@ jobs:
       with:
         install-command: npm ci
         wait-on: 'http://localhost:3000'
-        start: npm run web
+        start: npm run start
+        run: npm run web
