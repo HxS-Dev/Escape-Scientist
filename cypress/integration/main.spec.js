@@ -3,6 +3,6 @@ describe ('URL is correct', () => {
         cy.visit('')
     })
     it ('Check url', () => {
-        cy.url().should('include', '786')
+        cy.url().should('include', 'localhost')
     })
 })
