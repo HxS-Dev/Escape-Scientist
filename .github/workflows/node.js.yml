@@ -34,5 +34,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
+          install-command: npm --frozen-lockfile --silent
           start: npm run web
           wait-on: 'https://localhost:786'
