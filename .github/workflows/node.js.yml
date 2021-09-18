@@ -26,5 +26,9 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-    - wait-on: 'https://localhost:3000'
-    - run: npm run web          
+    - name: Cypress run
+      uses: cypress-io/github-actions@v2
+      with:
+        install-command: npm ci
+        wait-on: 'https://localhost:3000'
+        start: npm run web
