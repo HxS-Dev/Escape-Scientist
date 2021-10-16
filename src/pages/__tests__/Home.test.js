@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Home from './Home';
+import Home from '../Home';
 //for database things (if we have, use beforeEach and afterEach with a test db)
 
 describe('Test Layout Example', () => {

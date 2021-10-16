@@ -1,5 +1,5 @@
 import React from "react";
-import Particles from 'react-particles-js';
+import Particles from '../../node_modules/react-particles-js';
 
 function Playground() {
   return (
