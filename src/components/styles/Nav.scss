@@ -1,3 +1,54 @@
+// ! navbar
 .navbar {
   width: 100%;
+  cursor: default;
+}
+
+.navbar:hover {
+  .logo {
+    height: 45px;
+    width: 45px;
+    transition: 0.1s ease-in-out;
+  }
+}
+.navbar ul {
+  text-align: center;
+}
+
+.navbar ul li {
+  list-style: none;
+  display: inline-block;
+  padding: 35px 80px;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: #cac9c9;
+  font-size: 22px;
+  position: relative;
+  letter-spacing: 2px;
+}
+
+// ! underline animation
+.navbar ul li a:after {
+  margin-top: 1px;
+  background: none repeat scroll 0 0 transparent;
+  content: "";
+  display: block;
+  height: 2px;
+  left: 50%;
+  position: relative;
+  background: #fff;
+  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  width: 0;
+}
+.navbar ul li a:hover:after {
+  width: 100%;
+  left: 0;
+}
+// ! logo
+.logo {
+  height: 35px;
+  width: 35px;
+  transition: 0.1s ease-in-out;
 }

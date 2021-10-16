@@ -5,25 +5,29 @@ import { Link } from "react-router-dom";
 import TransparentContainer from "./TransparentContainer";
 //* Styles
 import "./styles/Nav.scss";
+import placeholderLogo from "../static/placeholderLogo.png";
+
 function Nav() {
   return (
     <TransparentContainer additionalClasses="navbar">
       <ul>
-        <Link to="/">
-          <li>Home</li>
-        </Link>
-        <Link to="/about">
-          <li>About</li>
-        </Link>
-        <Link to="/contact">
-          <li>Contact</li>
-        </Link>
-        <Link to="/playground">
-          <li>Playground</li>
-        </Link>
-        <Link to="/portfolio">
-          <li>Portfolio</li>
-        </Link>
+        <li>
+          <Link to="/about">About</Link>
+        </li>
+        <li>
+          <Link to="/portfolio">Portfolio</Link>
+        </li>
+        <li>
+          <Link to="/">
+            <img className="logo" src={placeholderLogo}></img>
+          </Link>
+        </li>
+        <li>
+          <Link to="/playground">Playground</Link>
+        </li>
+        <li>
+          <Link to="/contact">Contact</Link>
+        </li>
       </ul>
     </TransparentContainer>
   );
