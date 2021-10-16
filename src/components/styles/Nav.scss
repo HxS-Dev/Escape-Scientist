@@ -8,8 +8,12 @@
   .logo {
     height: 45px;
     width: 45px;
-    transition: 0.1s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
+  a {
+    color: #fff;
+  }
+  transition: 0.3s;
 }
 .navbar ul {
   text-align: center;
@@ -31,14 +35,14 @@
 
 // ! underline animation
 .navbar ul li a:after {
-  margin-top: 1px;
+  margin-top: 4px;
   background: none repeat scroll 0 0 transparent;
   content: "";
   display: block;
-  height: 2px;
+  height: 3px;
   left: 50%;
   position: relative;
-  background: #fff;
+  background: #b0edfd;
   transition: width 0.3s ease 0s, left 0.3s ease 0s;
   width: 0;
 }
