@@ -1,4 +1,5 @@
+@import "./variables";
 body {
-  background-color: #333332;
+  background-color: $primary-dark;
   font-family: "Roboto Condensed";
 }
