@@ -1,5 +1,11 @@
 @import "../../variables";
 // ! navbar
+@media (max-width: $screen-xs-max) {
+  .navbar {
+    display: none;
+  }
+}
+
 .navbar {
   width: 100%;
   cursor: default;

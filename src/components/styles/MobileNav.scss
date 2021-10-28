@@ -1,0 +1,7 @@
+@import "../../variables";
+
+@media screen and (min-width: $screen-xs-max) {
+  .mobile-navbar {
+    display: none;
+  }
+}
