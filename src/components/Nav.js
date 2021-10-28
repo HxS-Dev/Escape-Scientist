@@ -19,7 +19,7 @@ function Nav() {
         </li>
         <li>
           <Link to="/">
-            <img className="logo" src={placeholderLogo}></img>
+            <img className="logo" src={placeholderLogo} alt="logo"></img>
           </Link>
         </li>
         <li>
