@@ -1,25 +1,35 @@
+// * Dependencies
 import React from "react";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
+// * Components
+import TransparentContainer from "./TransparentContainer";
+//* Styles
+import "./styles/Nav.scss";
+import placeholderLogo from "../static/placeholderLogo.png";
 
 function Nav() {
   return (
-    <ul>
-        <Link to='/'>
-            <li>Home</li>   
-        </Link>
-        <Link to='/about'>
-            <li>About</li>   
-        </Link>
-        <Link to='/contact'>
-            <li>Contact</li>   
-        </Link>
-        <Link to='/playground'>
-            <li>Playground</li>   
-        </Link>
-        <Link to='/portfolio'>
-            <li>Portfolio</li>   
-        </Link>
-    </ul>
+    <TransparentContainer additionalClasses="navbar">
+      <ul>
+        <li>
+          <Link to="/about">About</Link>
+        </li>
+        <li>
+          <Link to="/portfolio">Portfolio</Link>
+        </li>
+        <li>
+          <Link to="/">
+            <img className="logo" src={placeholderLogo} alt="logo"></img>
+          </Link>
+        </li>
+        <li>
+          <Link to="/playground">Playground</Link>
+        </li>
+        <li>
+          <Link to="/contact">Contact</Link>
+        </li>
+      </ul>
+    </TransparentContainer>
   );
 }
 
