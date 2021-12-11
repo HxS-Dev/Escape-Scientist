@@ -5,9 +5,9 @@ while len(Pills) != 0:
     Barcode2 = input()
     Barcode3 = input()
     
-    if Barcode1 == Pill[0][0] and Barcode2 == Pill[0][1] and Barcode3 == Pill[0][2]:
-        print("Success, "+Pill[0][3]+" pill is chosen")
-        Pills.remove(Pill[0])
+    if Barcode1 == Pills[0][0] and Barcode2 == Pills[0][1] and Barcode3 == Pills[0][2]:
+        print("Success, "+Pills[0][3]+" pill is chosen")
+        Pills.remove(Pills[0])
         # Send token to arduino
         continue
     print("Failure")
