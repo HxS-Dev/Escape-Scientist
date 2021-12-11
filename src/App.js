@@ -2,14 +2,11 @@
 // * Components
 import React from "react";
 import "./App.scss";
+import { MainDisplay } from "./pages/MainDisplay";
 // * dependencies
 
 function App() {
-  return (
-    <button type="button" class="btn btn-secondary">
-      Secondary
-    </button>
-  );
+  return <MainDisplay />;
 }
 
 export default App;

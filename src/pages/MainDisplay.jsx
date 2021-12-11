@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 export const MainDisplay = () => {
   const [isClueVisible, setIsClueVisible] = useState(false);
@@ -10,7 +10,7 @@ export const MainDisplay = () => {
     <div className="container">
       <div className="row">
         <div className="col">
-          <div className="timer"></div>
+          <div className="timer card"></div>
         </div>
       </div>
       <div className="row">
