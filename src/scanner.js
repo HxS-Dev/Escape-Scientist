@@ -5,30 +5,26 @@ var pills = [
   ["5618000593822", "5060055460155", "X001CRD8HP", "4"],
 ];
 export const scanner = () => {
-  while (pills.length != 0) {
+  while (pills.length !== 0) {
     var barcode_1 = prompt();
+    console.log(barcode_1);
     var barcode_2 = prompt();
-    var barcode_3 = prompt();
+    console.log(barcode_2);
 
-<<<<<<< HEAD
+    var barcode_3 = prompt();
+    console.log(barcode_3);
+
     if (
-      barcode_1 == pills[0][0] &&
-      barcode_1 == pills[0][1] &&
-      barcode_1 == pills[0][2]
+      barcode_1 === pills[0][0] &&
+      barcode_2 === pills[0][1] &&
+      barcode_3 === pills[0][2]
     ) {
       console.log("Success, pill " + pills[0][3] + " complete");
       pills.splice(0, 1);
       continue;
-=======
-        if (barcode_1 == pills[0][0] && barcode_2 == pills[0][1] && barcode_3 == pills[0][2]) {
-            console.log("Success, pill "+pills[0][3]+" complete")
-            pills.splice(0, 1)
-            continue
-        }
-        console.log("Failure, try again")
->>>>>>> f937bdf83f249158d56f503916b408b8c6716bf1
     }
     console.log("Failure, try again");
   }
   console.log("All pills scanned, Well Done!");
+  return "success";
 };
