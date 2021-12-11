@@ -5,7 +5,11 @@ import React from "react";
 // * dependencies
 
 function App() {
-  return <div></div>;
+  return (
+    <button type="button" class="btn btn-secondary">
+      Secondary
+    </button>
+  );
 }
 
 export default App;
