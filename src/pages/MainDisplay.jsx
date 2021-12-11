@@ -9,11 +9,19 @@ export const MainDisplay = ({ showClue }) => {
     console.log(event);
   };
   return (
-    <div className="container-fluid">
+    <div className="">
+      <h1>sads</h1>
       <div className="timer"></div>
       <div className="row">
         <div className="col">
-          <div className="clues" onClick={handleShowClue}></div>
+          <div className="clues"></div>
+          <button
+            type="button"
+            onClick={handleShowClue}
+            className="btn btn-primary"
+          >
+            Primary
+          </button>
         </div>
       </div>
     </div>

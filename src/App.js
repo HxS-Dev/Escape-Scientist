@@ -7,8 +7,8 @@ import { scanner } from "./scanner";
 // * dependencies
 
 function App() {
-  const success = scanner();
-  return <div>{success}</div>;
+  // const success = scanner();
+  return <MainDisplay />;
 }
 
 export default App;
