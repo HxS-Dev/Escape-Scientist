@@ -10,6 +10,7 @@ export const scanner = () => {
     var barcode_2 = prompt();
     var barcode_3 = prompt();
 
+<<<<<<< HEAD
     if (
       barcode_1 == pills[0][0] &&
       barcode_1 == pills[0][1] &&
@@ -18,6 +19,14 @@ export const scanner = () => {
       console.log("Success, pill " + pills[0][3] + " complete");
       pills.splice(0, 1);
       continue;
+=======
+        if (barcode_1 == pills[0][0] && barcode_2 == pills[0][1] && barcode_3 == pills[0][2]) {
+            console.log("Success, pill "+pills[0][3]+" complete")
+            pills.splice(0, 1)
+            continue
+        }
+        console.log("Failure, try again")
+>>>>>>> f937bdf83f249158d56f503916b408b8c6716bf1
     }
     console.log("Failure, try again");
   }
