@@ -5,7 +5,7 @@ export default scanner = () => {
         var barcode_2 = prompt()
         var barcode_3 = prompt()
 
-        if (barcode_1 == pills[0][0] && barcode_1 == pills[0][1] && barcode_1 == pills[0][2]) {
+        if (barcode_1 == pills[0][0] && barcode_2 == pills[0][1] && barcode_3 == pills[0][2]) {
             console.log("Success, pill "+pills[0][3]+" complete")
             pills.splice(0, 1)
             continue
