@@ -6,6 +6,9 @@ body {
 
 .timer {
   width: 30vw;
-  height: 15vh;
-  background-color: green;
+  height: 20vh;
+  border: 2px solid $primary-blue;
+  position: absolute;
+  left: 50%;
+  top: 50%;
 }
