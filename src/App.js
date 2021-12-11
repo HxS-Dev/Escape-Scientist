@@ -13,20 +13,7 @@ import MobileNav from "./components/MobileNav";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
-  return (
-    <Router>
-      <Nav />
-      <MobileNav />
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/contact" component={Contact} />
-        <Route path="/portfolio" component={Portfolio} />
-        {/* protected routes will come in at some point */}
-        <Route path="/playground" component={Playground} />
-      </Switch>
-    </Router>
-  );
+  return <div></div>;
 }
 
 export default App;
