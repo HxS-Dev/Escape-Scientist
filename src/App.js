@@ -1,7 +1,7 @@
 // * styles
 // * Components
 import React from "react";
-
+import "./App.scss";
 // * dependencies
 
 function App() {
