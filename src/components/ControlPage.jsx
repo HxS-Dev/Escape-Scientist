@@ -1,6 +1,6 @@
 import "../assets/css/App.css";
-import React from "react";
+import React, { useState } from "react";
 
-export const ControlPage = ({ test }) => {
-  return <div>test</div>;
+export const ControlPage = ({ isClueVisible }) => {
+  return <div>{isClueVisible && <h1>CLUE VIS</h1>}</div>;
 };
