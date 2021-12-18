@@ -15,7 +15,8 @@
     "dev": "webpack-dev-server --hot --host 0.0.0.0 --config=./webpack.dev.config.js",
     "build": "webpack --config webpack.build.config.js",
     "package": "webpack --config webpack.build.config.js",
-    "postpackage": "electron-packager ./ --out=./builds"
+    "postpackage": "electron-packager ./ --out=./builds",
+    "postinstall": "electron-rebuild"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -36,6 +37,7 @@
     "webpack-dev-server": "^3.9.0"
   },
   "dependencies": {
-    "react-router-dom": "^6.2.1"
+    "electron-rebuild": "^3.2.5",
+    "react-router-dom": "^4.2.1"
   }
 }

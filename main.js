@@ -7,7 +7,7 @@ const url = require("url");
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow, secondWindow;
+let mainWindow, secondWindow, thirdWindow;
 
 // Keep a reference for dev mode
 const isDev = () => {
@@ -22,34 +22,10 @@ const isDev = () => {
   return dev;
 };
 
-const pathCreator = (route) => {
-  let indexPath;
-  // if (isDev() && process.argv.indexOf("--noDevServer") === -1) {
-  indexPath = url.format({
-    protocol: "http:",
-    host: `localhost:8080${"?" + route}`,
-    // pathname: "index.html",
-    slashes: true,
-  });
-  // } else {
-  //   indexPath =
-  //     url.format({
-  //       protocol: "file:",
-  //       pathname: path.join(
-  //         process.platform == "darwin"
-  //           ? __dirname.split("/").slice(0, -2).join("/")
-  //           : __dirname.split("\\").slice(0, -2).join("/"),
-  //         "build",
-  //         `index.html`
-  //       ),
-  //       slashes: true,
-  //     }) + `?${route}`;
-  // }
-  return indexPath;
-};
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
+    name: "control",
     width: 1024,
     height: 768,
     show: false,
@@ -59,6 +35,17 @@ function createWindow() {
   });
 
   secondWindow = new BrowserWindow({
+    name: "timer",
+    width: 1024,
+    height: 768,
+    show: false,
+    webPreferences: {
+      nodeIntegration: true,
+    },
+  });
+
+  thirdWindow = new BrowserWindow({
+    name: "barcode",
     width: 1024,
     height: 768,
     show: false,
@@ -69,8 +56,21 @@ function createWindow() {
 
   // and load the index.html of the app.
 
-  mainWindow.loadURL(pathCreator("control"));
-  secondWindow.loadURL(pathCreator("timer"));
+  mainWindow.loadURL(
+    isDev()
+      ? `http://localhost:8080/control`
+      : `file://${path.join(__dirname, "../build/index.html?control")}`
+  );
+  secondWindow.loadURL(
+    isDev()
+      ? `http://localhost:8080/timer`
+      : `file://${path.join(__dirname, "../build/index.html?timer")}`
+  );
+  thirdWindow.loadURL(
+    isDev()
+      ? `http://localhost:8080/barcode`
+      : `file://${path.join(__dirname, "../build/index.html?barcode")}`
+  );
 
   // Don't show until we are ready and loaded
   mainWindow.once("ready-to-show", () => {
@@ -91,12 +91,36 @@ function createWindow() {
     }
   });
 
+  thirdWindow.once("ready-to-show", () => {
+    thirdWindow.show();
+
+    // Open the DevTools automatically if developing
+    if (isDev()) {
+      thirdWindow.webContents.openDevTools();
+    }
+  });
   // Emitted when the window is closed.
   mainWindow.on("closed", function () {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null;
+  });
+
+  // Emitted when the window is closed.
+  secondWindow.on("closed", function () {
+    // Dereference the window object, usually you would store windows
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    secondWindow = null;
+  });
+
+  // Emitted when the window is closed.
+  thirdWindow.on("closed", function () {
+    // Dereference the window object, usually you would store windows
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    thirdWindow = null;
   });
 }
 
@@ -118,6 +142,12 @@ app.on("activate", () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
+    createWindow();
+  }
+  if (secondWindow === null) {
+    createWindow();
+  }
+  if (thirdWindow === null) {
     createWindow();
   }
 });

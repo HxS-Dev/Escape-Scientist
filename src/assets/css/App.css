@@ -2,3 +2,9 @@ h1 {
   font-family: helvetica;
   font-weight: 200;
 }
+
+.timer {
+  width: 30vw;
+  height: 15vh;
+  background-color: green;
+}
