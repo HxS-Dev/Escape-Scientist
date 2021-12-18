@@ -1,14 +1,10 @@
-import '../assets/css/App.css';
-import React, { Component } from 'react';
+import "../assets/css/App.css";
+import React, { Component } from "react";
+import ViewManage from "./ViewManage";
 
-class App extends React.Component {
+class App extends Component {
   render() {
-    return (
-      <div>
-        <h1>Hello, Electron!</h1>
-        <p>I hope you enjoy using basic-electron-react-boilerplate to start your dev off right!</p>
-      </div>
-    );
+    return <ViewManage />;
   }
 }
 
