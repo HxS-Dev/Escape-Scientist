@@ -6,25 +6,14 @@ import { TimerPage } from "./TimerPage.jsx";
 
 export const ViewManage = () => {
   const [isClueVisible, setIsClueVisible] = useState(false);
+  console.log(isClueVisible);
 
-  const onShowClue = () => {
-    setIsClueVisible(true);
-  };
   return (
     <Router>
       <div>
+        <Route exact path="/timer" render={() => <TimerPage />} />
+        <Route exact path="/control" render={() => <ControlPage />} />
         <Route exact path="/barcode" render={() => <BarcodePage />} />
-        <Route
-          exact
-          path="/control"
-          render={() => <ControlPage handleShowClue={onShowClue} />}
-        />
-        <Route
-          path="/timer"
-          render={() => (
-            <TimerPage test="this is pro" isClueVisible={isClueVisible} />
-          )}
-        />
       </div>
     </Router>
   );

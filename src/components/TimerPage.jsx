@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import "../assets/css/App.css";
-
-export const TimerPage = ({ handleClueVisible, test }) => {
+export const TimerPage = ({ setIsClueVisible }) => {
+  const onShowClue = () => {
+    setIsClueVisible((prev) => !prev);
+  };
   return (
     <div className="container">
-      <h1>{test}</h1>
-      <button onClick={handleClueVisible}></button>
+      <h1>Timer</h1>
+      <button type="button" className="btn btn-primary">
+        Primary
+      </button>
+
       <div className="row">
         <div className="col">
           <div className="timer card"></div>

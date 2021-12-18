@@ -17,12 +17,12 @@ module.exports = {
     publicPath: "/",
     filename: "bundle.js",
   },
+
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: [{ loader: "style-loader" }, { loader: "css-loader" }],
-        include: defaultInclude,
+        loader: "style-loader!css-loader",
       },
       {
         test: /\.jsx?$/,
