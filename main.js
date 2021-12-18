@@ -4,6 +4,11 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
 const url = require("url");
+const {
+  default: installExtension,
+  REACT_DEVELOPER_TOOLS,
+  REDUX_DEVTOOLS,
+} = require("electron-devtools-installer");
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -59,17 +64,17 @@ function createWindow() {
   mainWindow.loadURL(
     isDev()
       ? `http://localhost:8080/control`
-      : `file://${path.join(__dirname, "../build/index.html?control")}`
+      : `file://${path.join(__dirname, "../build/index.html/control")}`
   );
   secondWindow.loadURL(
     isDev()
       ? `http://localhost:8080/timer`
-      : `file://${path.join(__dirname, "../build/index.html?timer")}`
+      : `file://${path.join(__dirname, "../build/index.html/timer")}`
   );
   thirdWindow.loadURL(
     isDev()
       ? `http://localhost:8080/barcode`
-      : `file://${path.join(__dirname, "../build/index.html?barcode")}`
+      : `file://${path.join(__dirname, "../build/index.html/barcode")}`
   );
 
   // Don't show until we are ready and loaded
@@ -128,6 +133,13 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", createWindow);
+
+// get dev tools
+app.whenReady().then(() => {
+  installExtension(REDUX_DEVTOOLS)
+    .then((name) => console.log(`Added Extension:  ${name}`))
+    .catch((err) => console.log("An error occurred: ", err));
+});
 
 // Quit when all windows are closed.
 app.on("window-all-closed", () => {
