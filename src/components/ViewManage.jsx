@@ -6,8 +6,15 @@ import { TimerPage } from "./TimerPage.jsx";
 import { useViewManage } from "../hooks/viewManage.js";
 
 export const ViewManage = () => {
-  const { handleToggleClue, toggleClue, handlePauseTimer, timerState } =
-    useViewManage();
+  const {
+    handleToggleClue,
+    toggleClue,
+    handlePauseTimer,
+    handleStartTimer,
+    handleRestartTimer,
+    timerState,
+  } = useViewManage();
+
   return (
     <Router>
       <div>
@@ -18,6 +25,8 @@ export const ViewManage = () => {
             <ControlPage
               handleToggleClue={handleToggleClue}
               handlePauseTimer={handlePauseTimer}
+              handleStartTimer={handleStartTimer}
+              handleRestartTimer={handleRestartTimer}
             />
           )}
         />

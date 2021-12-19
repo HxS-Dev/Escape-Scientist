@@ -1,22 +1,49 @@
 import "../assets/css/App.css";
 import React from "react";
 
-const TimerButtons = ({ handlePauseTimer }) => {
+const TimerButtons = ({
+  handlePauseTimer,
+  handleStartTimer,
+  handleRestartTimer,
+}) => {
   const time = new Date();
   time.setSeconds(time.getSeconds() + 3600); // 10 minutes timer
 
   return (
-    <button
-      onClick={handlePauseTimer}
-      type="button"
-      className="btn btn-primary"
-    >
-      Pause Timer
-    </button>
+    <div>
+      <button
+        onClick={handlePauseTimer}
+        type="button"
+        className="btn btn-primary"
+      >
+        Pause Timer
+      </button>
+
+      <button
+        onClick={handleStartTimer}
+        type="button"
+        className="btn btn-primary"
+      >
+        Start Timer
+      </button>
+
+      <button
+        onClick={handleRestartTimer}
+        type="button"
+        className="btn btn-primary"
+      >
+        Restart Timer
+      </button>
+    </div>
   );
 };
 
-export const ControlPage = ({ handleToggleClue, handlePauseTimer }) => {
+export const ControlPage = ({
+  handleToggleClue,
+  handlePauseTimer,
+  handleStartTimer,
+  handleRestartTimer,
+}) => {
   return (
     <div>
       <h1>Control Page</h1>
@@ -27,7 +54,11 @@ export const ControlPage = ({ handleToggleClue, handlePauseTimer }) => {
       >
         SHOW CLUE
       </button>
-      <TimerButtons handlePauseTimer={handlePauseTimer} />
+      <TimerButtons
+        handleStartTimer={handleStartTimer}
+        handlePauseTimer={handlePauseTimer}
+        handleRestartTimer={handleRestartTimer}
+      />
     </div>
   );
 };

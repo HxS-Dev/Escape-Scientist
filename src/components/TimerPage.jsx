@@ -1,26 +1,31 @@
+import { start } from "@popperjs/core";
 import React, { useEffect } from "react";
 import { useTimer } from "react-timer-hook";
 import "../assets/css/App.css";
 
 const Timer = ({ timerState }) => {
   const time = new Date();
+  console.log(timerState);
   time.setSeconds(time.getSeconds() + 3600); // 10 minutes timer
-  const { seconds, minutes, pause } = useTimer({
+  const { seconds, minutes, pause, resume, restart } = useTimer({
     expiryTimestamp: time,
     onExpire: () => console.log,
-    autoStart: true,
+    autoStart: false,
   });
-
-  const pauseTimer = () => {
-    pause();
-  };
 
   useEffect(() => {
     if (timerState.pause) {
-      console.log(timerState.pause, "timerstate");
-      pauseTimer();
+      pause();
     }
-  }, [timerState, timerState.pause]);
+
+    if (timerState.start) {
+      resume();
+    }
+
+    if (timerState.reset) {
+      restart(time, false);
+    }
+  }, [timerState]);
 
   return (
     <div>
@@ -29,7 +34,7 @@ const Timer = ({ timerState }) => {
   );
 };
 
-export const TimerPage = ({ showClue, timerState }) => {
+export const TimerPage = React.memo(({ showClue, timerState }) => {
   return (
     <div>
       <Timer timerState={timerState} />
@@ -37,4 +42,4 @@ export const TimerPage = ({ showClue, timerState }) => {
       <div className="clues"></div>
     </div>
   );
-};
+});

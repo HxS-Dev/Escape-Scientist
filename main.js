@@ -5,7 +5,12 @@ const {
   default: installExtension,
   REACT_DEVELOPER_TOOLS,
 } = require("electron-devtools-installer");
-const { HANDLE_TOGGLE_CLUE, PAUSE_TIMER } = require("./helpers/ipcActions");
+const {
+  HANDLE_TOGGLE_CLUE,
+  PAUSE_TIMER,
+  START_TIMER,
+  RESTART_TIMER,
+} = require("./helpers/ipcActions");
 const isDev = require("./helpers/server");
 
 // ! create windows
@@ -98,12 +103,25 @@ function createWindow() {
 // ! ipcMain events
 ipcMain.on(HANDLE_TOGGLE_CLUE, (event, toggleClue) => {
   timerWindow.webContents.send(HANDLE_TOGGLE_CLUE, toggleClue);
+  // ipcMain.removeAllListeners([HANDLE_TOGGLE_CLUE]);
 });
 
 ipcMain.on(PAUSE_TIMER, (event, timerState) => {
   // console.log(timerState);
   timerWindow.webContents.send(PAUSE_TIMER, timerState);
+  // ipcMain.removeAllListeners([PAUSE_TIMER]);
 });
+
+ipcMain.on(START_TIMER, (event, timerState) => {
+  timerWindow.webContents.send(START_TIMER, timerState);
+  // ipcMain.removeAllListeners([START_TIMER]);
+});
+
+ipcMain.on(RESTART_TIMER, (event, timerState) => {
+  timerWindow.webContents.send(RESTART_TIMER, timerState);
+  // ipcMain.removeAllListeners([RESTART_TIMER]);
+});
+
 // ! App lifecycle
 app.whenReady().then(() => {
   installExtension(REACT_DEVELOPER_TOOLS)
