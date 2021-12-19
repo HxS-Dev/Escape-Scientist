@@ -9,15 +9,6 @@ import {
 
 export const useViewManage = () => {
   const [toggleClue, setToggleClue] = useState(false);
-
-  const handleToggleClue = () => {
-    setToggleClue((prev) => !prev);
-    ipcRenderer.send(HANDLE_TOGGLE_CLUE, toggleClue);
-  };
-  ipcRenderer.on(HANDLE_TOGGLE_CLUE, (event, toggleClue) => {
-    setToggleClue(toggleClue);
-  });
-
   const [timerState, setTimerState] = useState({
     start: null,
     pause: null,
@@ -25,6 +16,9 @@ export const useViewManage = () => {
   });
 
   useEffect(() => {
+    ipcRenderer.on(HANDLE_TOGGLE_CLUE, (event, toggleClue) => {
+      setToggleClue(toggleClue);
+    });
     ipcRenderer.on(START_TIMER, (event, timerState) => {
       setTimerState({ start: true, pause: false, reset: false });
     });
@@ -35,6 +29,9 @@ export const useViewManage = () => {
       setTimerState({ start: false, pause: true, reset: false });
     });
     return () => {
+      ipcRenderer.removeListener(HANDLE_TOGGLE_CLUE, (event, toggleClue) => {
+        setToggleClue(toggleClue);
+      });
       ipcRenderer.removeListener(PAUSE_TIMER, (event, timerState) => {
         setTimerState({ start: false, pause: true, reset: false });
       });
@@ -46,6 +43,11 @@ export const useViewManage = () => {
       });
     };
   }, []);
+
+  const handleToggleClue = () => {
+    setToggleClue((prev) => !prev);
+    ipcRenderer.send(HANDLE_TOGGLE_CLUE, toggleClue);
+  };
 
   const handlePauseTimer = useCallback(() => {
     setTimerState({ start: false, pause: true, reset: false });

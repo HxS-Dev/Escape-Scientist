@@ -1,11 +1,9 @@
-import { start } from "@popperjs/core";
 import React, { useEffect } from "react";
 import { useTimer } from "react-timer-hook";
 import "../assets/css/App.css";
 
 const Timer = ({ timerState }) => {
   const time = new Date();
-  console.log(timerState);
   time.setSeconds(time.getSeconds() + 3600); // 10 minutes timer
   const { seconds, minutes, pause, resume, restart } = useTimer({
     expiryTimestamp: time,
