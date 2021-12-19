@@ -1,3 +1,4 @@
 const HANDLE_TOGGLE_CLUE = "HANDLE_TOGGLE_CLUE";
+const PAUSE_TIMER = "PAUSE_TIMER";
 
-module.exports = { HANDLE_TOGGLE_CLUE };
+module.exports = { HANDLE_TOGGLE_CLUE, PAUSE_TIMER };

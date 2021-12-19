@@ -3,8 +3,13 @@ h1 {
   font-weight: 200;
 }
 
-.timer {
-  width: 30vw;
-  height: 15vh;
+.clue {
+  width: 75vw;
+  height: 25vh;
   background-color: green;
+  left: 12.5%;
+  margin-top: 37.5%;
+}
+
+.timer {
 }
