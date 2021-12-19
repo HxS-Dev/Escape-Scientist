@@ -1,33 +1,13 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import "../assets/css/App.css";
-import { toggleShowClueAction } from "../store/actions/timer";
-import { TOGGLE_CLUE } from "../store/types/timer";
 
-export const TimerPage = ({}) => {
-  const [toggleClue, setToggleClue] = useState(false);
-  const { showClue } = useSelector((state) => state.timer);
-  const dispatch = useDispatch();
-
-  const handleShowClue = () => {
-    setToggleClue((prevState) => !prevState);
-    dispatch(toggleShowClueAction({ toggleClue }));
-  };
-
+export const TimerPage = ({ showClue }) => {
   return (
     <div className="container">
-      <h1>Timer {showClue}</h1>
-      <button
-        onClick={handleShowClue}
-        type="button"
-        className="btn btn-primary"
-      >
-        Primary
-      </button>
-
+      <h1>Timer</h1>
       <div className="row">
         <div className="col">
-          <div className="timer card"></div>
+          {showClue && <div className="timer card">HELLO</div>}
         </div>
       </div>
       <div className="row">

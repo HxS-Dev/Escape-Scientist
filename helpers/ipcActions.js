@@ -1,0 +1,3 @@
+const HANDLE_TOGGLE_CLUE = "HANDLE_TOGGLE_CLUE";
+
+module.exports = { HANDLE_TOGGLE_CLUE };

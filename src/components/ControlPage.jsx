@@ -1,6 +1,17 @@
 import "../assets/css/App.css";
-import React, { useState } from "react";
+import React from "react";
 
-export const ControlPage = ({}) => {
-  return <h1>Control</h1>;
+export const ControlPage = ({ handleToggleClue }) => {
+  return (
+    <div>
+      <h1>Control Page</h1>
+      <button
+        onClick={handleToggleClue}
+        type="button"
+        className="btn btn-primary"
+      >
+        SHOW CLUE
+      </button>
+    </div>
+  );
 };
