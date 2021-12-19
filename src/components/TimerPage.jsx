@@ -7,7 +7,7 @@ export const TimerPage = ({ showClue }) => {
       <h1>Timer</h1>
       <div className="row">
         <div className="col">
-          {showClue && <div className="timer card">HELLO</div>}
+          {showClue && <div className="timer card">THE CLUE IS SHOWING!</div>}
         </div>
       </div>
       <div className="row">
