@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useTimer } from "react-timer-hook";
-import "../assets/css/App.css";
 
 const Timer = ({ timerState }) => {
   const time = new Date();

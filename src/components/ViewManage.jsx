@@ -4,6 +4,7 @@ import { ControlPage } from "./ControlPage.jsx";
 import { BarcodePage } from "./BarcodePage.jsx";
 import { TimerPage } from "./TimerPage.jsx";
 import { useViewManage } from "../hooks/viewManage.js";
+import "../assets/css/App.css";
 
 export const ViewManage = () => {
   const {
@@ -27,6 +28,7 @@ export const ViewManage = () => {
               handlePauseTimer={handlePauseTimer}
               handleStartTimer={handleStartTimer}
               handleRestartTimer={handleRestartTimer}
+              showClue={toggleClue}
             />
           )}
         />
