@@ -27,6 +27,7 @@ h1 {
   background: rgba(255, 255, 255, 0.06) !important;
   color: var(--control-font);
   padding: 30px;
+  overflow: none !important;
 }
 
 .timer-button {
@@ -44,6 +45,10 @@ h1 {
 
 .timer-window {
   height: 65vh;
+}
+
+.timer-window-sub {
+  height: 50vh;
 }
 
 .clue-controls {
@@ -74,4 +79,8 @@ h1 {
   color: red;
   margin-bottom: -4px;
   font-weight: bold;
+}
+
+.video {
+  height:90%;
 }
