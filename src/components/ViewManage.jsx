@@ -14,6 +14,7 @@ export const ViewManage = () => {
     handleStartTimer,
     handleRestartTimer,
     timerState,
+    inputRef,
   } = useViewManage();
 
   return (
@@ -24,6 +25,7 @@ export const ViewManage = () => {
           path="/control"
           render={() => (
             <ControlPage
+              inputRef={inputRef}
               handleToggleClue={handleToggleClue}
               handlePauseTimer={handlePauseTimer}
               handleStartTimer={handleStartTimer}

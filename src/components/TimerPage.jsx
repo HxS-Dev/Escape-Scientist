@@ -35,7 +35,7 @@ export const TimerPage = React.memo(({ showClue, timerState }) => {
   return (
     <div>
       <Timer timerState={timerState} />
-      {showClue && <div className="card clue">THE CLUE IS SHOWING!</div>}
+      {!!showClue && <div className="card clue">THE CLUE IS SHOWING!</div>}
       <div className="clues"></div>
     </div>
   );

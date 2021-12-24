@@ -1,6 +1,7 @@
 import React from "react";
 import ControlPanelCard from "./ControlPanelCard.jsx";
 import TimerWindow from "./TimerWindow.jsx";
+import TextBox from "./TextBox.jsx";
 import { BiHide, BiShow } from "react-icons/bi";
 
 const TimerButtons = ({
@@ -40,10 +41,10 @@ const TimerButtons = ({
   );
 };
 
-const ToggleClue = ({ handleToggleClue, showClue }) => {
+const ToggleClue = ({ inputRef, handleToggleClue, showClue }) => {
   return (
     <ControlPanelCard cardTitle="Clue Controls" className="clue-controls">
-      <textarea className="clue-text" />
+      <TextBox inputRef={inputRef} className="clue-text"/>
       <div className="row">
         <div className="col-8">
           <button
@@ -57,14 +58,14 @@ const ToggleClue = ({ handleToggleClue, showClue }) => {
         <div className="col-4">
           {showClue ? (
             <div>
-              <p className="clue-visible-text font-weight-bold">
-                Showing <BiShow />
+              <p className="clue-hidden-text font-weight-bold">
+                Hiding <BiHide />
               </p>
             </div>
           ) : (
             <div>
-              <p className="clue-hidden-text font-weight-bold">
-                Hiding <BiHide />
+              <p className="clue-visible-text font-weight-bold">
+                Showing <BiShow />
               </p>
             </div>
           )}
@@ -80,13 +81,14 @@ export const ControlPage = ({
   handlePauseTimer,
   handleStartTimer,
   handleRestartTimer,
+  inputRef,
 }) => {
   return (
     <div className="control-bg">
       <div className="row">
         <div className="col-8">
           <TimerWindow />
-          <ToggleClue handleToggleClue={handleToggleClue} showClue={showClue} />
+          <ToggleClue inputRef={inputRef} handleToggleClue={handleToggleClue} showClue={showClue} />
         </div>
         <div className="col-4">
           <TimerButtons
