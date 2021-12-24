@@ -40,10 +40,10 @@ const TimerButtons = ({
   );
 };
 
-const ToggleClue = ({ handleToggleClue, showClue }) => {
+const ToggleClue = ({ handleToggleClue, showClue, onClueTextChange }) => {
   return (
     <ControlPanelCard cardTitle="Clue Controls" className="clue-controls">
-      <textarea className="clue-text" />
+      <textarea className="clue-text" onChange={onClueTextChange} />
       <div className="row">
         <div className="col-8">
           <button
@@ -80,13 +80,18 @@ export const ControlPage = ({
   handlePauseTimer,
   handleStartTimer,
   handleRestartTimer,
+  onClueTextChange,
 }) => {
   return (
     <div className="control-bg">
       <div className="row">
         <div className="col-8">
           <TimerWindow />
-          <ToggleClue handleToggleClue={handleToggleClue} showClue={showClue} />
+          <ToggleClue
+            handleToggleClue={handleToggleClue}
+            showClue={showClue}
+            onClueTextChange={onClueTextChange}
+          />
         </div>
         <div className="col-4">
           <TimerButtons

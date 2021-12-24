@@ -10,6 +10,8 @@ export const ViewManage = () => {
   const {
     handleToggleClue,
     toggleClue,
+    onClueTextChange,
+    clueText,
     handlePauseTimer,
     handleStartTimer,
     handleRestartTimer,
@@ -29,6 +31,7 @@ export const ViewManage = () => {
               handleStartTimer={handleStartTimer}
               handleRestartTimer={handleRestartTimer}
               showClue={toggleClue}
+              onClueTextChange={onClueTextChange}
             />
           )}
         />

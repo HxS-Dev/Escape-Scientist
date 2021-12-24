@@ -31,7 +31,7 @@ const Timer = ({ timerState }) => {
   );
 };
 
-export const TimerPage = React.memo(({ showClue, timerState }) => {
+export const TimerPage = ({ showClue, timerState }) => {
   return (
     <div>
       <Timer timerState={timerState} />
@@ -39,4 +39,4 @@ export const TimerPage = React.memo(({ showClue, timerState }) => {
       <div className="clues"></div>
     </div>
   );
-});
+};

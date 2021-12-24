@@ -14,6 +14,7 @@ export const useViewManage = () => {
     pause: null,
     reset: null,
   });
+  const [clueText, setClueText] = useState(null);
 
   useEffect(() => {
     ipcRenderer.on(HANDLE_TOGGLE_CLUE, (event, toggleClue) => {
@@ -44,33 +45,46 @@ export const useViewManage = () => {
     };
   }, []);
 
-  const handleToggleClue = () => {
-    setToggleClue((prev) => !prev);
+  useEffect(() => {
     ipcRenderer.send(HANDLE_TOGGLE_CLUE, toggleClue);
+    ipcRenderer.send(PAUSE_TIMER, timerState);
+    ipcRenderer.send(START_TIMER, timerState);
+    ipcRenderer.send(RESTART_TIMER, timerState);
+  }, [toggleClue, timerState]);
+
+  const onClueTextChange = ({ target: { value } }) => {
+    setClueText(value);
   };
 
-  const handlePauseTimer = useCallback(() => {
+  const handleToggleClue = () => {
+    setToggleClue((prev) => !prev);
+    // ipcRenderer.send(HANDLE_TOGGLE_CLUE, toggleClue);
+  };
+
+  const handlePauseTimer = () => {
     setTimerState({ start: false, pause: true, reset: false });
-    ipcRenderer.send(PAUSE_TIMER, timerState);
-  }, [timerState]);
+    // ipcRenderer.send(PAUSE_TIMER, timerState);
+  };
 
-  const handleStartTimer = useCallback(() => {
+  const handleStartTimer = () => {
     setTimerState({ start: true, pause: false, reset: false });
-    ipcRenderer.send(START_TIMER, timerState);
-  }, [timerState]);
+    // ipcRenderer.send(START_TIMER, timerState);
+  };
 
-  const handleRestartTimer = useCallback(() => {
+  const handleRestartTimer = () => {
     if (confirm("Are you sure you want to reset lad?")) {
       setTimerState({ start: false, pause: false, reset: true });
-      ipcRenderer.send(RESTART_TIMER, timerState);
+      // ipcRenderer.send(RESTART_TIMER, timerState);
     } else {
       return;
     }
-  }, [timerState]);
+  };
 
   return {
     handleToggleClue,
     toggleClue,
+    onClueTextChange,
+    clueText,
     handlePauseTimer,
     handleStartTimer,
     handleRestartTimer,
