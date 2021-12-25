@@ -8,7 +8,7 @@ import {
 } from "../../helpers/ipcActions";
 
 export const useViewManage = () => {
-  const [toggleClue, setToggleClue] = useState(false);
+  const [toggleClue, setToggleClue] = useState(true);
   const [timerState, setTimerState] = useState({
     start: null,
     pause: null,
@@ -52,10 +52,7 @@ export const useViewManage = () => {
 
   useEffect(() => {
     ipcRenderer.send(HANDLE_TOGGLE_CLUE, toggleClue);
-    ipcRenderer.send(PAUSE_TIMER, timerState);
-    ipcRenderer.send(START_TIMER, timerState);
-    ipcRenderer.send(RESTART_TIMER, timerState);
-  }, [toggleClue, timerState]);
+  }, [toggleClue]);
 
   const onClueTextChange = ({ target: { value } }) => {
     setClueText(value);
@@ -70,20 +67,21 @@ export const useViewManage = () => {
   const handlePauseTimer = () => {
     focusTextBox();
     setTimerState({ start: false, pause: true, reset: false });
-    // ipcRenderer.send(PAUSE_TIMER, timerState);
+    ipcRenderer.send(PAUSE_TIMER, timerState);
   };
 
   const handleStartTimer = () => {
+    console.log("run");
     focusTextBox();
     setTimerState({ start: true, pause: false, reset: false });
-    // ipcRenderer.send(START_TIMER, timerState);
+    ipcRenderer.send(START_TIMER, timerState);
   };
 
   const handleRestartTimer = () => {
     focusTextBox();
     if (confirm("Are you sure you want to reset lad?")) {
       setTimerState({ start: false, pause: false, reset: true });
-      // ipcRenderer.send(RESTART_TIMER, timerState);
+      ipcRenderer.send(RESTART_TIMER, timerState);
     } else {
       return;
     }

@@ -67,7 +67,7 @@ function createWindow() {
     if (isDev()) {
       controlWindow.webContents.openDevTools();
     }
-    controlWindow.setTitle('Control');
+    controlWindow.setTitle("Control");
   });
 
   timerWindow.once("ready-to-show", () => {
@@ -75,7 +75,7 @@ function createWindow() {
     if (isDev()) {
       timerWindow.webContents.openDevTools();
     }
-    timerWindow.setTitle('Timer');
+    timerWindow.setTitle("Timer");
   });
 
   barcodeWindow.once("ready-to-show", () => {
@@ -85,7 +85,7 @@ function createWindow() {
     if (isDev()) {
       barcodeWindow.webContents.openDevTools();
     }
-    barcodeWindow.setTitle('Barcode');
+    barcodeWindow.setTitle("Barcode");
   });
   controlWindow.on("closed", function () {
     // Dereference the window object, usually you would store windows
