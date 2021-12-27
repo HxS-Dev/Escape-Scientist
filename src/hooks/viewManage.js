@@ -14,7 +14,7 @@ export const useViewManage = () => {
     pause: null,
     reset: null,
   });
-  const [clueText, setClueText] = useState(null);
+  const [clueText, setClueText] = useState("");
   const inputRef = useRef();
 
   const focusTextBox = () => {
@@ -22,7 +22,7 @@ export const useViewManage = () => {
   };
 
   useEffect(() => {
-    ipcRenderer.on(HANDLE_TOGGLE_CLUE, (event, toggleClue) => {
+    ipcRenderer.on(HANDLE_TOGGLE_CLUE, (event, [toggleClue, clueText]) => {
       setToggleClue(toggleClue);
     });
     ipcRenderer.on(START_TIMER, (event, timerState) => {
@@ -35,7 +35,7 @@ export const useViewManage = () => {
       setTimerState({ start: false, pause: true, reset: false });
     });
     return () => {
-      ipcRenderer.removeListener(HANDLE_TOGGLE_CLUE, (event, toggleClue) => {
+      ipcRenderer.removeListener(HANDLE_TOGGLE_CLUE, (event, [toggleClue, clueText]) => {
         setToggleClue(toggleClue);
       });
       ipcRenderer.removeListener(PAUSE_TIMER, (event, timerState) => {
@@ -51,17 +51,12 @@ export const useViewManage = () => {
   }, []);
 
   useEffect(() => {
-    ipcRenderer.send(HANDLE_TOGGLE_CLUE, toggleClue);
-  }, [toggleClue]);
-
-  const onClueTextChange = ({ target: { value } }) => {
-    setClueText(value);
-  };
+    ipcRenderer.send(HANDLE_TOGGLE_CLUE, [toggleClue, clueText]);
+  }, [toggleClue, clueText]);
 
   const handleToggleClue = () => {
     focusTextBox();
     setToggleClue((prev) => !prev);
-    // ipcRenderer.send(HANDLE_TOGGLE_CLUE, toggleClue);
   };
 
   const handlePauseTimer = () => {
@@ -87,10 +82,15 @@ export const useViewManage = () => {
     }
   };
 
+  const handleChangeText = (event) => {
+    console.log(clueText);
+    setClueText(event.target.value);
+  };
+
   return {
     handleToggleClue,
     toggleClue,
-    onClueTextChange,
+    handleChangeText,
     clueText,
     handlePauseTimer,
     handleStartTimer,

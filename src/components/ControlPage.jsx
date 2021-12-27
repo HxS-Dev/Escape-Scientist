@@ -42,14 +42,15 @@ const TimerButtons = ({
 };
 
 const ToggleClue = ({
-  onClueTextChange,
   inputRef,
   handleToggleClue,
   showClue,
+  clueText,
+  handleChangeText,
 }) => {
   return (
     <ControlPanelCard cardTitle="Clue Controls" className="clue-controls">
-      <TextBox inputRef={inputRef} className="clue-text" />
+      <textarea id="tb" autoFocus ref={inputRef} value={clueText} onChange={handleChangeText} />
       <div className="row">
         <div className="col-8">
           <button
@@ -86,8 +87,9 @@ export const ControlPage = ({
   handlePauseTimer,
   handleStartTimer,
   handleRestartTimer,
-  onClueTextChange,
   inputRef,
+  clueText,
+  handleChangeText,
 }) => {
   return (
     <div className="control-bg">
@@ -96,10 +98,11 @@ export const ControlPage = ({
           <TimerWindow />
 
           <ToggleClue
-            onClueTextChange={onClueTextChange}
             inputRef={inputRef}
             handleToggleClue={handleToggleClue}
             showClue={showClue}
+            clueText={clueText}
+            handleChangeText={handleChangeText}
           />
         </div>
         <div className="col-4">

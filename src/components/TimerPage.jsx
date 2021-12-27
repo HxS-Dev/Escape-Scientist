@@ -31,13 +31,12 @@ const Timer = ({ timerState }) => {
   );
 };
 
-export const TimerPage = ({ showClue, timerState }) => {
-  console.log(showClue, timerState);
+export const TimerPage = ({ showClue, timerState, clueText }) => {
+  console.log(showClue, timerState, clueText);
   return (
     <div>
       <Timer timerState={timerState} />
-      {!showClue && <div className="card clue">THE CLUE IS SHOWING!</div>}
-      <div className="clues"></div>
+      {!showClue && <div className="card clue" id="clueDiv">{clueText}</div>}
     </div>
   );
 };
