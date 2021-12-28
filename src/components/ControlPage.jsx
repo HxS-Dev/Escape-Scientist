@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ControlPanelCard from "./ControlPanelCard.jsx";
 import TimerWindow from "./TimerWindow.jsx";
-import TextBox from "./TextBox.jsx";
 import { BiHide, BiShow } from "react-icons/bi";
+import { HANDLE_TOGGLE_CLUE } from "../../helpers/ipcActions.js";
+const { ipcRenderer } = window.require("electron");
 
 const TimerButtons = ({
   handlePauseTimer,
@@ -41,16 +42,10 @@ const TimerButtons = ({
   );
 };
 
-const ToggleClue = ({
-  inputRef,
-  handleToggleClue,
-  showClue,
-  clueText,
-  handleChangeText,
-}) => {
+const ToggleClue = ({ inputRef, handleToggleClue, showClue }) => {
   return (
     <ControlPanelCard cardTitle="Clue Controls" className="clue-controls">
-      <textarea id="tb" autoFocus ref={inputRef} value={clueText} onChange={handleChangeText} />
+      <textarea autoFocus ref={inputRef} />
       <div className="row">
         <div className="col-8">
           <button
@@ -88,9 +83,12 @@ export const ControlPage = ({
   handleStartTimer,
   handleRestartTimer,
   inputRef,
-  clueText,
-  handleChangeText,
+  clue,
 }) => {
+  useEffect(() => {
+    ipcRenderer.send(HANDLE_TOGGLE_CLUE, [showClue, clue]);
+  }, [showClue]);
+
   return (
     <div className="control-bg">
       <div className="row">
@@ -101,8 +99,7 @@ export const ControlPage = ({
             inputRef={inputRef}
             handleToggleClue={handleToggleClue}
             showClue={showClue}
-            clueText={clueText}
-            handleChangeText={handleChangeText}
+            clue={clue}
           />
         </div>
         <div className="col-4">

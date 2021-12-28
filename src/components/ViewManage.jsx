@@ -16,7 +16,6 @@ export const ViewManage = () => {
     handleRestartTimer,
     timerState,
     inputRef,
-    handleChangeText,
   } = useViewManage();
 
   return (
@@ -33,7 +32,7 @@ export const ViewManage = () => {
               handleStartTimer={handleStartTimer}
               handleRestartTimer={handleRestartTimer}
               showClue={toggleClue}
-              handleChangeText={handleChangeText} 
+              clue={clueText}
             />
           )}
         />
@@ -42,7 +41,11 @@ export const ViewManage = () => {
           exact
           path="/timer"
           render={() => (
-            <TimerPage showClue={toggleClue} timerState={timerState} clueText={clueText} />
+            <TimerPage
+              showClue={toggleClue}
+              timerState={timerState}
+              clue={clueText}
+            />
           )}
         />
         <Route exact path="/barcode" render={() => <BarcodePage />} />

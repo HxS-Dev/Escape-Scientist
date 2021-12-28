@@ -106,17 +106,14 @@ function createWindow() {
 // ! ipcMain events
 ipcMain.on(HANDLE_TOGGLE_CLUE, (event, [toggleClue, clueText]) => {
   timerWindow.webContents.send(HANDLE_TOGGLE_CLUE, [toggleClue, clueText]);
-  // ipcMain.removeAllListeners([HANDLE_TOGGLE_CLUE]);
 });
 
 ipcMain.on(PAUSE_TIMER, (event, timerState) => {
   timerWindow.webContents.send(PAUSE_TIMER, timerState);
-  // ipcMain.removeAllListeners([PAUSE_TIMER]);
 });
 
 ipcMain.on(START_TIMER, (event, timerState) => {
   timerWindow.webContents.send(START_TIMER, timerState);
-  // ipcMain.removeAllListeners([START_TIMER]);
 });
 
 ipcMain.on(RESTART_TIMER, (event, timerState) => {

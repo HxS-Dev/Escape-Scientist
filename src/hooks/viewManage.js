@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 const { ipcRenderer } = window.require("electron");
 import {
   HANDLE_TOGGLE_CLUE,
@@ -24,6 +24,7 @@ export const useViewManage = () => {
   useEffect(() => {
     ipcRenderer.on(HANDLE_TOGGLE_CLUE, (event, [toggleClue, clueText]) => {
       setToggleClue(toggleClue);
+      setClueText(clueText);
     });
     ipcRenderer.on(START_TIMER, (event, timerState) => {
       setTimerState({ start: true, pause: false, reset: false });
@@ -35,9 +36,12 @@ export const useViewManage = () => {
       setTimerState({ start: false, pause: true, reset: false });
     });
     return () => {
-      ipcRenderer.removeListener(HANDLE_TOGGLE_CLUE, (event, [toggleClue, clueText]) => {
-        setToggleClue(toggleClue);
-      });
+      ipcRenderer.removeListener(
+        HANDLE_TOGGLE_CLUE,
+        (event, [toggleClue, clueText]) => {
+          setToggleClue(toggleClue);
+        }
+      );
       ipcRenderer.removeListener(PAUSE_TIMER, (event, timerState) => {
         setTimerState({ start: false, pause: true, reset: false });
       });
@@ -50,13 +54,10 @@ export const useViewManage = () => {
     };
   }, []);
 
-  useEffect(() => {
-    ipcRenderer.send(HANDLE_TOGGLE_CLUE, [toggleClue, clueText]);
-  }, [toggleClue, clueText]);
-
   const handleToggleClue = () => {
     focusTextBox();
     setToggleClue((prev) => !prev);
+    setClueText(inputRef.current.value);
   };
 
   const handlePauseTimer = () => {
@@ -66,7 +67,6 @@ export const useViewManage = () => {
   };
 
   const handleStartTimer = () => {
-    console.log("run");
     focusTextBox();
     setTimerState({ start: true, pause: false, reset: false });
     ipcRenderer.send(START_TIMER, timerState);
@@ -82,15 +82,9 @@ export const useViewManage = () => {
     }
   };
 
-  const handleChangeText = (event) => {
-    console.log(clueText);
-    setClueText(event.target.value);
-  };
-
   return {
     handleToggleClue,
     toggleClue,
-    handleChangeText,
     clueText,
     handlePauseTimer,
     handleStartTimer,
