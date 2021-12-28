@@ -82,6 +82,10 @@ export const useViewManage = () => {
     }
   };
 
+  const onClueTextChange = ({ target: { value } }) => {
+    console.log(value);
+  };
+
   return {
     handleToggleClue,
     toggleClue,
@@ -91,5 +95,6 @@ export const useViewManage = () => {
     handleRestartTimer,
     timerState,
     inputRef,
+    onClueTextChange,
   };
 };

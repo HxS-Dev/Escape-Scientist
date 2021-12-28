@@ -42,10 +42,15 @@ const TimerButtons = ({
   );
 };
 
-const ToggleClue = ({ inputRef, handleToggleClue, showClue }) => {
+const ToggleClue = ({
+  inputRef,
+  handleToggleClue,
+  showClue,
+  onClueTextChange,
+}) => {
   return (
     <ControlPanelCard cardTitle="Clue Controls" className="clue-controls">
-      <textarea autoFocus ref={inputRef} />
+      <textarea autoFocus ref={inputRef} onChange={onClueTextChange} />
       <div className="row">
         <div className="col-8">
           <button
@@ -84,6 +89,7 @@ export const ControlPage = ({
   handleRestartTimer,
   inputRef,
   clue,
+  onClueTextChange,
 }) => {
   useEffect(() => {
     ipcRenderer.send(HANDLE_TOGGLE_CLUE, [showClue, clue]);
@@ -100,6 +106,7 @@ export const ControlPage = ({
             handleToggleClue={handleToggleClue}
             showClue={showClue}
             clue={clue}
+            onClueTextChange={onClueTextChange}
           />
         </div>
         <div className="col-4">

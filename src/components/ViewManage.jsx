@@ -16,6 +16,7 @@ export const ViewManage = () => {
     handleRestartTimer,
     timerState,
     inputRef,
+    onClueTextChange,
   } = useViewManage();
 
   return (
@@ -33,6 +34,7 @@ export const ViewManage = () => {
               handleRestartTimer={handleRestartTimer}
               showClue={toggleClue}
               clue={clueText}
+              onClueTextChange={onClueTextChange}
             />
           )}
         />
