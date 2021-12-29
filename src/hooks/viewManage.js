@@ -14,6 +14,14 @@ export const useViewManage = () => {
     pause: null,
     reset: null,
   });
+  const [pillState, setPillState] = useState({
+    Pill1 : [0,0,0],
+    Pill2 : [0,0,0],
+    Pill3 : [0,0,0],
+    Pill4 : [0,0,0],
+  });
+  let pillCounter = 0;
+  let latestPillCompleted = "";
   const [clueText, setClueText] = useState("");
   const inputRef = useRef();
 
@@ -83,7 +91,38 @@ export const useViewManage = () => {
   };
 
   const onClueTextChange = ({ target: { value } }) => {
-    console.log(value);
+    let matching = value.match(/\{Pill[1-4]-[1-3]\}/g);
+    if (matching != null) {
+      pillCounter++;
+      inputRef.current.value = value.replace(matching, '');
+      let pill = matching[0].match(/Pill[1-4]/g)[0];
+      let pillNumber = parseInt(matching[0].match(/-[1-3]/g)[0].replace('-',''));
+      console.log(pillState);
+      setPillState((pillState) => {
+        pillState[pill][pillNumber-1]=1;
+        return pillState;
+      });
+    }
+    if (pillCounter === 3) {
+      const oldPillCompleted = latestPillCompleted;
+      if(pillState["Pill1"].reduce((partial_sum, a) => partial_sum & a, 1)) {
+        latestPillCompleted = "Pill1";
+        if(pillState["Pill2"].reduce((partial_sum, a) => partial_sum & a, 1)) {
+          latestPillCompleted = "Pill2";
+          if(pillState["Pill3"].reduce((partial_sum, a) => partial_sum & a, 1)) {
+            latestPillCompleted = "Pill3";
+            if(pillState["Pill4"].reduce((partial_sum, a) => partial_sum & a, 1)) {
+              latestPillCompleted = "Pill4";
+            }
+          }
+        }
+      }
+      // Maybe put a case statement here for which pill has been completed
+      if (oldPillCompleted === latestPillCompleted) {
+        console.log("Failure"); //This is the case where the correct pill is not completed
+      }
+      pillCounter = 0;
+    }
   };
 
   return {
