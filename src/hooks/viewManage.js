@@ -91,19 +91,30 @@ export const useViewManage = () => {
   };
 
   const onClueTextChange = ({ target: { value } }) => {
-    let matching = value.match(/\{Pill[1-4]-[1-3]\}/g);
+    const matching = value.match(/\{Pill[1-4]-[1-3]\}/g);
     if (matching != null) {
       pillCounter++;
       inputRef.current.value = value.replace(matching, "");
-      let pill = matching[0].match(/Pill[1-4]/g)[0];
-      let pillNumber = parseInt(
+      const pill = matching[0].match(/Pill[1-4]/g)[0];
+      const pillNumber = parseInt(pill.match(/[1-4]/g)[0]);
+      const subPillNumber = parseInt(
         matching[0].match(/-[1-3]/g)[0].replace("-", "")
       );
-      console.log(pillState);
-      setPillState((pillState) => {
-        pillState[pill][pillNumber - 1] = 1;
-        return pillState;
-      });
+      let rightOrder = true;
+      for (let i = 0; i < (subPillNumber-1); i++) {
+        if (pillState[pill][i] === 0) {
+          rightOrder = false;
+        }
+      }
+      if (pillNumber != 1 && pillState["Pill".concat(pillNumber-1)].reduce((partial_sum, a) => partial_sum & a, 1) === 0) {
+        rightOrder = false;
+      }
+      if (rightOrder) {
+        setPillState((pillState) => {
+          pillState[pill][subPillNumber - 1] = 1;
+          return pillState;
+        });
+      }
     }
     if (pillCounter === 3) {
       const oldPillCompleted = latestPillCompleted;
