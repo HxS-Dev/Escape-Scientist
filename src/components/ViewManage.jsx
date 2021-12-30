@@ -17,6 +17,7 @@ export const ViewManage = () => {
     timerState,
     inputRef,
     onClueTextChange,
+    pillError,
   } = useViewManage();
 
   return (
@@ -50,7 +51,11 @@ export const ViewManage = () => {
             />
           )}
         />
-        <Route exact path="/barcode" render={() => <BarcodePage />} />
+        <Route
+          exact
+          path="/barcode"
+          render={() => <BarcodePage isError={pillError} />}
+        />
       </div>
     </Router>
   );

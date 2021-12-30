@@ -22,7 +22,7 @@ export const useViewManage = () => {
     Pill4: [0, 0, 0],
   });
   const [subPillCounter, setSubPillCounter] = useState(0);
-  const [latestPillCompleted, setLatestPillCompleted] = useState("");
+  const [latestPillCompleted, setLatestPillCompleted] = useState("asd");
   const [clueText, setClueText] = useState("");
   const [pillError, setPillError] = useState(false);
   const inputRef = useRef();
@@ -32,11 +32,14 @@ export const useViewManage = () => {
   };
 
   useEffect(() => {
-    ipcRenderer.on(HANDLE_PILL_LOGIC, (event, [subPillCounter, latestPillCompleted, pillError]) => {
-      setSubPillCounter(subPillCounter);
-      setLatestPillCompleted(latestPillCompleted);
-      setPillError(pillError);
-    });
+    ipcRenderer.on(
+      HANDLE_PILL_LOGIC,
+      (event, [subPillCounter, latestPillCompleted, pillError]) => {
+        setSubPillCounter(subPillCounter);
+        setLatestPillCompleted(latestPillCompleted);
+        setPillError(pillError);
+      }
+    );
     ipcRenderer.on(HANDLE_TOGGLE_CLUE, (event, [toggleClue, clueText]) => {
       setToggleClue(toggleClue);
       setClueText(clueText);
@@ -51,12 +54,17 @@ export const useViewManage = () => {
       setTimerState({ start: false, pause: true, reset: false });
     });
     return () => {
-      ipcRenderer.removeListener(HANDLE_PILL_LOGIC, (event, [subPillCounter, latestPillCompleted, pillError]) => {
-        setSubPillCounter(subPillCounter);
-        setLatestPillCompleted(latestPillCompleted);
-        setPillError(pillError);
-      });
-      ipcRenderer.removeListener(HANDLE_TOGGLE_CLUE, (event, [toggleClue, clueText]) => {
+      ipcRenderer.removeListener(
+        HANDLE_PILL_LOGIC,
+        (event, [subPillCounter, latestPillCompleted, pillError]) => {
+          setSubPillCounter(subPillCounter);
+          setLatestPillCompleted(latestPillCompleted);
+          setPillError(pillError);
+        }
+      );
+      ipcRenderer.removeListener(
+        HANDLE_TOGGLE_CLUE,
+        (event, [toggleClue, clueText]) => {
           setToggleClue(toggleClue);
         }
       );
@@ -111,13 +119,18 @@ export const useViewManage = () => {
         matching[0].match(/-[1-3]/g)[0].replace("-", "")
       );
       let rightOrder = true;
-      for (let i = 0; i < (subPillNumber-1); i++) {
-        console.log(pillState[pill]);
+      for (let i = 0; i < subPillNumber - 1; i++) {
         if (pillState[pill][i] === 0) {
           rightOrder = false;
         }
       }
-      if (pillNumber != 1 && pillState["Pill".concat(pillNumber-1)].reduce((partial_sum, a) => partial_sum & a, 1) === 0) {
+      if (
+        pillNumber != 1 &&
+        pillState["Pill".concat(pillNumber - 1)].reduce(
+          (partial_sum, a) => partial_sum & a,
+          1
+        ) === 0
+      ) {
         rightOrder = false;
       }
       if (rightOrder) {
@@ -128,30 +141,42 @@ export const useViewManage = () => {
       }
     }
     if (subPillCounter === 3) {
-      const oldPillCompleted = latestPillCompleted;
+      let pError = false;
+      let latestPill = latestPillCompleted;
+      let oldPillCompleted = latestPill;
       if (pillState["Pill1"].reduce((partial_sum, a) => partial_sum & a, 1)) {
-        setLatestPillCompleted("Pill1");
+        latestPill = "Pill1";
         if (pillState["Pill2"].reduce((partial_sum, a) => partial_sum & a, 1)) {
-          setLatestPillCompleted("Pill2");
+          latestPill = "Pill2";
           if (
             pillState["Pill3"].reduce((partial_sum, a) => partial_sum & a, 1)
           ) {
-            setLatestPillCompleted("Pill3");
+            latestPill = "Pill3";
             if (
               pillState["Pill4"].reduce((partial_sum, a) => partial_sum & a, 1)
             ) {
-              setLatestPillCompleted("Pill4");
+              latestPill = "Pill4";
             }
           }
         }
       }
       // Maybe put a case statement here for which pill has been completed
-      if (oldPillCompleted === latestPillCompleted) setPillState(true); //This is the case where the correct pill is not completed
+      if (oldPillCompleted === latestPill) {
+        pError = true;
+        //This is the case where the correct pill is not completed
+      }
+      setLatestPillCompleted(latestPill);
       setSubPillCounter(0);
+      setPillError(pError);
     }
-    ipcRenderer.send(HANDLE_PILL_LOGIC, [subPillCounter, latestPillCompleted, pillError]);
+    ipcRenderer.send(HANDLE_PILL_LOGIC, [
+      subPillCounter,
+      latestPillCompleted,
+      pillError,
+    ]);
     console.log([subPillCounter, latestPillCompleted, pillError]);
   };
+
   return {
     handleToggleClue,
     toggleClue,
@@ -162,5 +187,6 @@ export const useViewManage = () => {
     timerState,
     inputRef,
     onClueTextChange,
+    pillError,
   };
 };
