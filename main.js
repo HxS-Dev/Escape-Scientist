@@ -6,6 +6,7 @@ const {
   REACT_DEVELOPER_TOOLS,
 } = require("electron-devtools-installer");
 const {
+  HANDLE_PILL_LOGIC,
   HANDLE_TOGGLE_CLUE,
   PAUSE_TIMER,
   START_TIMER,
@@ -104,6 +105,10 @@ function createWindow() {
   });
 }
 // ! ipcMain events
+ipcMain.on(HANDLE_PILL_LOGIC, (event, [subPillCounter, latestPillCompleted, pillError]) => {
+  barcodeWindow.webContents.send(HANDLE_PILL_LOGIC, [subPillCounter, latestPillCompleted, pillError]);
+});
+
 ipcMain.on(HANDLE_TOGGLE_CLUE, (event, [toggleClue, clueText]) => {
   timerWindow.webContents.send(HANDLE_TOGGLE_CLUE, [toggleClue, clueText]);
 });
