@@ -21,7 +21,7 @@ export const useViewManage = () => {
     Pill3: [0, 0, 0],
     Pill4: [0, 0, 0],
   });
-  const [subPillCounter, setSubPillCounter] = useState(0);
+  const [subPillCounter, setSubPillCounter] = useState(1);
   const [latestPillCompleted, setLatestPillCompleted] = useState("asd");
   const [clueText, setClueText] = useState("");
   const [pillError, setPillError] = useState(false);
@@ -35,6 +35,7 @@ export const useViewManage = () => {
     ipcRenderer.on(
       HANDLE_PILL_LOGIC,
       (event, [subPillCounter, latestPillCompleted, pillError]) => {
+        console.log("here", pillError);
         setSubPillCounter(subPillCounter);
         setLatestPillCompleted(latestPillCompleted);
         setPillError(pillError);
@@ -100,7 +101,7 @@ export const useViewManage = () => {
 
   const handleRestartTimer = () => {
     focusTextBox();
-    if (confirm("Are you sure you want to reset lad?")) {
+    if (confirm("Are you sure you want to reset?")) {
       setTimerState({ start: false, pause: false, reset: true });
       ipcRenderer.send(RESTART_TIMER, timerState);
     } else {
@@ -140,8 +141,8 @@ export const useViewManage = () => {
         });
       }
     }
+    // {Pill1-1}
     if (subPillCounter === 3) {
-      let pError = false;
       let latestPill = latestPillCompleted;
       let oldPillCompleted = latestPill;
       if (pillState["Pill1"].reduce((partial_sum, a) => partial_sum & a, 1)) {
@@ -162,18 +163,15 @@ export const useViewManage = () => {
       }
       // Maybe put a case statement here for which pill has been completed
       if (oldPillCompleted === latestPill) {
-        pError = true;
+        setPillError(true);
         //This is the case where the correct pill is not completed
+      } else {
+        setPillError(false);
       }
       setLatestPillCompleted(latestPill);
-      setSubPillCounter(0);
-      setPillError(pError);
+      setSubPillCounter(1);
     }
-    ipcRenderer.send(HANDLE_PILL_LOGIC, [
-      subPillCounter,
-      latestPillCompleted,
-      pillError,
-    ]);
+
     console.log([subPillCounter, latestPillCompleted, pillError]);
   };
 

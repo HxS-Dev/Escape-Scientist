@@ -105,9 +105,16 @@ function createWindow() {
   });
 }
 // ! ipcMain events
-ipcMain.on(HANDLE_PILL_LOGIC, (event, [subPillCounter, latestPillCompleted, pillError]) => {
-  barcodeWindow.webContents.send(HANDLE_PILL_LOGIC, [subPillCounter, latestPillCompleted, pillError]);
-});
+ipcMain.on(
+  HANDLE_PILL_LOGIC,
+  (event, [subPillCounter, latestPillCompleted, pillError]) => {
+    barcodeWindow.send(HANDLE_PILL_LOGIC, [
+      subPillCounter,
+      latestPillCompleted,
+      pillError,
+    ]);
+  }
+);
 
 ipcMain.on(HANDLE_TOGGLE_CLUE, (event, [toggleClue, clueText]) => {
   timerWindow.webContents.send(HANDLE_TOGGLE_CLUE, [toggleClue, clueText]);

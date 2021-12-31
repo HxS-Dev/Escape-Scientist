@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import ControlPanelCard from "./ControlPanelCard.jsx";
 import TimerWindow from "./TimerWindow.jsx";
 import { BiHide, BiShow } from "react-icons/bi";
-import { HANDLE_TOGGLE_CLUE } from "../../helpers/ipcActions.js";
+import {
+  HANDLE_PILL_LOGIC,
+  HANDLE_TOGGLE_CLUE,
+} from "../../helpers/ipcActions.js";
 const { ipcRenderer } = window.require("electron");
 
 const TimerButtons = ({
@@ -90,10 +93,15 @@ export const ControlPage = ({
   inputRef,
   clue,
   onClueTextChange,
+  error,
 }) => {
   useEffect(() => {
     ipcRenderer.send(HANDLE_TOGGLE_CLUE, [showClue, clue]);
   }, [showClue]);
+
+  useEffect(() => {
+    ipcRenderer.send(HANDLE_PILL_LOGIC, [2, "test", error]);
+  }, [error]);
 
   return (
     <div className="control-bg">

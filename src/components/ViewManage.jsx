@@ -36,6 +36,7 @@ export const ViewManage = () => {
               showClue={toggleClue}
               clue={clueText}
               onClueTextChange={onClueTextChange}
+              error={pillError}
             />
           )}
         />
