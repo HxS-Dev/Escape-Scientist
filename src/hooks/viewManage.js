@@ -6,6 +6,7 @@ import {
   PAUSE_TIMER,
   RESTART_TIMER,
   START_TIMER,
+  TOKEN_STATE,
 } from "../../helpers/ipcActions";
 
 export const useViewManage = () => {
@@ -35,7 +36,6 @@ export const useViewManage = () => {
     ipcRenderer.on(
       HANDLE_PILL_LOGIC,
       (event, [subPillCounter, latestPillCompleted, pillError]) => {
-        console.log("here", pillError);
         setSubPillCounter(subPillCounter);
         setLatestPillCompleted(latestPillCompleted);
         setPillError(pillError);
@@ -44,6 +44,9 @@ export const useViewManage = () => {
     ipcRenderer.on(HANDLE_TOGGLE_CLUE, (event, [toggleClue, clueText]) => {
       setToggleClue(toggleClue);
       setClueText(clueText);
+    });
+    ipcRenderer.on(TOKEN_STATE, (event, latestPillCompleted) => {
+      setLatestPillCompleted(latestPillCompleted);
     });
     ipcRenderer.on(START_TIMER, (event, timerState) => {
       setTimerState({ start: true, pause: false, reset: false });
@@ -69,6 +72,9 @@ export const useViewManage = () => {
           setToggleClue(toggleClue);
         }
       );
+      ipcRenderer.removeListener(TOKEN_STATE, (event, latestPillCompleted) => {
+        setLatestPillCompleted(latestPillCompleted);
+      });
       ipcRenderer.removeListener(PAUSE_TIMER, (event, timerState) => {
         setTimerState({ start: false, pause: true, reset: false });
       });
@@ -85,6 +91,7 @@ export const useViewManage = () => {
     focusTextBox();
     setToggleClue((prev) => !prev);
     setClueText(inputRef.current.value);
+    setLatestPillCompleted((prev) => prev + "a");
   };
 
   const handlePauseTimer = () => {
@@ -171,11 +178,10 @@ export const useViewManage = () => {
       setLatestPillCompleted(latestPill);
       setSubPillCounter(1);
     }
-
-    console.log({ subPillCounter }, { latestPillCompleted }, { pillError });
   };
 
   return {
+    latestPillCompleted,
     handleToggleClue,
     toggleClue,
     clueText,

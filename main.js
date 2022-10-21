@@ -11,6 +11,7 @@ const {
   PAUSE_TIMER,
   START_TIMER,
   RESTART_TIMER,
+  TOKEN_STATE,
 } = require("./helpers/ipcActions");
 const isDev = require("./helpers/server");
 
@@ -130,6 +131,12 @@ ipcMain.on(START_TIMER, (event, timerState) => {
 
 ipcMain.on(RESTART_TIMER, (event, timerState) => {
   timerWindow.webContents.send(RESTART_TIMER, timerState);
+  // ipcMain.removeAllListeners([RESTART_TIMER]);
+});
+
+ipcMain.on(TOKEN_STATE, (event, latestPillCompleted) => {
+  timerWindow.webContents.send(TOKEN_STATE, latestPillCompleted);
+  barcodeWindow.webContents.send(TOKEN_STATE, latestPillCompleted);
   // ipcMain.removeAllListeners([RESTART_TIMER]);
 });
 

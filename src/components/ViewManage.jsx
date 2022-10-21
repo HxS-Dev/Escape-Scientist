@@ -18,6 +18,7 @@ export const ViewManage = () => {
     inputRef,
     onClueTextChange,
     pillError,
+    latestPillCompleted,
   } = useViewManage();
 
   return (
@@ -37,6 +38,7 @@ export const ViewManage = () => {
               clue={clueText}
               onClueTextChange={onClueTextChange}
               error={pillError}
+              latestPillCompleted={latestPillCompleted}
             />
           )}
         />
@@ -49,13 +51,20 @@ export const ViewManage = () => {
               showClue={toggleClue}
               timerState={timerState}
               clue={clueText}
+              latestPillCompleted={latestPillCompleted}
             />
           )}
         />
         <Route
           exact
           path="/barcode"
-          render={() => <BarcodePage isError={pillError} />}
+          render={() => (
+            <BarcodePage
+              showClue={toggleClue}
+              isError={pillError}
+              latestPillCompleted={latestPillCompleted}
+            />
+          )}
         />
       </div>
     </Router>

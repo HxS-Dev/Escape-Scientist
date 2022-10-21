@@ -30,8 +30,13 @@ const Timer = ({ timerState }) => {
   );
 };
 
-export const TimerPage = ({ showClue, timerState, clue }) => {
-  console.log(showClue, timerState, clue);
+export const TimerPage = ({
+  showClue,
+  timerState,
+  clue,
+  latestPillCompleted,
+}) => {
+  console.log({ latestPillCompleted });
   return (
     <div>
       <Timer timerState={timerState} />
