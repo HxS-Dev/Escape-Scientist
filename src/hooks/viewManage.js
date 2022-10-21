@@ -172,7 +172,7 @@ export const useViewManage = () => {
       setSubPillCounter(1);
     }
 
-    console.log([subPillCounter, latestPillCompleted, pillError]);
+    console.log({ subPillCounter }, { latestPillCompleted }, { pillError });
   };
 
   return {

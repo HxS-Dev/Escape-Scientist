@@ -63,8 +63,7 @@ h1 {
 }
 
 .clue-text {
-  height: 50%;
-  margin-bottom: 2px;
+  color: black;
 }
 
 .clue-visible-text {
@@ -82,5 +81,5 @@ h1 {
 }
 
 .video {
-  height:90%;
+  height: 90%;
 }

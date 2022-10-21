@@ -37,7 +37,7 @@ export const TimerPage = ({ showClue, timerState, clue }) => {
       <Timer timerState={timerState} />
       {!showClue && (
         <div className="card clue" id="clueDiv">
-          <h1>{clue}</h1>
+          <h1 className="clue-text">{clue}</h1>
         </div>
       )}
     </div>
