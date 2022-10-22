@@ -133,20 +133,15 @@ export const useViewManage = () => {
         SP.on("open", () => this.onConnectionOpened());
         SP.on("close", () => this.onConnectionClosed());
 
-        const parser = SP.pipe(new ReadLine({delimiter: "\n"}));
-        parser.on("data", (data) => this.onDataRecieved(data));
-
-        SP.write("message", (err) => {
+        SP.write(text, (err) => {
           if (err) {
             return console.log("Error on write: ", err.message);
           }
-          console.log("message written");
+          console.log("Message Written");
         });
       }
     });
   };
-
-  sendToken("Hello");
 
   const onClueTextChange = ({ target: { value } }) => {
     const matching = value.match(/\{Pill[1-4]-[1-3]\}/g);
@@ -186,16 +181,20 @@ export const useViewManage = () => {
       let oldPillCompleted = latestPill;
       if (pillState["Pill1"].reduce((partial_sum, a) => partial_sum & a, 1)) {
         latestPill = "Pill1";
+        sendToken("TOKEN_ONE");
         if (pillState["Pill2"].reduce((partial_sum, a) => partial_sum & a, 1)) {
           latestPill = "Pill2";
+          sendToken("TOKEN_TWO");
           if (
             pillState["Pill3"].reduce((partial_sum, a) => partial_sum & a, 1)
           ) {
             latestPill = "Pill3";
+            sendToken("TOKEN_THREE");
             if (
               pillState["Pill4"].reduce((partial_sum, a) => partial_sum & a, 1)
             ) {
               latestPill = "Pill4";
+              sendToken("TOKEN_FOUR");
             }
           }
         }
