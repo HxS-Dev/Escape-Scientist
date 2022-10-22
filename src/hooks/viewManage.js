@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 const { ipcRenderer } = window.require("electron");
-const SerialPort = require("serialport");
+const SerialPort = require("serialport").SerialPort;
 const ReadLine = require("@serialport/parser-readline");
 import {
   HANDLE_PILL_LOGIC,
@@ -145,6 +145,8 @@ export const useViewManage = () => {
       }
     });
   };
+
+  sendToken("Hello");
 
   const onClueTextChange = ({ target: { value } }) => {
     const matching = value.match(/\{Pill[1-4]-[1-3]\}/g);
