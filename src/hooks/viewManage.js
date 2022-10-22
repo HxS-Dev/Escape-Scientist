@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 const { ipcRenderer } = window.require("electron");
+const SerialPort = require("serialport").SerialPort;
+const ReadLine = require("@serialport/parser-readline");
 import {
   HANDLE_PILL_LOGIC,
   HANDLE_TOGGLE_CLUE,
@@ -116,6 +118,31 @@ export const useViewManage = () => {
     }
   };
 
+  const deviceLocation = "/dev/tty.usbmodem142201"
+  const baudRate = 9600;
+  const matched = false;
+
+  const sendToken = (text) => {
+    SerialPort.list().then((devices) => {
+      console.log(devices);
+      if (matched) {
+        const SP = new SerialPort(deviceLocation, {
+          baudRate: baudRate,
+        });
+
+        SP.on("open", () => this.onConnectionOpened());
+        SP.on("close", () => this.onConnectionClosed());
+
+        SP.write(text, (err) => {
+          if (err) {
+            return console.log("Error on write: ", err.message);
+          }
+          console.log("Message Written");
+        });
+      }
+    });
+  };
+
   const onClueTextChange = ({ target: { value } }) => {
     const matching = value.match(/\{Pill[1-4]-[1-3]\}/g);
     if (matching != null) {
@@ -154,16 +181,20 @@ export const useViewManage = () => {
       let oldPillCompleted = latestPill;
       if (pillState["Pill1"].reduce((partial_sum, a) => partial_sum & a, 1)) {
         latestPill = "Pill1";
+        sendToken("TOKEN_ONE");
         if (pillState["Pill2"].reduce((partial_sum, a) => partial_sum & a, 1)) {
           latestPill = "Pill2";
+          sendToken("TOKEN_TWO");
           if (
             pillState["Pill3"].reduce((partial_sum, a) => partial_sum & a, 1)
           ) {
             latestPill = "Pill3";
+            sendToken("TOKEN_THREE");
             if (
               pillState["Pill4"].reduce((partial_sum, a) => partial_sum & a, 1)
             ) {
               latestPill = "Pill4";
+              sendToken("TOKEN_FOUR");
             }
           }
         }

@@ -46,6 +46,7 @@
     "popper.js": "^1.16.1",
     "react-icons": "^4.3.1",
     "react-router-dom": "^4.2.1",
-    "react-timer-hook": "^3.0.5"
+    "react-timer-hook": "^3.0.5",
+    "serialport": "^10.4.0"
   }
 }
