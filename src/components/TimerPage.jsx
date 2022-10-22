@@ -1,5 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useTimer } from "react-timer-hook";
+// import sceneOne from "../assets/media/Scene1.mp4";
+// import sceneTwo from "../assets/media/Scene2.mp4";
+// import sceneThree from "../assets/media/Scene3.mp4";
+// import sceneFour from "../assets/media/Scene4.mp4";
+// import sceneFive from "../assets/media/Scene5.mp4";
+
+import clueBox from "../assets/media/box.png";
 
 const Timer = ({ timerState }) => {
   const time = new Date();
@@ -8,6 +15,23 @@ const Timer = ({ timerState }) => {
     expiryTimestamp: time,
     autoStart: false,
   });
+
+  // const videoSrc = useMemo(() => {
+  //   switch (latestPillCompleted) {
+  //     // case "pill1":
+  //     //   return sceneTwo;
+  //     // case "pill2":
+  //     //   return sceneThree;
+  //     // case "pill3":
+  //     //   return sceneFour;
+  //     // case "pill4":
+  //     //   return sceneFive;
+  //     default:
+  //       return sceneOne;
+  //   }
+  // }, [latestPillCompleted]);
+
+  // const src = videoSrc();
 
   useEffect(() => {
     if (timerState.pause) {
@@ -24,7 +48,7 @@ const Timer = ({ timerState }) => {
   }, [timerState]);
 
   return (
-    <div>
+    <div className="timer">
       {minutes}:{seconds}
     </div>
   );
@@ -39,10 +63,24 @@ export const TimerPage = ({
   console.log({ latestPillCompleted });
   return (
     <div>
+      {/* <video autoPlay id="background video">
+        <source src={src} type="video/mp4" />
+      </video> */}
       <Timer timerState={timerState} />
       {!showClue && (
-        <div className="card clue" id="clueDiv">
-          <h1 className="clue-text">{clue}</h1>
+        <div id="clueDiv">
+          <div
+            id="container"
+            style={{
+              position: "relative",
+              marginLeft: "13%",
+              marginRight: "18%",
+              overflowWrap: "break-word",
+            }}
+          >
+            <img className="card clue" src={clueBox} alt={"clue"} />
+            <h5 className="clue-text">{clue}</h5>
+          </div>
         </div>
       )}
     </div>

@@ -5,6 +5,10 @@ export const BarcodePage = ({ isError, latestPillCompleted }) => {
   //   console.log("hello");
   // }, [showClue]);
   console.log({ latestPillCompleted });
-  const [test, setTest] = useState(false);
-  return <button onClick={() => setTest((prev) => !prev)}>Barcode</button>;
+  // const [test, setTest] = useState(false);
+  return (
+    <div className="barcode-wrapper">
+      {/* <button onClick={() => setTest((prev) => !prev)}>Barcode</button>; */}
+    </div>
+  );
 };

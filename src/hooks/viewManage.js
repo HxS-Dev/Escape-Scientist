@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 const { ipcRenderer } = window.require("electron");
 const SerialPort = require("serialport").SerialPort;
 const ReadLine = require("@serialport/parser-readline");
+
 import {
   HANDLE_PILL_LOGIC,
   HANDLE_TOGGLE_CLUE,
@@ -89,11 +90,37 @@ export const useViewManage = () => {
     };
   }, []);
 
+  console.log({ __dirname });
+  var hint1And5 = new Audio("/assets/media/hint1And5.mp3");
+  // var hint2 = new Audio("../assets/media/hint2.mp3");
+  // var hint3 = new Audio("../assets/media/hint3.mp3");
+  // var hint4 = new Audio("../assets/media/hint4.mp3");
+
+  const getHintSound = () => {
+    switch (latestPillCompleted) {
+      // case "pill1":
+      //   return hint2;
+      // case "pill2":
+      //   return hint3;
+      // case "pill3":
+      //   return hint4;
+      default:
+        return hint1And5;
+    }
+  };
+
   const handleToggleClue = () => {
     focusTextBox();
     setToggleClue((prev) => !prev);
     setClueText(inputRef.current.value);
     setLatestPillCompleted((prev) => prev + "a");
+    if (toggleClue) {
+      const hint = getHintSound();
+      hint.play();
+    }
+    // if toggle clue is true
+    // use a function to determine which pill were on
+    // switch case play sound based on pill
   };
 
   const handlePauseTimer = () => {
@@ -118,7 +145,7 @@ export const useViewManage = () => {
     }
   };
 
-  const deviceLocation = "/dev/tty.usbmodem142201"
+  const deviceLocation = "/dev/tty.usbmodem142201";
   const baudRate = 9600;
   const matched = false;
 
