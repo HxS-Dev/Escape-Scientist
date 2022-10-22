@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 const { ipcRenderer } = window.require("electron");
+const SerialPort = require("serialport");
+const ReadLine = require("@serialport/parser-readline");
 import {
   HANDLE_PILL_LOGIC,
   HANDLE_TOGGLE_CLUE,
@@ -114,6 +116,34 @@ export const useViewManage = () => {
     } else {
       return;
     }
+  };
+
+  const deviceLocation = "/dev/tty.usbmodem142201"
+  const baudRate = 9600;
+  const matched = false;
+
+  const sendToken = (text) => {
+    SerialPort.list().then((devices) => {
+      console.log(devices);
+      if (matched) {
+        const SP = new SerialPort(deviceLocation, {
+          baudRate: baudRate,
+        });
+
+        SP.on("open", () => this.onConnectionOpened());
+        SP.on("close", () => this.onConnectionClosed());
+
+        const parser = SP.pipe(new ReadLine({delimiter: "\n"}));
+        parser.on("data", (data) => this.onDataRecieved(data));
+
+        SP.write("message", (err) => {
+          if (err) {
+            return console.log("Error on write: ", err.message);
+          }
+          console.log("message written");
+        });
+      }
+    });
   };
 
   const onClueTextChange = ({ target: { value } }) => {

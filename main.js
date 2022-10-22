@@ -20,8 +20,8 @@ let controlWindow, timerWindow, barcodeWindow;
 function createWindow() {
   controlWindow = new BrowserWindow({
     name: "control",
-    width: 1024,
-    height: 768,
+    width: 1920,
+    height: 1080,
     show: false,
     webPreferences: {
       nodeIntegration: true,
@@ -30,8 +30,8 @@ function createWindow() {
 
   timerWindow = new BrowserWindow({
     name: "timer",
-    width: 1024,
-    height: 768,
+    width: 1280,
+    height: 720,
     show: false,
     webPreferences: {
       nodeIntegration: true,
@@ -40,8 +40,8 @@ function createWindow() {
 
   barcodeWindow = new BrowserWindow({
     name: "barcode",
-    width: 1024,
-    height: 768,
+    width: 1920,
+    height: 1080,
     show: false,
     webPreferences: {
       nodeIntegration: true,
