@@ -111,3 +111,29 @@ h1 {
   width: 100vw !important;
   background-size: cover;
 }
+
+.ingredient-col {
+  text-align: center;
+}
+
+.ingredient-wrapper {
+  padding-top: 35%;
+}
+
+.ingredient {
+  padding-bottom: 70px;
+}
+
+.ingredient-label {
+  color: black;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 58px;
+}
+
+.ingredient-text {
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 50px;
+}
