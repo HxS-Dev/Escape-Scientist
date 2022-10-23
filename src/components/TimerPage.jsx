@@ -63,9 +63,9 @@ export const TimerPage = ({
   console.log({ latestPillCompleted });
   return (
     <div>
-      {/* <video autoPlay id="background video">
-        <source src={src} type="video/mp4" />
-      </video> */}
+      <video autoPlay id="background video">
+        <source src={"../assets/media/Scene1.mp4"} type="video/mp4" />
+      </video>
       <Timer timerState={timerState} />
       {!showClue && (
         <div id="clueDiv">

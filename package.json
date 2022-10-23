@@ -39,6 +39,7 @@
   "dependencies": {
     "@popperjs/core": "^2.11.0",
     "bootstrap": "^5.2.2",
+    "csp-webpack-plugin": "^2.0.2",
     "electron": "^11.0.0",
     "electron-rebuild": "^3.2.5",
     "electron-store": "^8.0.1",

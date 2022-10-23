@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CSPWebpackPlugin = require("csp-webpack-plugin");
 const { spawn } = require("child_process");
 
 // Config directories
@@ -41,6 +42,10 @@ module.exports = {
         ],
         include: defaultInclude,
       },
+      {
+        test: /\.(mp4)$/,
+        use: [{ loader: "file-loader?name=video/[name].[ext]" }],
+      },
     ],
   },
   target: "electron-renderer",
@@ -49,10 +54,24 @@ module.exports = {
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("development"),
     }),
+    new CSPWebpackPlugin({
+      "object-src": "'none'",
+      "base-uri": "'self'",
+      "script-src": [
+        "'unsafe-inline'",
+        "'self'",
+        "'unsafe-eval'",
+        "http://ajax.googleapis.com",
+      ],
+      "worker-src": ["'self'", "blob:"],
+      "media-src": "'none'",
+    }),
   ],
   devtool: "cheap-source-map",
   devServer: {
-    contentBase: OUTPUT_DIR,
+    historyApiFallback: true,
+    contentBase: SRC_DIR,
+    hot: true,
     stats: {
       colors: true,
       chunks: false,
@@ -70,6 +89,6 @@ module.exports = {
     historyApiFallback: true,
   },
   externals: {
-    serialport: "commonjs2 serialport"
+    serialport: "commonjs2 serialport",
   },
 };

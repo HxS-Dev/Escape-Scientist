@@ -25,6 +25,7 @@ function createWindow() {
     show: false,
     webPreferences: {
       nodeIntegration: true,
+      webSecurity: false,
     },
   });
 
@@ -35,6 +36,7 @@ function createWindow() {
     show: false,
     webPreferences: {
       nodeIntegration: true,
+      webSecurity: false,
     },
   });
 
@@ -45,6 +47,7 @@ function createWindow() {
     show: false,
     webPreferences: {
       nodeIntegration: true,
+      webSecurity: false,
     },
   });
 
