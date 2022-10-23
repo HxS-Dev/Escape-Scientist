@@ -67,12 +67,12 @@ const selectIngredientsPage = (latestPillCompleted) => {
   }
 };
 
-export const BarcodePage = ({ isError, latestPillCompleted }) => {
+export const BarcodePage = ({ isError, latestPillCompleted, pillState }) => {
   const Ingredients = () => selectIngredientsPage(latestPillCompleted);
   // useEffect(() => {
   //   console.log("hello");
   // }, [showClue]);
-  console.log({ latestPillCompleted });
+  console.log({ latestPillCompleted }, { pillState });
   // const [test, setTest] = useState(false);
   return (
     <div className="barcode-wrapper">

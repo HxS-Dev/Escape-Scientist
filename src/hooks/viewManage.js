@@ -48,8 +48,9 @@ export const useViewManage = () => {
       setToggleClue(toggleClue);
       setClueText(clueText);
     });
-    ipcRenderer.on(TOKEN_STATE, (event, latestPillCompleted) => {
+    ipcRenderer.on(TOKEN_STATE, (event, [latestPillCompleted, pillState]) => {
       setLatestPillCompleted(latestPillCompleted);
+      setPillState(pillState);
     });
     ipcRenderer.on(START_TIMER, (event, timerState) => {
       setTimerState({ start: true, pause: false, reset: false });
@@ -75,9 +76,13 @@ export const useViewManage = () => {
           setToggleClue(toggleClue);
         }
       );
-      ipcRenderer.removeListener(TOKEN_STATE, (event, latestPillCompleted) => {
-        setLatestPillCompleted(latestPillCompleted);
-      });
+      ipcRenderer.removeListener(
+        TOKEN_STATE,
+        (event, [latestPillCompleted, pillState]) => {
+          setLatestPillCompleted(latestPillCompleted);
+          setPillState(pillState);
+        }
+      );
       ipcRenderer.removeListener(PAUSE_TIMER, (event, timerState) => {
         setTimerState({ start: false, pause: true, reset: false });
       });
@@ -113,7 +118,9 @@ export const useViewManage = () => {
     focusTextBox();
     setToggleClue((prev) => !prev);
     setClueText(inputRef.current.value);
+    // remove below lines
     setLatestPillCompleted((prev) => prev + "a");
+    setPillState((prev) => Object.assign(prev, { test: "hello" }));
     if (toggleClue) {
       const hint = getHintSound();
       hint.play();
@@ -250,5 +257,6 @@ export const useViewManage = () => {
     inputRef,
     onClueTextChange,
     pillError,
+    pillState,
   };
 };

@@ -134,9 +134,9 @@ ipcMain.on(RESTART_TIMER, (event, timerState) => {
   // ipcMain.removeAllListeners([RESTART_TIMER]);
 });
 
-ipcMain.on(TOKEN_STATE, (event, latestPillCompleted) => {
-  timerWindow.webContents.send(TOKEN_STATE, latestPillCompleted);
-  barcodeWindow.webContents.send(TOKEN_STATE, latestPillCompleted);
+ipcMain.on(TOKEN_STATE, (event, [latestPillCompleted, pillState]) => {
+  timerWindow.webContents.send(TOKEN_STATE, [latestPillCompleted, pillState]);
+  barcodeWindow.webContents.send(TOKEN_STATE, [latestPillCompleted, pillState]);
   // ipcMain.removeAllListeners([RESTART_TIMER]);
 });
 

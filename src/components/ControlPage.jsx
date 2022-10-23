@@ -96,19 +96,20 @@ export const ControlPage = ({
   clue,
   onClueTextChange,
   error,
+  pillState,
 }) => {
   useEffect(() => {
     ipcRenderer.send(HANDLE_TOGGLE_CLUE, [showClue, clue]);
   }, [showClue]);
 
   useEffect(() => {
-    ipcRenderer.send(TOKEN_STATE, latestPillCompleted);
-  }, [latestPillCompleted]);
+    ipcRenderer.send(TOKEN_STATE, [latestPillCompleted, pillState]);
+  }, [latestPillCompleted, pillState]);
 
   // useEffect(() => {
   //   ipcRenderer.send(HANDLE_PILL_LOGIC, [2, "test", error]);
   // }, [error]);
-  console.log({ latestPillCompleted });
+  console.log({ latestPillCompleted }, { pillState });
   return (
     <div className="control-bg">
       <div className="row">

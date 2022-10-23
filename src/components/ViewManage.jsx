@@ -19,6 +19,7 @@ export const ViewManage = () => {
     onClueTextChange,
     pillError,
     latestPillCompleted,
+    pillState,
   } = useViewManage();
 
   return (
@@ -39,6 +40,7 @@ export const ViewManage = () => {
               onClueTextChange={onClueTextChange}
               error={pillError}
               latestPillCompleted={latestPillCompleted}
+              pillState={pillState}
             />
           )}
         />
@@ -60,6 +62,7 @@ export const ViewManage = () => {
           path="/barcode"
           render={() => (
             <BarcodePage
+              pillState={pillState}
               showClue={toggleClue}
               isError={pillError}
               latestPillCompleted={latestPillCompleted}
