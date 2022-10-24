@@ -118,9 +118,7 @@ export const useViewManage = () => {
     focusTextBox();
     setToggleClue((prev) => !prev);
     setClueText(inputRef.current.value);
-    // remove below lines
-    setLatestPillCompleted((prev) => prev + "a");
-    setPillState((prev) => Object.assign(prev, { test: "hello" }));
+
     if (toggleClue) {
       const hint = getHintSound();
       hint.play();
@@ -179,8 +177,9 @@ export const useViewManage = () => {
 
   const onClueTextChange = ({ target: { value } }) => {
     const matching = value.match(/\{Pill[1-4]-[1-3]\}/g);
-    if (matching != null) {
+    if (matching !== null) {
       setSubPillCounter(subPillCounter + 1);
+      console.log(subPillCounter);
       inputRef.current.value = value.replace(matching, "");
       const pill = matching[0].match(/Pill[1-4]/g)[0];
       const pillNumber = parseInt(pill.match(/[1-4]/g)[0]);
@@ -189,7 +188,7 @@ export const useViewManage = () => {
       );
       let rightOrder = true;
       for (let i = 0; i < subPillNumber - 1; i++) {
-        if (pillState[pill][i] === 0) {
+        if (pillState[pill][i] == 0) {
           rightOrder = false;
         }
       }
@@ -198,7 +197,7 @@ export const useViewManage = () => {
         pillState["Pill".concat(pillNumber - 1)].reduce(
           (partial_sum, a) => partial_sum & a,
           1
-        ) === 0
+        ) == 0
       ) {
         rightOrder = false;
       }
@@ -208,40 +207,41 @@ export const useViewManage = () => {
           return pillState;
         });
       }
-    }
-    // {Pill1-1}
-    if (subPillCounter === 3) {
-      let latestPill = latestPillCompleted;
-      let oldPillCompleted = latestPill;
-      if (pillState["Pill1"].reduce((partial_sum, a) => partial_sum & a, 1)) {
-        latestPill = "Pill1";
-        sendToken("TOKEN_ONE");
-        if (pillState["Pill2"].reduce((partial_sum, a) => partial_sum & a, 1)) {
-          latestPill = "Pill2";
-          sendToken("TOKEN_TWO");
-          if (
-            pillState["Pill3"].reduce((partial_sum, a) => partial_sum & a, 1)
-          ) {
-            latestPill = "Pill3";
-            sendToken("TOKEN_THREE");
+      if (subPillCounter == 3) {
+        let latestPill = latestPillCompleted;
+        let oldPillCompleted = latestPill;
+        console.log(pillState["Pill1"].reduce((partial_sum, a) => partial_sum + a, 1));
+        if (pillState["Pill1"].reduce((partial_sum, a) => partial_sum + a, 1) == 3) {
+          console.log("I am here");
+          latestPill = "Pill1";
+          sendToken("TOKEN_ONE");
+          if (pillState["Pill2"].reduce((partial_sum, a) => partial_sum + a, 1) == 3) {
+            latestPill = "Pill2";
+            sendToken("TOKEN_TWO");
             if (
-              pillState["Pill4"].reduce((partial_sum, a) => partial_sum & a, 1)
+              pillState["Pill3"].reduce((partial_sum, a) => partial_sum + a, 1) == 3
             ) {
-              latestPill = "Pill4";
-              sendToken("TOKEN_FOUR");
+              latestPill = "Pill3";
+              sendToken("TOKEN_THREE");
+              if (
+                pillState["Pill4"].reduce((partial_sum, a) => partial_sum + a, 1) == 3
+              ) {
+                latestPill = "Pill4";
+                sendToken("TOKEN_FOUR");
+              }
             }
           }
         }
+        // Maybe put a case statement here for which pill has been completed
+        if (oldPillCompleted == latestPill) {
+          setPillError(true);
+          //This is the case where the correct pill is not completed
+        } else {
+          setPillError(false);
+        }
+        setLatestPillCompleted(latestPill);
+        setSubPillCounter(1);
       }
-      // Maybe put a case statement here for which pill has been completed
-      if (oldPillCompleted === latestPill) {
-        setPillError(true);
-        //This is the case where the correct pill is not completed
-      } else {
-        setPillError(false);
-      }
-      setLatestPillCompleted(latestPill);
-      setSubPillCounter(1);
     }
   };
 
