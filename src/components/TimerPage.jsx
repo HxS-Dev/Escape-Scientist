@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo } from "react";
 import { useTimer } from "react-timer-hook";
-// import sceneOne from "../assets/media/Scene1.mp4";
-// import sceneTwo from "../assets/media/Scene2.mp4";
-// import sceneThree from "../assets/media/Scene3.mp4";
-// import sceneFour from "../assets/media/Scene4.mp4";
-// import sceneFive from "../assets/media/Scene5.mp4";
+import sceneOne from "../assets/media/Scene1.mp4";
+import sceneTwo from "../assets/media/Scene2.mp4";
+import sceneThree from "../assets/media/Scene3.mp4";
+import sceneFour from "../assets/media/Scene4.mp4";
+import sceneFive from "../assets/media/Scene5.mp4";
 
 import clueBox from "../assets/media/box.png";
 
@@ -15,23 +15,6 @@ const Timer = ({ timerState }) => {
     expiryTimestamp: time,
     autoStart: false,
   });
-
-  // const videoSrc = useMemo(() => {
-  //   switch (latestPillCompleted) {
-  //     // case "pill1":
-  //     //   return sceneTwo;
-  //     // case "pill2":
-  //     //   return sceneThree;
-  //     // case "pill3":
-  //     //   return sceneFour;
-  //     // case "pill4":
-  //     //   return sceneFive;
-  //     default:
-  //       return sceneOne;
-  //   }
-  // }, [latestPillCompleted]);
-
-  // const src = videoSrc();
 
   useEffect(() => {
     if (timerState.pause) {
@@ -49,7 +32,7 @@ const Timer = ({ timerState }) => {
 
   return (
     <div className="timer">
-      {minutes}:{seconds}
+      {minutes}:{String(seconds).padStart(2, "0")}
     </div>
   );
 };
@@ -61,10 +44,30 @@ export const TimerPage = ({
   latestPillCompleted,
 }) => {
   console.log({ latestPillCompleted });
+
+  const videoSrc = () => {
+    switch (latestPillCompleted) {
+      case "Pill1":
+        return sceneTwo;
+      case "Pill2":
+        return sceneThree;
+      case "Pill3":
+        return sceneFour;
+      case "Pill4":
+        return sceneFive;
+      default:
+        return sceneOne;
+    }
+  };
+
+  const src = useMemo(() => videoSrc(), [latestPillCompleted]);
+
+  console.log(src);
+
   return (
     <div>
-      <video autoPlay id="background video">
-        <source src={"../assets/media/Scene1.mp4"} type="video/mp4" />
+      <video autoPlay id="myVideo">
+        <source src={src} type="video/mp4" />
       </video>
       <Timer timerState={timerState} />
       {!showClue && (

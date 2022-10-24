@@ -69,11 +69,12 @@ const selectIngredientsPage = (latestPillCompleted) => {
 
 export const BarcodePage = ({ isError, latestPillCompleted, pillState }) => {
   const Ingredients = () => selectIngredientsPage(latestPillCompleted);
+  // need an update every scan and error state too only after 3 scans
+  // const state
   // useEffect(() => {
-  //   console.log("hello");
-  // }, [showClue]);
-  console.log({ latestPillCompleted }, { pillState });
-  // const [test, setTest] = useState(false);
+  //   const currentPill = pillState[latestPillCompleted]
+  // }, [pillState, latestPillCompleted])
+  // console.log({ latestPillCompleted }, { pillState });
   return (
     <div className="barcode-wrapper">
       <Container>

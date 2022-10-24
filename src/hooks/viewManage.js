@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 const { ipcRenderer } = window.require("electron");
 const SerialPort = require("serialport").SerialPort;
-const ReadLine = require("@serialport/parser-readline");
 
 import {
   HANDLE_PILL_LOGIC,
@@ -26,11 +25,11 @@ export const useViewManage = () => {
     Pill4: [0, 0, 0],
   });
   const [subPillCounter, setSubPillCounter] = useState(1);
-  const [latestPillCompleted, setLatestPillCompleted] = useState("asd");
+  const [latestPillCompleted, setLatestPillCompleted] = useState("Pill1");
   const [clueText, setClueText] = useState("");
   const [pillError, setPillError] = useState(false);
   const inputRef = useRef();
-
+  // ! get pill error and subpillcounter to barcode page
   const focusTextBox = () => {
     inputRef.current.focus();
   };
@@ -96,23 +95,23 @@ export const useViewManage = () => {
   }, []);
 
   console.log({ __dirname });
-  var hint1And5 = new Audio("/assets/media/hint1And5.mp3");
+  // var hint1And5 = new Audio("/assets/media/hint1And5.mp3");
   // var hint2 = new Audio("../assets/media/hint2.mp3");
   // var hint3 = new Audio("../assets/media/hint3.mp3");
   // var hint4 = new Audio("../assets/media/hint4.mp3");
 
-  const getHintSound = () => {
-    switch (latestPillCompleted) {
-      // case "pill1":
-      //   return hint2;
-      // case "pill2":
-      //   return hint3;
-      // case "pill3":
-      //   return hint4;
-      default:
-        return hint1And5;
-    }
-  };
+  // const getHintSound = () => {
+  //   switch (latestPillCompleted) {
+  //     case "Pill1":
+  //       return hint2;
+  //     case "Pill2":
+  //       return hint3;
+  //     case "Pill3":
+  //       return hint4;
+  //     default:
+  //       return hint1And5;
+  //   }
+  // };
 
   const handleToggleClue = () => {
     focusTextBox();
@@ -120,8 +119,8 @@ export const useViewManage = () => {
     setClueText(inputRef.current.value);
 
     if (toggleClue) {
-      const hint = getHintSound();
-      hint.play();
+      // const hint = getHintSound();
+      // hint.play();
     }
     // if toggle clue is true
     // use a function to determine which pill were on
@@ -210,21 +209,34 @@ export const useViewManage = () => {
       if (subPillCounter == 3) {
         let latestPill = latestPillCompleted;
         let oldPillCompleted = latestPill;
-        console.log(pillState["Pill1"].reduce((partial_sum, a) => partial_sum + a, 1));
-        if (pillState["Pill1"].reduce((partial_sum, a) => partial_sum + a, 1) == 3) {
+        console.log(
+          pillState["Pill1"].reduce((partial_sum, a) => partial_sum + a, 1)
+        );
+        if (
+          pillState["Pill1"].reduce((partial_sum, a) => partial_sum + a, 1) == 3
+        ) {
           console.log("I am here");
           latestPill = "Pill1";
           sendToken("TOKEN_ONE");
-          if (pillState["Pill2"].reduce((partial_sum, a) => partial_sum + a, 1) == 3) {
+          if (
+            pillState["Pill2"].reduce((partial_sum, a) => partial_sum + a, 1) ==
+            3
+          ) {
             latestPill = "Pill2";
             sendToken("TOKEN_TWO");
             if (
-              pillState["Pill3"].reduce((partial_sum, a) => partial_sum + a, 1) == 3
+              pillState["Pill3"].reduce(
+                (partial_sum, a) => partial_sum + a,
+                1
+              ) == 3
             ) {
               latestPill = "Pill3";
               sendToken("TOKEN_THREE");
               if (
-                pillState["Pill4"].reduce((partial_sum, a) => partial_sum + a, 1) == 3
+                pillState["Pill4"].reduce(
+                  (partial_sum, a) => partial_sum + a,
+                  1
+                ) == 3
               ) {
                 latestPill = "Pill4";
                 sendToken("TOKEN_FOUR");

@@ -25,6 +25,7 @@ export const ViewManage = () => {
   return (
     <Router>
       <div>
+        <style>@import url('http://fonts.cdnfonts.com/css/bebas-neue');</style>
         <Route
           exact
           path="/control"
