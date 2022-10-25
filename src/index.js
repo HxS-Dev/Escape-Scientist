@@ -8,4 +8,6 @@ let root = document.createElement("div");
 root.id = "root";
 document.body.appendChild(root);
 
+//Skip add font here
+
 render(<ViewManage />, document.getElementById("root"));
