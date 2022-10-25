@@ -2,6 +2,11 @@ import { useEffect, useState, useRef } from "react";
 const { ipcRenderer } = window.require("electron");
 const SerialPort = require("serialport").SerialPort;
 
+import hint1f from "../assets/media/hint1And5.mp3";
+import hint2f from "../assets/media/hint2.mp3";
+import hint3f from "../assets/media/hint3.mp3";
+import hint4f from "../assets/media/hint4.mp3";
+
 import {
   HANDLE_PILL_LOGIC,
   HANDLE_TOGGLE_CLUE,
@@ -102,14 +107,32 @@ export const useViewManage = () => {
     timerState,
   ]); //Skip added dependencies here
 
-  //Skip add audio logic here
+  const hint1And5 = new Audio(hint1f);
+  const hint2 = new Audio(hint2f);
+  const hint3 = new Audio(hint3f);
+  const hint4 = new Audio(hint4f);
+
+  const getHintSound = () => {
+    switch (latestPillCompleted) {
+      case "Pill1":
+        return hint2;
+      case "Pill2":
+        return hint3;
+      case "Pill3":
+        return hint4;
+      default:
+        return hint1And5;
+    }
+  };
 
   const handleToggleClue = () => {
     focusTextBox();
     setToggleClue((prev) => !prev);
     setClueText(inputRef.current.value);
 
-    //Skip add hint sound
+    if (toggleClue) {
+      getHintSound().play();
+    }
   };
 
   const handlePauseTimer = () => {
@@ -194,26 +217,36 @@ export const useViewManage = () => {
       if (subPillCounter == 3) {
         let latestPill = latestPillCompleted;
         let oldPillCompleted = latestPill;
-        if (pillState["Pill1"].reduce((partial_sum, a) => partial_sum + a, 1) == 3) {
-          latestPill = "Pill1";
-          sendToken("TOKEN_ONE");
-          if (pillState["Pill2"].reduce((partial_sum, a) => partial_sum + a, 1) == 3) {
-            latestPill = "Pill2";
-            sendToken("TOKEN_TWO");
-            if (
-              pillState["Pill3"].reduce((partial_sum, a) => partial_sum + a, 1) == 3
-            ) {
+
+        switch (latestPillCompleted) {
+          case "asd":
+            if (pillState["Pill1"].reduce((partial_sum, a) => partial_sum + a, 1) == 3) {
+              latestPill = "Pill1";
+              sendToken("TOKEN_ONE");
+            }
+            break;
+          case "Pill1":
+            if (pillState["Pill2"].reduce((partial_sum, a) => partial_sum + a, 1) == 3) {
+              latestPill = "Pill2";
+              sendToken("TOKEN_TWO");
+            }
+            break;
+          case "Pill2":
+            if (pillState["Pill3"].reduce((partial_sum, a) => partial_sum + a, 1) == 3) {
               latestPill = "Pill3";
               sendToken("TOKEN_THREE");
-              if (
-                pillState["Pill4"].reduce((partial_sum, a) => partial_sum + a, 1) == 3
-              ) {
-                latestPill = "Pill4";
-                sendToken("TOKEN_FOUR");
-              }
             }
-          }
+            break;
+          case "Pill3":
+            if (pillState["Pill4"].reduce((partial_sum, a) => partial_sum + a, 1) == 3) {
+              latestPill = "Pill4";
+              sendToken("TOKEN_FOUR");
+            }
+            break;
+          default:
+            break;
         }
+
         // Maybe put a case statement here for which pill has been completed
         if (oldPillCompleted == latestPill) {
           setPillError(true);
@@ -224,6 +257,7 @@ export const useViewManage = () => {
         setLatestPillCompleted(latestPill);
         setSubPillCounter(1);
       }
+      console.log({ latestPillCompleted }, { pillState }, { pillError });
     }
   };
 

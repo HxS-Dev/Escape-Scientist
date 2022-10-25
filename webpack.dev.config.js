@@ -41,6 +41,13 @@ module.exports = {
         ],
         include: defaultInclude,
       },
+      {
+        test: /\.mp3$/,
+        use: [
+          { loader: "file-loader?name=sound/[name]__[hash:base64:5].[ext]" },
+        ],
+        include: defaultInclude,
+      }
     ],
   },
   target: "electron-renderer",

@@ -3,6 +3,7 @@ import { useTimer } from "react-timer-hook";
 // Skip add videos here
 
 import clueBox from "../assets/media/box.png";
+// import hint2 from "../assets/media/hint2.mp3";
 
 const Timer = ({ timerState }) => {
   const time = new Date();
@@ -28,7 +29,7 @@ const Timer = ({ timerState }) => {
 
   return (
     <div className="timer">
-      {minutes}:{String(seconds).padStart(2,"0")}
+      {minutes}:{String(seconds).padStart(2, "0")}
     </div>
   );
 };
@@ -38,6 +39,7 @@ export const TimerPage = ({ showClue, timerState, clue, latestPillCompleted }) =
   return (
     <div className="timer-wrapper">
       <Timer timerState={timerState} />
+      {/* <audio id='hint2' autoPlay src={hint2} style={{ hidden: 'true' }} /> */}
       {!showClue && (
         <div id="clueDiv">
           <div id="container" style={{
