@@ -1,11 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 const { ipcRenderer } = window.require("electron");
+const SerialPort = require("serialport").SerialPort;
+
 import {
   HANDLE_PILL_LOGIC,
   HANDLE_TOGGLE_CLUE,
   PAUSE_TIMER,
   RESTART_TIMER,
   START_TIMER,
+  TOKEN_STATE,
 } from "../../helpers/ipcActions";
 
 export const useViewManage = () => {
@@ -22,7 +25,7 @@ export const useViewManage = () => {
     Pill4: [0, 0, 0],
   });
   const [subPillCounter, setSubPillCounter] = useState(1);
-  const [latestPillCompleted, setLatestPillCompleted] = useState("asd");
+  const [latestPillCompleted, setLatestPillCompleted] = useState("asd"); //Skip change this to empty string
   const [clueText, setClueText] = useState("");
   const [pillError, setPillError] = useState(false);
   const inputRef = useRef();
@@ -35,7 +38,6 @@ export const useViewManage = () => {
     ipcRenderer.on(
       HANDLE_PILL_LOGIC,
       (event, [subPillCounter, latestPillCompleted, pillError]) => {
-        console.log("here", pillError);
         setSubPillCounter(subPillCounter);
         setLatestPillCompleted(latestPillCompleted);
         setPillError(pillError);
@@ -44,6 +46,10 @@ export const useViewManage = () => {
     ipcRenderer.on(HANDLE_TOGGLE_CLUE, (event, [toggleClue, clueText]) => {
       setToggleClue(toggleClue);
       setClueText(clueText);
+    });
+    ipcRenderer.on(TOKEN_STATE, (event, [latestPillCompleted, pillState]) => {
+      setLatestPillCompleted(latestPillCompleted);
+      setPillState(pillState);
     });
     ipcRenderer.on(START_TIMER, (event, timerState) => {
       setTimerState({ start: true, pause: false, reset: false });
@@ -69,6 +75,13 @@ export const useViewManage = () => {
           setToggleClue(toggleClue);
         }
       );
+      ipcRenderer.removeListener(
+        TOKEN_STATE,
+        (event, [latestPillCompleted, pillState]) => {
+          setLatestPillCompleted(latestPillCompleted);
+          setPillState(pillState);
+        }
+      );
       ipcRenderer.removeListener(PAUSE_TIMER, (event, timerState) => {
         setTimerState({ start: false, pause: true, reset: false });
       });
@@ -79,12 +92,24 @@ export const useViewManage = () => {
         setTimerState({ start: false, pause: false, reset: true });
       });
     };
-  }, []);
+  }, [
+    subPillCounter,
+    latestPillCompleted,
+    pillError,
+    toggleClue,
+    clueText,
+    pillState,
+    timerState,
+  ]); //Skip added dependencies here
+
+  //Skip add audio logic here
 
   const handleToggleClue = () => {
     focusTextBox();
     setToggleClue((prev) => !prev);
     setClueText(inputRef.current.value);
+
+    //Skip add hint sound
   };
 
   const handlePauseTimer = () => {
@@ -109,6 +134,31 @@ export const useViewManage = () => {
     }
   };
 
+  const deviceLocation = "/dev/tty.usbmodem142201";
+  const baudRate = 9600;
+  const matched = false;
+
+  const sendToken = (text) => {
+    SerialPort.list().then((devices) => {
+      console.log(devices);
+      if (matched) {
+        const SP = new SerialPort(deviceLocation, {
+          baudRate: baudRate,
+        });
+
+        SP.on("open", () => this.onConnectionOpened());
+        SP.on("close", () => this.onConnectionClosed());
+
+        SP.write(text, (err) => {
+          if (err) {
+            return console.log("Error on write: ", err.message);
+          }
+          console.log("Message Written");
+        });
+      }
+    });
+  };
+
   const onClueTextChange = ({ target: { value } }) => {
     const matching = value.match(/\{Pill[1-4]-[1-3]\}/g);
     if (matching != null) {
@@ -130,7 +180,7 @@ export const useViewManage = () => {
         pillState["Pill".concat(pillNumber - 1)].reduce(
           (partial_sum, a) => partial_sum & a,
           1
-        ) === 0
+        ) == 0 //Skip check this logic &->+
       ) {
         rightOrder = false;
       }
@@ -140,42 +190,45 @@ export const useViewManage = () => {
           return pillState;
         });
       }
-    }
-    // {Pill1-1}
-    if (subPillCounter === 3) {
-      let latestPill = latestPillCompleted;
-      let oldPillCompleted = latestPill;
-      if (pillState["Pill1"].reduce((partial_sum, a) => partial_sum & a, 1)) {
-        latestPill = "Pill1";
-        if (pillState["Pill2"].reduce((partial_sum, a) => partial_sum & a, 1)) {
-          latestPill = "Pill2";
-          if (
-            pillState["Pill3"].reduce((partial_sum, a) => partial_sum & a, 1)
-          ) {
-            latestPill = "Pill3";
+
+      if (subPillCounter == 3) {
+        let latestPill = latestPillCompleted;
+        let oldPillCompleted = latestPill;
+        if (pillState["Pill1"].reduce((partial_sum, a) => partial_sum + a, 1) == 3) {
+          latestPill = "Pill1";
+          sendToken("TOKEN_ONE");
+          if (pillState["Pill2"].reduce((partial_sum, a) => partial_sum + a, 1) == 3) {
+            latestPill = "Pill2";
+            sendToken("TOKEN_TWO");
             if (
-              pillState["Pill4"].reduce((partial_sum, a) => partial_sum & a, 1)
+              pillState["Pill3"].reduce((partial_sum, a) => partial_sum + a, 1) == 3
             ) {
-              latestPill = "Pill4";
+              latestPill = "Pill3";
+              sendToken("TOKEN_THREE");
+              if (
+                pillState["Pill4"].reduce((partial_sum, a) => partial_sum + a, 1) == 3
+              ) {
+                latestPill = "Pill4";
+                sendToken("TOKEN_FOUR");
+              }
             }
           }
         }
+        // Maybe put a case statement here for which pill has been completed
+        if (oldPillCompleted == latestPill) {
+          setPillError(true);
+          //This is the case where the correct pill is not completed
+        } else {
+          setPillError(false);
+        }
+        setLatestPillCompleted(latestPill);
+        setSubPillCounter(1);
       }
-      // Maybe put a case statement here for which pill has been completed
-      if (oldPillCompleted === latestPill) {
-        setPillError(true);
-        //This is the case where the correct pill is not completed
-      } else {
-        setPillError(false);
-      }
-      setLatestPillCompleted(latestPill);
-      setSubPillCounter(1);
     }
-
-    console.log([subPillCounter, latestPillCompleted, pillError]);
   };
 
   return {
+    latestPillCompleted,
     handleToggleClue,
     toggleClue,
     clueText,
@@ -186,5 +239,6 @@ export const useViewManage = () => {
     inputRef,
     onClueTextChange,
     pillError,
+    pillState,
   };
 };
