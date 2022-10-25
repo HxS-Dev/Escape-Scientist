@@ -8,6 +8,8 @@ let root = document.createElement("div");
 root.id = "root";
 document.body.appendChild(root);
 
-//Skip add font here
+let style = document.createElement("style");
+document.head.appendChild(style);
+style.innerHTML = "@import url('http://fonts.cdnfonts.com/css/bebas-neue')";
 
 render(<ViewManage />, document.getElementById("root"));
