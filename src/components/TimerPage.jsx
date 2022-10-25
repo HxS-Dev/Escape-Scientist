@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { useTimer } from "react-timer-hook";
-// Skip add videos here
 
 import clueBox from "../assets/media/box.png";
-// import hint2 from "../assets/media/hint2.mp3";
 
 const Timer = ({ timerState }) => {
   const time = new Date();
@@ -35,11 +33,26 @@ const Timer = ({ timerState }) => {
 };
 
 export const TimerPage = ({ showClue, timerState, clue, latestPillCompleted }) => {
-  // Skip add video logic
+
+  const videoSrc = () => {
+    switch (latestPillCompleted) {
+      case "Pill1":
+        return "https://www.youtube.com/embed/wN-mZtbX2Pg";
+      case "Pill2":
+        return "https://www.youtube.com/embed/RVEm5Am-tYc";
+      case "Pill3":
+        return "https://www.youtube.com/embed/knjliFs3gR8";
+      case "Pill4":
+        return "https://www.youtube.com/embed/lImLEzQu2kU";
+      default:
+        return "https://www.youtube.com/embed/3E17wr77ffM";
+    }
+  };
+
   return (
     <div className="timer-wrapper">
+      <iframe width="100%" height="100%" src={videoSrc() + "?loop=1&controls=0&autoplay=1&showinfo=0&modestbranding=1&autohide=1&mute=1"}></iframe>
       <Timer timerState={timerState} />
-      {/* <audio id='hint2' autoPlay src={hint2} style={{ hidden: 'true' }} /> */}
       {!showClue && (
         <div id="clueDiv">
           <div id="container" style={{

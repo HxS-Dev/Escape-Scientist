@@ -1,6 +1,7 @@
 :root {
   --control-font: #fafafa;
 }
+
 /* 
 @font-face {
   font-family: "Bebas Neue";
@@ -11,6 +12,7 @@ body {
   font-family: "Bebas Neue", sans-serif !important;
   font-weight: 700;
 }
+
 .timer {
   padding-left: 45%;
   font-size: 80px;
@@ -18,6 +20,7 @@ body {
   margin-bottom: -25%;
   color: white;
 }
+
 h1 {
   color: var(--control-font);
 }
@@ -104,13 +107,15 @@ h1 {
   height: 90%;
 }
 
-#myVideo {
-  position: fixed;
+iframe {
+  position: absolute;
   right: 0;
   bottom: 0;
   min-width: 100%;
   min-height: 100%;
   z-index: -1;
+  float: left;
+  pointer-events: none;
 }
 
 .barcode-wrapper {
@@ -147,7 +152,6 @@ h1 {
 }
 
 .timer-wrapper {
-  background-color: black;
   height: 100vh;
   width: 100vw;
 }
