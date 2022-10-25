@@ -51,15 +51,15 @@ function createWindow() {
     },
   });
 
-  controlWindow.loadURL(
-    isDev()
-      ? `http://localhost:8080/control`
-      : `file://${path.join(__dirname, "../build/index.html/control")}`
-  );
   timerWindow.loadURL(
     isDev()
       ? `http://localhost:8080/timer`
       : `file://${path.join(__dirname, "../build/index.html/timer")}`
+  );
+  controlWindow.loadURL(
+    isDev()
+      ? `http://localhost:8080/control`
+      : `file://${path.join(__dirname, "../build/index.html/control")}`
   );
   barcodeWindow.loadURL(
     isDev()
@@ -67,20 +67,20 @@ function createWindow() {
       : `file://${path.join(__dirname, "../build/index.html/barcode")}`
   );
 
-  controlWindow.once("ready-to-show", () => {
-    controlWindow.show();
-    if (isDev()) {
-      controlWindow.webContents.openDevTools();
-    }
-    controlWindow.setTitle("Control");
-  });
-
   timerWindow.once("ready-to-show", () => {
     timerWindow.show();
     if (isDev()) {
       timerWindow.webContents.openDevTools();
     }
     timerWindow.setTitle("Timer");
+  });
+
+  controlWindow.once("ready-to-show", () => {
+    controlWindow.show();
+    if (isDev()) {
+      controlWindow.webContents.openDevTools();
+    }
+    controlWindow.setTitle("Control");
   });
 
   barcodeWindow.once("ready-to-show", () => {
@@ -108,6 +108,7 @@ function createWindow() {
     barcodeWindow = null;
   });
 }
+
 // ! ipcMain events
 ipcMain.on(
   HANDLE_PILL_LOGIC,
