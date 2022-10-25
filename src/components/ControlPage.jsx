@@ -5,6 +5,7 @@ import { BiHide, BiShow } from "react-icons/bi";
 import {
   HANDLE_PILL_LOGIC,
   HANDLE_TOGGLE_CLUE,
+  TOKEN_STATE,
 } from "../../helpers/ipcActions.js";
 const { ipcRenderer } = window.require("electron");
 
@@ -85,6 +86,7 @@ const ToggleClue = ({
 };
 
 export const ControlPage = ({
+  latestPillCompleted,
   handleToggleClue,
   showClue,
   handlePauseTimer,
@@ -93,12 +95,18 @@ export const ControlPage = ({
   inputRef,
   clue,
   onClueTextChange,
-  error,
+  error, // Skip maybe delete this
+  pillState,
 }) => {
   useEffect(() => {
     ipcRenderer.send(HANDLE_TOGGLE_CLUE, [showClue, clue]);
   }, [showClue]);
 
+  useEffect(() => {
+    ipcRenderer.send(TOKEN_STATE, [latestPillCompleted, pillState]);
+  }, [latestPillCompleted, pillState]);
+
+  // Skip might need to comment this out
   useEffect(() => {
     ipcRenderer.send(HANDLE_PILL_LOGIC, [2, "test", error]);
   }, [error]);
