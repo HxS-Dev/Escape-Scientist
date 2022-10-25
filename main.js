@@ -25,7 +25,7 @@ function createWindow() {
     show: false,
     webPreferences: {
       nodeIntegration: true,
-      webSecurity: false,
+      // webSecurity: false,
     },
   });
 
@@ -36,7 +36,7 @@ function createWindow() {
     show: false,
     webPreferences: {
       nodeIntegration: true,
-      webSecurity: false,
+      // webSecurity: false,
     },
   });
 
@@ -47,7 +47,7 @@ function createWindow() {
     show: false,
     webPreferences: {
       nodeIntegration: true,
-      webSecurity: false,
+      // webSecurity: false,
     },
   });
 
@@ -158,6 +158,7 @@ app.on("ready", createWindow);
 // Quit when all windows are closed.
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
+    app.removeAllListeners();
     app.quit();
   }
 });

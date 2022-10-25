@@ -45,30 +45,30 @@ export const TimerPage = ({
 }) => {
   console.log({ latestPillCompleted });
 
-  const videoSrc = () => {
-    switch (latestPillCompleted) {
-      case "Pill1":
-        return sceneTwo;
-      case "Pill2":
-        return sceneThree;
-      case "Pill3":
-        return sceneFour;
-      case "Pill4":
-        return sceneFive;
-      default:
-        return sceneOne;
-    }
-  };
+  // const videoSrc = () => {
+  //   switch (latestPillCompleted) {
+  //     case "Pill1":
+  //       return sceneTwo;
+  //     case "Pill2":
+  //       return sceneThree;
+  //     case "Pill3":
+  //       return sceneFour;
+  //     case "Pill4":
+  //       return sceneFive;
+  //     default:
+  //       return sceneOne;
+  //   }
+  // };
 
-  const src = useMemo(() => videoSrc(), [latestPillCompleted]);
+  // const src = useMemo(() => videoSrc(), [latestPillCompleted]);
 
-  console.log(src);
+  // console.log(src);
 
   return (
-    <div>
-      <video autoPlay id="myVideo">
+    <div className="timer-wrapper">
+      {/* <video autoPlay id="myVideo">
         <source src={src} type="video/mp4" />
-      </video>
+      </video> */}
       <Timer timerState={timerState} />
       {!showClue && (
         <div id="clueDiv">

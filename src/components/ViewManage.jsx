@@ -4,6 +4,7 @@ import { ControlPage } from "./ControlPage.jsx";
 import { BarcodePage } from "./BarcodePage.jsx";
 import { TimerPage } from "./TimerPage.jsx";
 import { useViewManage } from "../hooks/viewManage.js";
+import $ from "jquery";
 import "../assets/css/App.css";
 
 export const ViewManage = () => {
