@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { ControlPage } from "./ControlPage.jsx";
 import { BarcodePage } from "./BarcodePage.jsx";
 import { TimerPage } from "./TimerPage.jsx";
@@ -18,6 +18,8 @@ export const ViewManage = () => {
     inputRef,
     onClueTextChange,
     pillError,
+    latestPillCompleted,
+    pillState,
   } = useViewManage();
 
   return (
@@ -37,6 +39,8 @@ export const ViewManage = () => {
               clue={clueText}
               onClueTextChange={onClueTextChange}
               error={pillError}
+              latestPillCompleted={latestPillCompleted}
+              pillState={pillState}
             />
           )}
         />
@@ -49,13 +53,21 @@ export const ViewManage = () => {
               showClue={toggleClue}
               timerState={timerState}
               clue={clueText}
+              latestPillCompleted={latestPillCompleted}
             />
           )}
         />
         <Route
           exact
           path="/barcode"
-          render={() => <BarcodePage isError={pillError} />}
+          render={() => (
+            <BarcodePage
+              isError={pillError}
+              pillState={pillState}
+              showClue={toggleClue}
+              latestPillCompleted={latestPillCompleted}
+            />
+          )}
         />
       </div>
     </Router>
