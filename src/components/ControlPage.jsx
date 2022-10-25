@@ -106,11 +106,6 @@ export const ControlPage = ({
     ipcRenderer.send(TOKEN_STATE, [latestPillCompleted, pillState]);
   }, [latestPillCompleted, pillState]);
 
-  // Skip might need to comment this out
-  useEffect(() => {
-    ipcRenderer.send(HANDLE_PILL_LOGIC, [2, "test", error]);
-  }, [error]);
-
   return (
     <div className="control-bg">
       <div className="row">

@@ -20,6 +20,7 @@ export const ViewManage = () => {
     pillError,
     latestPillCompleted,
     pillState,
+    subPillCounter,
   } = useViewManage();
 
   return (
@@ -66,6 +67,7 @@ export const ViewManage = () => {
               pillState={pillState}
               showClue={toggleClue}
               latestPillCompleted={latestPillCompleted}
+              subPillCounter={subPillCounter}
             />
           )}
         />

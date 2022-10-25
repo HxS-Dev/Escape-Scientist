@@ -257,11 +257,11 @@ export const useViewManage = () => {
         setLatestPillCompleted(latestPill);
         setSubPillCounter(1);
       }
-      console.log({ latestPillCompleted }, { pillState }, { pillError });
     }
   };
 
   return {
+    subPillCounter,
     latestPillCompleted,
     handleToggleClue,
     toggleClue,
