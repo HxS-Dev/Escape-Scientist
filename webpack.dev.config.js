@@ -69,4 +69,7 @@ module.exports = {
     },
     historyApiFallback: true,
   },
+  externals: {
+    serialport: "commonjs2 serialport",
+  },
 };

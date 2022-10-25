@@ -11,6 +11,7 @@ const {
   PAUSE_TIMER,
   START_TIMER,
   RESTART_TIMER,
+  TOKEN_STATE,
 } = require("./helpers/ipcActions");
 const isDev = require("./helpers/server");
 
@@ -19,31 +20,34 @@ let controlWindow, timerWindow, barcodeWindow;
 function createWindow() {
   controlWindow = new BrowserWindow({
     name: "control",
-    width: 1024,
-    height: 768,
+    width: 1920,
+    height: 1080,
     show: false,
     webPreferences: {
       nodeIntegration: true,
+      // skip web security for now
     },
   });
 
   timerWindow = new BrowserWindow({
     name: "timer",
-    width: 1024,
-    height: 768,
+    width: 1280,
+    height: 720,
     show: false,
     webPreferences: {
       nodeIntegration: true,
+      // skip web security for now
     },
   });
 
   barcodeWindow = new BrowserWindow({
     name: "barcode",
-    width: 1024,
-    height: 768,
+    width: 1920,
+    height: 1080,
     show: false,
     webPreferences: {
       nodeIntegration: true,
+      // skip web security for now
     },
   });
 
@@ -63,6 +67,7 @@ function createWindow() {
       : `file://${path.join(__dirname, "../build/index.html/barcode")}`
   );
 
+  // skip reorder
   controlWindow.once("ready-to-show", () => {
     controlWindow.show();
     if (isDev()) {
@@ -81,13 +86,12 @@ function createWindow() {
 
   barcodeWindow.once("ready-to-show", () => {
     barcodeWindow.show();
-
-    // Open the DevTools automatically if developing
     if (isDev()) {
       barcodeWindow.webContents.openDevTools();
     }
     barcodeWindow.setTitle("Barcode");
   });
+
   controlWindow.on("closed", function () {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
@@ -130,7 +134,11 @@ ipcMain.on(START_TIMER, (event, timerState) => {
 
 ipcMain.on(RESTART_TIMER, (event, timerState) => {
   timerWindow.webContents.send(RESTART_TIMER, timerState);
-  // ipcMain.removeAllListeners([RESTART_TIMER]);
+});
+
+ipcMain.on(TOKEN_STATE, (event, [latestPillCompleted, pillState]) => {
+  timerWindow.webContents.send(TOKEN_STATE, [latestPillCompleted, pillState]);
+  barcodeWindow.webContents.send(TOKEN_STATE, [latestPillCompleted, pillState]);
 });
 
 // ! App lifecycle

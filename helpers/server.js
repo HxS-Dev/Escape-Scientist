@@ -11,16 +11,3 @@ const isDev = () => {
 };
 
 module.exports = isDev;
-
-// ! unnecessary app lifecycle
-// app.on("activate", () => {
-//   if (mainWindow === null) {
-//     createWindow();
-//   }
-//   if (secondWindow === null) {
-//     createWindow();
-//   }
-//   if (thirdWindow === null) {
-//     createWindow();
-//   }
-// });
