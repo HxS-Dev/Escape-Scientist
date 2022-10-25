@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
 import { useTimer } from "react-timer-hook";
+// Skip add videos here
+
+import clueBox from "../assets/media/box.png";
 
 const Timer = ({ timerState }) => {
   const time = new Date();
@@ -24,20 +27,28 @@ const Timer = ({ timerState }) => {
   }, [timerState]);
 
   return (
-    <div>
-      {minutes}:{seconds}
+    <div className="timer">
+      {minutes}:{String(seconds).padStart(2,"0")}
     </div>
   );
 };
 
-export const TimerPage = ({ showClue, timerState, clue }) => {
-  console.log(showClue, timerState, clue);
+export const TimerPage = ({ showClue, timerState, clue, latestPillCompleted }) => {
+  // Skip add video logic
   return (
-    <div>
+    <div className="timer-wrapper">
       <Timer timerState={timerState} />
       {!showClue && (
-        <div className="card clue" id="clueDiv">
-          <h1>{clue}</h1>
+        <div id="clueDiv">
+          <div id="container" style={{
+            position: "relative",
+            marginLeft: "13%",
+            marginRight: "18%",
+            overflowWrap: "break-word",
+          }}>
+            <img className="card clue" src={clueBox} alt={"clue"} />
+            <h5 className="clue-text">{clue}</h5>
+          </div>
         </div>
       )}
     </div>
