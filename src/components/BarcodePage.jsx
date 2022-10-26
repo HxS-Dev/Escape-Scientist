@@ -18,10 +18,10 @@ const Ingredient = ({ label, ingredient }) => {
 const Box = ({ topP }) => {
   var topV = "37vh";
   switch (topP) {
-    case 1:
+    case 2:
       topV = "52.5vh";
       break;
-    case 2:
+    case 3:
       topV = "67.5vh";
       break;
     default:
@@ -48,6 +48,7 @@ const IngredientPage = ({ base, substrate, catalyst, topP }) => {
 };
 
 const selectIngredientsPage = (latestPillCompleted, subPillCounter) => {
+  console.log({ subPillCounter }, "test");
   switch (latestPillCompleted) {
     case "Pill1":
       return (
@@ -93,7 +94,13 @@ const selectIngredientsPage = (latestPillCompleted, subPillCounter) => {
 };
 
 export const BarcodePage = ({ isError, latestPillCompleted, pillState, subPillCounter }) => {
-  const Ingredients = () => selectIngredientsPage(latestPillCompleted, subPillCounter);
+  const [pillCounter, setPillCounter] = useState(0);
+  useEffect(() => {
+    setPillCounter(((pillState['Pill1'].reduce((sum, currentValue) => sum + currentValue) + pillState['Pill2'].reduce((sum, currentValue) => sum + currentValue) + pillState['Pill3'].reduce((sum, currentValue) => sum + currentValue) + pillState['Pill4'].reduce((sum, currentValue) => sum + currentValue)) % 3) + 1)
+  }, [pillState]);
+  console.log({ pillCounter }, "testing");
+  console.log({ pillState });
+  const Ingredients = () => selectIngredientsPage(latestPillCompleted, pillCounter);
   // need an update every scan and error state too only after 3 scans
   return (
     <div className="barcode-wrapper">
