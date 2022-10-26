@@ -212,9 +212,11 @@ export const useViewManage = () => {
           pillState[pill][subPillNumber - 1] = 1;
           return pillState;
         });
+        ipcRenderer.send(TOKEN_STATE, [latestPillCompleted, pillState]);
       }
 
       if (subPillCounter == 3) {
+        ipcRenderer.send(HANDLE_PILL_LOGIC, [subPillCounter, latestPillCompleted, pillError]);
         let latestPill = latestPillCompleted;
         let oldPillCompleted = latestPill;
 

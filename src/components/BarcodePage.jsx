@@ -54,6 +54,7 @@ const IngredientPage = ({ base, substrate, catalyst, topP }) => {
 };
 
 const selectIngredientsPage = (latestPillCompleted, subPillCounter) => {
+  console.log({ subPillCounter }, "test");
   switch (latestPillCompleted) {
     case "Pill1":
       return (
