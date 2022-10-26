@@ -14,6 +14,7 @@ import {
   RESTART_TIMER,
   START_TIMER,
   TOKEN_STATE,
+  PILL_ERROR,
 } from "../../helpers/ipcActions";
 
 export const useViewManage = () => {
@@ -32,7 +33,7 @@ export const useViewManage = () => {
   const [subPillCounter, setSubPillCounter] = useState(1);
   const [latestPillCompleted, setLatestPillCompleted] = useState("asd"); //Skip change this to empty string
   const [clueText, setClueText] = useState("");
-  const [pillError, setPillError] = useState();
+  const [pillError, setPillError] = useState(false);
   const inputRef = useRef();
 
   const focusTextBox = () => {
@@ -42,12 +43,14 @@ export const useViewManage = () => {
   useEffect(() => {
     ipcRenderer.on(
       HANDLE_PILL_LOGIC,
-      (event, [subPillCounter, latestPillCompleted, pillError]) => {
+      (event, [subPillCounter, latestPillCompleted]) => {
         setSubPillCounter(subPillCounter);
         setLatestPillCompleted(latestPillCompleted);
-        setPillError(pillError);
       }
     );
+    ipcRenderer.on(PILL_ERROR, (event, pillError) => {
+      setPillError(pillError);
+    });
     ipcRenderer.on(HANDLE_TOGGLE_CLUE, (event, [toggleClue, clueText]) => {
       setToggleClue(toggleClue);
       setClueText(clueText);
@@ -68,12 +71,14 @@ export const useViewManage = () => {
     return () => {
       ipcRenderer.removeListener(
         HANDLE_PILL_LOGIC,
-        (event, [subPillCounter, latestPillCompleted, pillError]) => {
+        (event, [subPillCounter, latestPillCompleted]) => {
           setSubPillCounter(subPillCounter);
           setLatestPillCompleted(latestPillCompleted);
-          setPillError(pillError);
         }
       );
+      ipcRenderer.removeListener(PILL_ERROR, (event, pillError) => {
+        setPillError(pillError);
+      });
       ipcRenderer.removeListener(
         HANDLE_TOGGLE_CLUE,
         (event, [toggleClue, clueText]) => {
@@ -183,6 +188,11 @@ export const useViewManage = () => {
   };
 
   const onClueTextChange = ({ target: { value } }) => {
+    if (pillError == "true")
+      setTimeout(() => {
+        console.log("here");
+        setPillError(false);
+      }, 5000);
     const matching = value.match(/\{Pill[1-4]-[1-3]\}/g);
     if (matching != null) {
       setSubPillCounter(subPillCounter + 1);
@@ -216,7 +226,6 @@ export const useViewManage = () => {
       }
 
       if (subPillCounter == 3) {
-        ipcRenderer.send(HANDLE_PILL_LOGIC, [subPillCounter, latestPillCompleted, pillError]);
         let latestPill = latestPillCompleted;
         let oldPillCompleted = latestPill;
 
@@ -285,13 +294,16 @@ export const useViewManage = () => {
 
   console.log({ pillError });
   useEffect(() => {
-    console.log({ subPillCounter });
     ipcRenderer.send(HANDLE_PILL_LOGIC, [
       subPillCounter,
       latestPillCompleted,
       pillError,
     ]);
   }, [subPillCounter]);
+
+  useEffect(() => {
+    ipcRenderer.send(PILL_ERROR, pillError);
+  }, [pillError]);
 
   return {
     subPillCounter,

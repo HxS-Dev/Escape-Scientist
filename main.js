@@ -12,6 +12,7 @@ const {
   START_TIMER,
   RESTART_TIMER,
   TOKEN_STATE,
+  PILL_ERROR,
 } = require("./helpers/ipcActions");
 const isDev = require("./helpers/server");
 
@@ -111,14 +112,17 @@ function createWindow() {
 // ! ipcMain events
 ipcMain.on(
   HANDLE_PILL_LOGIC,
-  (event, [subPillCounter, latestPillCompleted, pillError]) => {
+  (event, [subPillCounter, latestPillCompleted]) => {
     barcodeWindow.send(HANDLE_PILL_LOGIC, [
       subPillCounter,
       latestPillCompleted,
-      pillError,
     ]);
   }
 );
+
+ipcMain.on(PILL_ERROR, (event, pillError) => {
+  barcodeWindow.send(PILL_ERROR, pillError);
+});
 
 ipcMain.on(HANDLE_TOGGLE_CLUE, (event, [toggleClue, clueText]) => {
   timerWindow.webContents.send(HANDLE_TOGGLE_CLUE, [toggleClue, clueText]);

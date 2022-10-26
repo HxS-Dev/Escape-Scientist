@@ -2,11 +2,7 @@ import React, { useEffect } from "react";
 import ControlPanelCard from "./ControlPanelCard.jsx";
 import TimerWindow from "./TimerWindow.jsx";
 import { BiHide, BiShow } from "react-icons/bi";
-import {
-  HANDLE_PILL_LOGIC,
-  HANDLE_TOGGLE_CLUE,
-  TOKEN_STATE,
-} from "../../helpers/ipcActions.js";
+import { HANDLE_TOGGLE_CLUE, TOKEN_STATE } from "../../helpers/ipcActions.js";
 const { ipcRenderer } = window.require("electron");
 
 const TimerButtons = ({
