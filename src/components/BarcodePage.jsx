@@ -16,24 +16,30 @@ const Ingredient = ({ label, ingredient }) => {
 };
 
 const Box = ({ topP }) => {
-  var topV = "37vh";
+  var topV = "35vh";
   switch (topP) {
-    case 1:
-      topV = "52.5vh";
-      break;
     case 2:
-      topV = "67.5vh";
+      topV = "48vh";
+      break;
+    case 3:
+      topV = "63vh";
       break;
     default:
-      topV = "37vh";
+      topV = "35vh";
       break;
   }
   return (
     <img
       src={clueBox}
-      style={{ left: "10vw", top: topV, height: "25vh", width: "75vw", position: "absolute" }}
+      style={{
+        left: "10vw",
+        top: topV,
+        height: "20vh",
+        width: "75vw",
+        position: "absolute",
+      }}
     ></img>
-  )
+  );
 };
 
 const IngredientPage = ({ base, substrate, catalyst, topP }) => {
@@ -77,9 +83,7 @@ const selectIngredientsPage = (latestPillCompleted, subPillCounter) => {
         />
       );
     case "Pill4":
-      return (
-        <img src='../assets/media/Complete.png' className='complete' />
-      )
+      return <img src="../assets/media/Complete.png" className="complete" />;
     default:
       return (
         <IngredientPage
@@ -92,9 +96,20 @@ const selectIngredientsPage = (latestPillCompleted, subPillCounter) => {
   }
 };
 
-export const BarcodePage = ({ isError, latestPillCompleted, pillState, subPillCounter }) => {
-  const Ingredients = () => selectIngredientsPage(latestPillCompleted, subPillCounter);
+export const BarcodePage = ({
+  pillError,
+  latestPillCompleted,
+  pillState,
+  subPillCounter,
+}) => {
+  const Ingredients = () =>
+    selectIngredientsPage(latestPillCompleted, subPillCounter);
+  console.log(subPillCounter, pillError);
   // need an update every scan and error state too only after 3 scans
+
+  if (pillError && subPillCounter == 1) {
+    return <h1>HELLO U ARE WRONG</h1>;
+  }
   return (
     <div className="barcode-wrapper">
       <Container>

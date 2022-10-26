@@ -63,7 +63,7 @@ export const ViewManage = () => {
           path="/barcode"
           render={() => (
             <BarcodePage
-              isError={pillError}
+              pillError={pillError}
               pillState={pillState}
               showClue={toggleClue}
               latestPillCompleted={latestPillCompleted}

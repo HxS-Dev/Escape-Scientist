@@ -32,7 +32,7 @@ export const useViewManage = () => {
   const [subPillCounter, setSubPillCounter] = useState(1);
   const [latestPillCompleted, setLatestPillCompleted] = useState("asd"); //Skip change this to empty string
   const [clueText, setClueText] = useState("");
-  const [pillError, setPillError] = useState(false);
+  const [pillError, setPillError] = useState();
   const inputRef = useRef();
 
   const focusTextBox = () => {
@@ -220,25 +220,45 @@ export const useViewManage = () => {
 
         switch (latestPillCompleted) {
           case "asd":
-            if (pillState["Pill1"].reduce((partial_sum, a) => partial_sum + a, 1) == 3) {
+            if (
+              pillState["Pill1"].reduce(
+                (partial_sum, a) => partial_sum + a,
+                1
+              ) == 3
+            ) {
               latestPill = "Pill1";
               sendToken("TOKEN_ONE");
             }
             break;
           case "Pill1":
-            if (pillState["Pill2"].reduce((partial_sum, a) => partial_sum + a, 1) == 3) {
+            if (
+              pillState["Pill2"].reduce(
+                (partial_sum, a) => partial_sum + a,
+                1
+              ) == 3
+            ) {
               latestPill = "Pill2";
               sendToken("TOKEN_TWO");
             }
             break;
           case "Pill2":
-            if (pillState["Pill3"].reduce((partial_sum, a) => partial_sum + a, 1) == 3) {
+            if (
+              pillState["Pill3"].reduce(
+                (partial_sum, a) => partial_sum + a,
+                1
+              ) == 3
+            ) {
               latestPill = "Pill3";
               sendToken("TOKEN_THREE");
             }
             break;
           case "Pill3":
-            if (pillState["Pill4"].reduce((partial_sum, a) => partial_sum + a, 1) == 3) {
+            if (
+              pillState["Pill4"].reduce(
+                (partial_sum, a) => partial_sum + a,
+                1
+              ) == 3
+            ) {
               latestPill = "Pill4";
               sendToken("TOKEN_FOUR");
             }
@@ -248,17 +268,28 @@ export const useViewManage = () => {
         }
 
         // Maybe put a case statement here for which pill has been completed
+
+        setLatestPillCompleted(latestPill);
+        setSubPillCounter(1);
         if (oldPillCompleted == latestPill) {
-          setPillError(true);
+          setPillError("true");
           //This is the case where the correct pill is not completed
         } else {
           setPillError(false);
         }
-        setLatestPillCompleted(latestPill);
-        setSubPillCounter(1);
       }
     }
   };
+
+  console.log({ pillError });
+  useEffect(() => {
+    console.log({ subPillCounter });
+    ipcRenderer.send(HANDLE_PILL_LOGIC, [
+      subPillCounter,
+      latestPillCompleted,
+      pillError,
+    ]);
+  }, [subPillCounter]);
 
   return {
     subPillCounter,
