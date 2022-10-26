@@ -37,15 +37,15 @@ export const TimerPage = ({ showClue, timerState, clue, latestPillCompleted }) =
   const videoSrc = () => {
     switch (latestPillCompleted) {
       case "Pill1":
-        return "https://www.youtube.com/embed/wN-mZtbX2Pg";
+        return "https://www.youtube.com/embed/5lzQJePPVOU";
       case "Pill2":
-        return "https://www.youtube.com/embed/RVEm5Am-tYc";
+        return "https://www.youtube.com/embed/U71YwxzmCtM";
       case "Pill3":
-        return "https://www.youtube.com/embed/knjliFs3gR8";
+        return "https://www.youtube.com/embed/Rw2WsGpSQPM";
       case "Pill4":
-        return "https://www.youtube.com/embed/lImLEzQu2kU";
+        return "https://www.youtube.com/embed/5hykgJBh6Ws";
       default:
-        return "https://www.youtube.com/embed/3E17wr77ffM";
+        return "https://www.youtube.com/embed/owaCkS-GJks";
     }
   };
 
