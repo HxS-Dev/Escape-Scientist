@@ -150,28 +150,42 @@ export const useViewManage = () => {
   };
 
   const deviceLocation = "/dev/tty.usbmodem142201";
-  const baudRate = 9600;
+
+  //we had to set this to true to get the sendToken to work
+  //not sure what it does so leaving it here for now
   const matched = false;
 
+
+  const port = new SerialPort({
+    path: deviceLocation,
+    baudRate: 9600,
+    autoOpen: false
+  });
+
   const sendToken = (text) => {
+
     SerialPort.list().then((devices) => {
       console.log(devices);
       if (matched) {
-        const SP = new SerialPort(deviceLocation, {
-          baudRate: baudRate,
-        });
+        port.open();
 
-        SP.on("open", () => this.onConnectionOpened());
-        SP.on("close", () => this.onConnectionClosed());
+        timeout(100).then(() => {
 
-        SP.write(text, (err) => {
-          if (err) {
-            return console.log("Error on write: ", err.message);
-          }
-          console.log("Message Written");
-        });
+          port.write(text + "\r\n", (err) => {
+            if (err) {
+              return console.log("Error on write: ", err.message);
+            }
+            console.log("Message Written");
+          });
+
+          timeout(500).then(() => {
+            port.close();
+          });
+
+        })
+
       }
-    });
+    })
   };
 
   const onClueTextChange = ({ target: { value } }) => {
