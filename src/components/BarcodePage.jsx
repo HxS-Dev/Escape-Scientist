@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "reactstrap";
 import clueBox from "../assets/media/box.png";
+import completed from "../assets/media/Complete.png";
 
 const getCompositionNumber = (latestPillCompleted) => {
   switch (latestPillCompleted) {
@@ -96,8 +97,6 @@ const selectIngredientsPage = (latestPillCompleted, subPillCounter) => {
           topP={subPillCounter}
         />
       );
-    case "Pill4":
-      return <img src="../assets/media/Complete.png" className="complete" />;
     default:
       return (
         <IngredientPage
@@ -132,6 +131,10 @@ export const BarcodePage = ({
         </h1>
       </div>
     );
+  }
+
+  if (latestPillCompleted == "Pill4") {
+    return <img src={completed} width={"100%"} height={"100%"} />;
   }
   return (
     <div className="barcode-wrapper">
