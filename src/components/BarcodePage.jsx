@@ -2,6 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "reactstrap";
 import clueBox from "../assets/media/box.png";
 
+const getCompositionNumber = (latestPillCompleted) => {
+  switch (latestPillCompleted) {
+    case "Pill1":
+      return "AH3763";
+    case "Pill2":
+      return "AH3764";
+    case "Pill3":
+      return "AH3765";
+    default:
+      return "AH3762";
+  }
+};
+
 const Ingredient = ({ label, ingredient }) => {
   return (
     <Row className="ingredient">
@@ -113,6 +126,22 @@ export const BarcodePage = ({
   }
   return (
     <div className="barcode-wrapper">
+      <div className="composition">
+        <h1 style={{ fontSize: "75px" }} className="composition-text">
+          <strong>"XRAYOPHINE"</strong>
+        </h1>
+        <h1 className="composition-text">
+          COMPOSITION#:{" "}
+          <strong>{getCompositionNumber(latestPillCompleted)}</strong>
+        </h1>
+        <h1 className="composition-text">
+          ATC CODE V: <strong>C01CA24</strong>
+        </h1>
+        <h1 className="composition-text">
+          BATCH NUMBER: <strong>{new Date().toLocaleDateString()}</strong>
+        </h1>
+        ;
+      </div>
       <Container>
         <div className="ingredient-wrapper">
           <Ingredients />
