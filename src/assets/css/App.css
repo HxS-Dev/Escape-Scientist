@@ -171,3 +171,49 @@ iframe {
   color: black;
   /* margin: ; */
 }
+
+@mixin scaleTransistion($val) {
+  -ms-transform: scale($val);
+  -moz-transform: scale($val);
+  -webkit-transform: scale($val);
+  transform: scale($val);
+}
+.neon {
+  font-size: 200px;
+  color: #b42626;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 700;
+  letter-spacing: 8px;
+}
+
+.flicker-slow {
+  animation: flicker 3s linear infinite;
+}
+
+.flicker-fast {
+  animation: flicker 1s linear infinite;
+}
+
+@keyframes flicker {
+  0%,
+  19.999%,
+  22%,
+  62.999%,
+  64%,
+  64.999%,
+  70%,
+  100% {
+    opacity: 0.99;
+  }
+  20%,
+  21.999%,
+  63%,
+  63.999%,
+  65%,
+  69.999% {
+    opacity: 0.4;
+  }
+}

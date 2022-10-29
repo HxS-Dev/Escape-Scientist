@@ -283,8 +283,11 @@ export const useViewManage = () => {
         setLatestPillCompleted(latestPill);
         setSubPillCounter(1);
         if (oldPillCompleted == latestPill) {
-          setPillError("true");
+          setPillError(true);
           //This is the case where the correct pill is not completed
+          setTimeout(() => {
+            setPillError(false);
+          }, 7000);
         } else {
           setPillError(false);
         }

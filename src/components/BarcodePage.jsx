@@ -122,7 +122,16 @@ export const BarcodePage = ({
   // need an update every scan and error state too only after 3 scans
 
   if (pillError && subPillCounter == 1) {
-    return <h1>HELLO U ARE WRONG</h1>;
+    return (
+      <div>
+        <h1 className="neon" data-text="U">
+          SYNTHE<span className="flicker-slow">SIZ</span>ATION
+        </h1>
+        <h1 style={{ marginTop: "200px" }} className="neon">
+          <span className="flicker-fast">ER</span>ROR
+        </h1>
+      </div>
+    );
   }
   return (
     <div className="barcode-wrapper">
