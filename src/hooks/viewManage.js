@@ -31,7 +31,7 @@ export const useViewManage = () => {
     Pill4: [0, 0, 0],
   });
   const [subPillCounter, setSubPillCounter] = useState(1);
-  const [latestPillCompleted, setLatestPillCompleted] = useState("asd"); //Skip change this to empty string
+  const [latestPillCompleted, setLatestPillCompleted] = useState("asd");
   const [clueText, setClueText] = useState("");
   const [pillError, setPillError] = useState(false);
   const inputRef = useRef();
@@ -110,7 +110,7 @@ export const useViewManage = () => {
     clueText,
     pillState,
     timerState,
-  ]); //Skip added dependencies here
+  ]);
 
   const hint1And5 = new Audio(hint1f);
   const hint2 = new Audio(hint2f);
@@ -162,28 +162,29 @@ export const useViewManage = () => {
     }
   };
 
-  const deviceLocation = "/dev/tty.usbmodem142201";
-  const baudRate = 9600;
-  const matched = false;
+  const port = new SerialPort({
+    path: 'COM4',
+    baudRate: 9600,
+    autoOpen: false,
+  })
 
   const sendToken = (text) => {
     SerialPort.list().then((devices) => {
       console.log(devices);
-      if (matched) {
-        const SP = new SerialPort(deviceLocation, {
-          baudRate: baudRate,
-        });
+      port.open();
 
-        SP.on("open", () => this.onConnectionOpened());
-        SP.on("close", () => this.onConnectionClosed());
-
-        SP.write(text, (err) => {
+      setTimeout(() => {
+        port.write(text + "\r\n", (err) => {
           if (err) {
             return console.log("Error on write: ", err.message);
           }
-          console.log("Message Written");
+          console.log("Message written: ", text);
         });
-      }
+
+        setTimeout(() => {
+          port.close();
+        }, 500);
+      }, 100)
     });
   };
 
@@ -213,7 +214,7 @@ export const useViewManage = () => {
         pillState["Pill".concat(pillNumber - 1)].reduce(
           (partial_sum, a) => partial_sum & a,
           1
-        ) == 0 //Skip check this logic &->+
+        ) == 0
       ) {
         rightOrder = false;
       }
