@@ -25,8 +25,8 @@ function createWindow() {
   controlWindow = new BrowserWindow({
     x: displays[0].bounds.x + 50,
     y: displays[0].bounds.y + 50,
-    // fullscreen: true,
-    // frame: false,
+    fullscreen: true,
+    frame: false,
     name: "control",
     width: 1920,
     height: 1080,
@@ -37,10 +37,10 @@ function createWindow() {
   });
 
   timerWindow = new BrowserWindow({
-    x: displays[1].bounds.x + 50,
-    y: displays[1].bounds.y + 50,
-    // fullscreen: true,
-    // frame: false,
+    x: displays[2].bounds.x + 50,
+    y: displays[2].bounds.y + 50,
+    fullscreen: true,
+    frame: false,
     name: "timer",
     width: 1280,
     height: 720,
@@ -51,10 +51,10 @@ function createWindow() {
   });
 
   barcodeWindow = new BrowserWindow({
-    x: displays[2].bounds.x + 50,
-    y: displays[2].bounds.y + 50,
-    // fullscreen: true,
-    // frame: false,
+    x: displays[1].bounds.x + 50,
+    y: displays[1].bounds.y + 50,
+    fullscreen: true,
+    frame: false,
     name: "barcode",
     width: 1920,
     height: 1080,
@@ -83,7 +83,7 @@ function createWindow() {
   timerWindow.once("ready-to-show", () => {
     timerWindow.show();
     if (isDev()) {
-      timerWindow.webContents.openDevTools();
+      // timerWindow.webContents.openDevTools();
     }
     timerWindow.setTitle("Timer");
   });
@@ -91,7 +91,7 @@ function createWindow() {
   barcodeWindow.once("ready-to-show", () => {
     barcodeWindow.show();
     if (isDev()) {
-      barcodeWindow.webContents.openDevTools();
+      // barcodeWindow.webContents.openDevTools();
     }
     barcodeWindow.setTitle("Barcode");
   });
@@ -99,7 +99,7 @@ function createWindow() {
   controlWindow.once("ready-to-show", () => {
     controlWindow.show();
     if (isDev()) {
-      controlWindow.webContents.openDevTools();
+      // controlWindow.webContents.openDevTools();
     }
     controlWindow.setTitle("Control");
   });

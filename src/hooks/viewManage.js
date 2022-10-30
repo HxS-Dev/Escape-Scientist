@@ -168,24 +168,27 @@ export const useViewManage = () => {
     autoOpen: false,
   })
 
+  const awaitTimeout = delay =>
+  new Promise(resolve => setTimeout(resolve, delay));
+  
   const sendToken = (text) => {
-    SerialPort.list().then((devices) => {
-      console.log(devices);
-      port.open();
 
-      setTimeout(() => {
-        port.write(text + "\r\n", (err) => {
+    SerialPort.list().then(async(devices) => {
+      console.log(devices);
+      
+        port.open();
+        await awaitTimeout(1000)
+        port.write(text, (err) => {
           if (err) {
             return console.log("Error on write: ", err.message);
           }
-          console.log("Message written: ", text);
+          console.log("Message Written");
         });
 
-        setTimeout(() => {
+        await awaitTimeout(1000)
           port.close();
-        }, 500);
-      }, 100)
-    });
+        
+    })
   };
 
   const onClueTextChange = ({ target: { value } }) => {

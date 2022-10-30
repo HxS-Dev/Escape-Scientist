@@ -33,20 +33,20 @@ const Box = ({ topP }) => {
   var topV = "35vh";
   switch (topP) {
     case 2:
-      topV = "48vh";
+      topV = "55vh"; // 37
       break;
     case 3:
-      topV = "63vh";
+      topV = "72vh"; //56.5
       break;
     default:
-      topV = "35vh";
+      topV = "37vh";
       break;
   }
   return (
     <img
       src={clueBox}
       style={{
-        left: "10vw",
+        left: "12.5vw",
         top: topV,
         height: "20vh",
         width: "75vw",
@@ -73,36 +73,36 @@ const selectIngredientsPage = (latestPillCompleted, subPillCounter) => {
     case "Pill1":
       return (
         <IngredientPage
-          base={"Butyl Lithium (6383587)"}
-          substrate={"Mucous (1530478)"}
-          catalyst={"Capulus Seminibus (3301546)"}
+          base={"Butyl Lithium"}
+          substrate={"Mucous"}
+          catalyst={"Anguis Cutis"}
           topP={subPillCounter}
         />
       );
     case "Pill2":
       return (
         <IngredientPage
-          base={"Ethylene Glycol (4450546)"}
-          substrate={"Agave Shaka Zulu (7632618)"}
-          catalyst={"Potassium Ferricyanide (8752056)"}
+          base={"Ethylene Glycol"}
+          substrate={"Agave Shaka Zulu"}
+          catalyst={"Potassium Ferricyanide"}
           topP={subPillCounter}
         />
       );
     case "Pill3":
       return (
         <IngredientPage
-          base={"Benzoic Acid (3248916)"}
-          substrate={"Acacia Gum Powder (3663714)"}
-          catalyst={"4-Carbon Alkane (Butane) (9338264)"}
+          base={"Benzoic Acid"}
+          substrate={"Acacia Gum Powder"}
+          catalyst={"4-Carbon Alkane"}
           topP={subPillCounter}
         />
       );
     default:
       return (
         <IngredientPage
-          base={"Methanoic Acid (8555358)"}
-          substrate={"Nickel Sulfate (8900661)"}
-          catalyst={"Formaldehyde (4913251)"}
+          base={"Methanoic Acid"}
+          substrate={"Nickel Sulfate"}
+          catalyst={"Formaldehyde"}
           topP={subPillCounter}
         />
       );
@@ -124,10 +124,10 @@ export const BarcodePage = ({
     return (
       <div>
         <h1 className="neon" data-text="U">
-          SYNTHE<span className="flicker-slow">SIZ</span>ATION
+        <span className="flicker-fast">INC</span>ORRE<span className="flicker-slow">C</span>T
         </h1>
         <h1 style={{ marginTop: "200px" }} className="neon">
-          <span className="flicker-fast">ER</span>ROR
+        CO<span className="flicker-slow">MPON</span>E<span className="flicker-fast">EN</span>TS
         </h1>
       </div>
     );
