@@ -33,7 +33,6 @@ function createWindow() {
     show: false,
     webPreferences: {
       nodeIntegration: true,
-      // skip web security for now
     },
   });
 
@@ -48,7 +47,6 @@ function createWindow() {
     show: false,
     webPreferences: {
       nodeIntegration: true,
-      // skip web security for now
     },
   });
 
@@ -63,7 +61,6 @@ function createWindow() {
     show: false,
     webPreferences: {
       nodeIntegration: true,
-      // skip web security for now
     },
   });
 
@@ -83,15 +80,6 @@ function createWindow() {
       : `file://${path.join(__dirname, "dist/index.html/barcode")}`
   );
 
-  // skip reorder
-  controlWindow.once("ready-to-show", () => {
-    controlWindow.show();
-    if (isDev()) {
-      controlWindow.webContents.openDevTools();
-    }
-    controlWindow.setTitle("Control");
-  });
-
   timerWindow.once("ready-to-show", () => {
     timerWindow.show();
     if (isDev()) {
@@ -106,6 +94,14 @@ function createWindow() {
       barcodeWindow.webContents.openDevTools();
     }
     barcodeWindow.setTitle("Barcode");
+  });
+
+  controlWindow.once("ready-to-show", () => {
+    controlWindow.show();
+    if (isDev()) {
+      controlWindow.webContents.openDevTools();
+    }
+    controlWindow.setTitle("Control");
   });
 
   controlWindow.on("closed", function () {

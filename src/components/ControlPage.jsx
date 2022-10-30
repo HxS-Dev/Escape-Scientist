@@ -91,7 +91,7 @@ export const ControlPage = ({
   inputRef,
   clue,
   onClueTextChange,
-  error, // Skip maybe delete this
+  error,
   pillState,
 }) => {
   useEffect(() => {
