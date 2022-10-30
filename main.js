@@ -1,10 +1,12 @@
 // Import parts of electron to use
 "use strict";
+const electron = require("electron");
 const { app, BrowserWindow, ipcMain } = require("electron");
-const {
-  default: installExtension,
-  REACT_DEVELOPER_TOOLS,
-} = require("electron-devtools-installer");
+const path = require("path");
+// const {
+//   default: installExtension,
+//   REACT_DEVELOPER_TOOLS,
+// } = require("electron-devtools-installer");
 const {
   HANDLE_PILL_LOGIC,
   HANDLE_TOGGLE_CLUE,
@@ -19,7 +21,12 @@ const isDev = require("./helpers/server");
 // ! create windows
 let controlWindow, timerWindow, barcodeWindow;
 function createWindow() {
+  let displays = electron.screen.getAllDisplays();
   controlWindow = new BrowserWindow({
+    x: displays[0].bounds.x + 50,
+    y: displays[0].bounds.y + 50,
+    // fullscreen: true,
+    // frame: false,
     name: "control",
     width: 1920,
     height: 1080,
@@ -31,6 +38,10 @@ function createWindow() {
   });
 
   timerWindow = new BrowserWindow({
+    x: displays[1].bounds.x + 50,
+    y: displays[1].bounds.y + 50,
+    // fullscreen: true,
+    // frame: false,
     name: "timer",
     width: 1280,
     height: 720,
@@ -42,6 +53,10 @@ function createWindow() {
   });
 
   barcodeWindow = new BrowserWindow({
+    x: displays[2].bounds.x + 50,
+    y: displays[2].bounds.y + 50,
+    // fullscreen: true,
+    // frame: false,
     name: "barcode",
     width: 1920,
     height: 1080,
@@ -55,17 +70,17 @@ function createWindow() {
   controlWindow.loadURL(
     isDev()
       ? `http://localhost:8080/control`
-      : `file://${path.join(__dirname, "../build/index.html/control")}`
+      : `file://${path.join(__dirname, "dist/index.html/control")}`
   );
   timerWindow.loadURL(
     isDev()
       ? `http://localhost:8080/timer`
-      : `file://${path.join(__dirname, "../build/index.html/timer")}`
+      : `file://${path.join(__dirname, "dist/index.html/timer")}`
   );
   barcodeWindow.loadURL(
     isDev()
       ? `http://localhost:8080/barcode`
-      : `file://${path.join(__dirname, "../build/index.html/barcode")}`
+      : `file://${path.join(__dirname, "dist/index.html/barcode")}`
   );
 
   // skip reorder
@@ -146,11 +161,11 @@ ipcMain.on(TOKEN_STATE, (event, [latestPillCompleted, pillState]) => {
 });
 
 // ! App lifecycle
-app.whenReady().then(() => {
-  installExtension(REACT_DEVELOPER_TOOLS)
-    .then((name) => console.log(`Added Extension:  ${name}`))
-    .catch((err) => console.log("An error occurred: ", err));
-});
+// app.whenReady().then(() => {
+//   isDev() ? installExtension(REACT_DEVELOPER_TOOLS)
+//     .then((name) => console.log(`Added Extension:  ${name}`))
+//     .catch((err) => console.log("An error occurred: ", err)) : null;
+// });
 
 app.removeAllListeners("ready");
 

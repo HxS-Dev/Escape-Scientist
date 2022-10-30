@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { spawn } = require("child_process");
 const BabiliPlugin = require("babili-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
@@ -15,18 +16,15 @@ module.exports = {
   entry: SRC_DIR + "/index.js",
   output: {
     path: OUTPUT_DIR,
-    publicPath: "./",
+    publicPath: "/",
     filename: "bundle.js",
   },
+
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: "css-loader",
-        }),
-        include: defaultInclude,
+        loader: "style-loader!css-loader",
       },
       {
         test: /\.jsx?$/,
@@ -42,6 +40,13 @@ module.exports = {
         test: /\.(eot|svg|ttf|woff|woff2)$/,
         use: [
           { loader: "file-loader?name=font/[name]__[hash:base64:5].[ext]" },
+        ],
+        include: defaultInclude,
+      },
+      {
+        test: /\.mp3$/,
+        use: [
+          { loader: "file-loader?name=sound/[name]__[hash:base64:5].[ext]" },
         ],
         include: defaultInclude,
       },
@@ -62,4 +67,7 @@ module.exports = {
     chunks: false,
     modules: false,
   },
+  externals: {
+    serialport: "commonjs2 serialport",
+  }
 };
