@@ -119,8 +119,6 @@ export const BarcodePage = ({
 }) => {
   const Ingredients = () =>
     selectIngredientsPage(latestPillCompleted, subPillCounter);
-  // need an update every scan and error state too only after 3 scans
-  console.log(pillCompletedUi);
   // side effect to component where when subpillcounter is 3
 
   if (pillError && subPillCounter == 1) {
