@@ -15,6 +15,7 @@ const {
   RESTART_TIMER,
   TOKEN_STATE,
   PILL_ERROR,
+  PILL_UI,
 } = require("./helpers/ipcActions");
 const isDev = require("./helpers/server");
 
@@ -130,6 +131,10 @@ ipcMain.on(
     ]);
   }
 );
+
+ipcMain.on(PILL_UI, (event, pillCompletedUi) => {
+  barcodeWindow.send(PILL_UI, pillCompletedUi);
+});
 
 ipcMain.on(PILL_ERROR, (event, pillError) => {
   barcodeWindow.send(PILL_ERROR, pillError);

@@ -28,7 +28,6 @@ h1 {
 .clue {
   width: 75vw;
   height: 25vh;
-  background-color: green;
   margin-top: 35%;
   position: absolute;
   z-index: -1;

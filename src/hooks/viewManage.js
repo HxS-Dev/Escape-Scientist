@@ -15,6 +15,7 @@ import {
   START_TIMER,
   TOKEN_STATE,
   PILL_ERROR,
+  PILL_UI,
 } from "../../helpers/ipcActions";
 
 export const useViewManage = () => {
@@ -34,9 +35,23 @@ export const useViewManage = () => {
   const [latestPillCompleted, setLatestPillCompleted] = useState("asd");
   const [clueText, setClueText] = useState("");
   const [pillError, setPillError] = useState(false);
+  const [pillCompletedUi, setPillCompletedUi] = useState("");
   const inputRef = useRef();
 
-  const pills = ["8555358", "8900661", "4913251", "6383587", "1530478", "9104264", "4450546", "7632618", "8752056", "3248916", "3663714", "9338264"];
+  const pills = [
+    "8555358",
+    "8900661",
+    "4913251",
+    "6383587",
+    "1530478",
+    "9104264",
+    "4450546",
+    "7632618",
+    "8752056",
+    "3248916",
+    "3663714",
+    "9338264",
+  ];
 
   const focusTextBox = () => {
     inputRef.current.focus();
@@ -61,6 +76,9 @@ export const useViewManage = () => {
       setLatestPillCompleted(latestPillCompleted);
       setPillState(pillState);
     });
+    ipcRenderer.on(PILL_UI, (event, pillCompletedUi) => {
+      setPillCompletedUi(pillCompletedUi);
+    });
     ipcRenderer.on(START_TIMER, (event, timerState) => {
       setTimerState({ start: true, pause: false, reset: false });
     });
@@ -80,6 +98,9 @@ export const useViewManage = () => {
       );
       ipcRenderer.removeListener(PILL_ERROR, (event, pillError) => {
         setPillError(pillError);
+      });
+      ipcRenderer.removeListener(PILL_UI, (event, pillCompletedUi) => {
+        setPillCompletedUi(pillCompletedUi);
       });
       ipcRenderer.removeListener(
         HANDLE_TOGGLE_CLUE,
@@ -165,21 +186,20 @@ export const useViewManage = () => {
   };
 
   const port = new SerialPort({
-    path: 'COM4',
+    path: "COM4",
     baudRate: 9600,
     autoOpen: false,
-  })
+  });
 
-  const awaitTimeout = delay =>
-    new Promise(resolve => setTimeout(resolve, delay));
+  const awaitTimeout = (delay) =>
+    new Promise((resolve) => setTimeout(resolve, delay));
 
   const sendToken = (text) => {
-
     SerialPort.list().then(async (devices) => {
       console.log(devices);
 
       port.open();
-      await awaitTimeout(1000)
+      await awaitTimeout(1000);
       port.write(text, (err) => {
         if (err) {
           return console.log("Error on write: ", err.message);
@@ -187,10 +207,9 @@ export const useViewManage = () => {
         console.log("Message Written");
       });
 
-      await awaitTimeout(1000)
+      await awaitTimeout(1000);
       port.close();
-
-    })
+    });
   };
 
   const indexOfR = (value, arr) => {
@@ -200,9 +219,19 @@ export const useViewManage = () => {
       }
     }
     return -1;
-  }
+  };
 
-  const onClueTextChange = ({ target: { value } }) => {
+  const cyclePillCompletedUi = async () => {
+    setPillCompletedUi("insert");
+    await awaitTimeout(7000);
+    setPillCompletedUi("loading");
+    await awaitTimeout(5000);
+    setPillCompletedUi("complete");
+    await awaitTimeout(17000);
+    setPillCompletedUi("");
+  };
+
+  const onClueTextChange = async ({ target: { value } }) => {
     if (pillError == "true")
       setTimeout(() => {
         setPillError(false);
@@ -251,6 +280,7 @@ export const useViewManage = () => {
             ) {
               latestPill = "Pill1";
               sendToken("TOKEN_ONE");
+              await cyclePillCompletedUi();
             }
             break;
           case "Pill1":
@@ -262,6 +292,7 @@ export const useViewManage = () => {
             ) {
               latestPill = "Pill2";
               sendToken("TOKEN_TWO");
+              await cyclePillCompletedUi();
             }
             break;
           case "Pill2":
@@ -273,6 +304,7 @@ export const useViewManage = () => {
             ) {
               latestPill = "Pill3";
               sendToken("TOKEN_THREE");
+              await cyclePillCompletedUi();
             }
             break;
           case "Pill3":
@@ -284,6 +316,7 @@ export const useViewManage = () => {
             ) {
               latestPill = "Pill4";
               sendToken("TOKEN_FOUR");
+              await cyclePillCompletedUi();
             }
             break;
           default:
@@ -319,6 +352,10 @@ export const useViewManage = () => {
     ipcRenderer.send(PILL_ERROR, pillError);
   }, [pillError]);
 
+  useEffect(() => {
+    ipcRenderer.send(PILL_UI, pillCompletedUi);
+  }, [pillCompletedUi]);
+
   return {
     subPillCounter,
     latestPillCompleted,
@@ -333,5 +370,6 @@ export const useViewManage = () => {
     onClueTextChange,
     pillError,
     pillState,
+    pillCompletedUi,
   };
 };

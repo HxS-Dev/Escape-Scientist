@@ -5,6 +5,7 @@ const START_TIMER = "START_TIMER";
 const RESTART_TIMER = "RESTART_TIMER";
 const TOKEN_STATE = "TOKEN_STATE";
 const PILL_ERROR = "PILL_ERROR";
+const PILL_UI = "PILL_UI";
 
 module.exports = {
   HANDLE_PILL_LOGIC,
@@ -14,4 +15,5 @@ module.exports = {
   RESTART_TIMER,
   TOKEN_STATE,
   PILL_ERROR,
+  PILL_UI,
 };
