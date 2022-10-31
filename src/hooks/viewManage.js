@@ -36,6 +36,8 @@ export const useViewManage = () => {
   const [pillError, setPillError] = useState(false);
   const inputRef = useRef();
 
+  const pills = ["8555358", "8900661", "4913251", "6383587", "1530478", "9104264", "4450546", "7632618", "8752056", "3248916", "3663714", "9338264"];
+
   const focusTextBox = () => {
     inputRef.current.focus();
   };
@@ -169,43 +171,49 @@ export const useViewManage = () => {
   })
 
   const awaitTimeout = delay =>
-  new Promise(resolve => setTimeout(resolve, delay));
-  
+    new Promise(resolve => setTimeout(resolve, delay));
+
   const sendToken = (text) => {
 
-    SerialPort.list().then(async(devices) => {
+    SerialPort.list().then(async (devices) => {
       console.log(devices);
-      
-        port.open();
-        await awaitTimeout(1000)
-        port.write(text, (err) => {
-          if (err) {
-            return console.log("Error on write: ", err.message);
-          }
-          console.log("Message Written");
-        });
 
-        await awaitTimeout(1000)
-          port.close();
-        
+      port.open();
+      await awaitTimeout(1000)
+      port.write(text, (err) => {
+        if (err) {
+          return console.log("Error on write: ", err.message);
+        }
+        console.log("Message Written");
+      });
+
+      await awaitTimeout(1000)
+      port.close();
+
     })
   };
+
+  const indexOfR = (value, arr) => {
+    for (var i = 0; i < arr.length; i++) {
+      if (value.match(arr[i])) {
+        return i;
+      }
+    }
+    return -1;
+  }
 
   const onClueTextChange = ({ target: { value } }) => {
     if (pillError == "true")
       setTimeout(() => {
-        console.log("here");
         setPillError(false);
       }, 5000);
-    const matching = value.match(/\{Pill[1-4]-[1-3]\}/g);
-    if (matching != null) {
+    const matching = indexOfR(value, pills);
+    if (matching != -1) {
       setSubPillCounter(subPillCounter + 1);
-      inputRef.current.value = value.replace(matching, "");
-      const pill = matching[0].match(/Pill[1-4]/g)[0];
-      const pillNumber = parseInt(pill.match(/[1-4]/g)[0]);
-      const subPillNumber = parseInt(
-        matching[0].match(/-[1-3]/g)[0].replace("-", "")
-      );
+      inputRef.current.value = value.replace(pills[matching], "");
+      const pillNumber = Math.floor(matching / 3) + 1;
+      const subPillNumber = Math.floor(matching % 3) + 1;
+      const pill = "Pill" + pillNumber;
       let rightOrder = true;
       for (let i = 0; i < subPillNumber - 1; i++) {
         if (pillState[pill][i] === 0) {
@@ -299,7 +307,6 @@ export const useViewManage = () => {
     }
   };
 
-  console.log({ pillError });
   useEffect(() => {
     ipcRenderer.send(HANDLE_PILL_LOGIC, [
       subPillCounter,

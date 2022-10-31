@@ -68,7 +68,6 @@ const IngredientPage = ({ base, substrate, catalyst, topP }) => {
 };
 
 const selectIngredientsPage = (latestPillCompleted, subPillCounter) => {
-  console.log({ subPillCounter }, "test");
   switch (latestPillCompleted) {
     case "Pill1":
       return (
@@ -117,17 +116,16 @@ export const BarcodePage = ({
 }) => {
   const Ingredients = () =>
     selectIngredientsPage(latestPillCompleted, subPillCounter);
-  console.log(subPillCounter, pillError);
   // need an update every scan and error state too only after 3 scans
 
   if (pillError && subPillCounter == 1) {
     return (
       <div>
         <h1 className="neon" data-text="U">
-        <span className="flicker-fast">INC</span>ORRE<span className="flicker-slow">C</span>T
+          <span className="flicker-fast">INC</span>ORRE<span className="flicker-slow">C</span>T
         </h1>
         <h1 style={{ marginTop: "200px" }} className="neon">
-        CO<span className="flicker-slow">MPON</span>E<span className="flicker-fast">EN</span>TS
+          CO<span className="flicker-slow">MPON</span>E<span className="flicker-fast">EN</span>TS
         </h1>
       </div>
     );

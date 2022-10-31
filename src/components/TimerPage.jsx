@@ -21,7 +21,6 @@ const Timer = ({ timerState }) => {
 
     if (timerState.start) {
       document.querySelector('iframe').contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'playVideo' }), '*');
-      console.log({ seconds }, { minutes });
       if (seconds == 0 && minutes == 0) {
         document.querySelector('.timer').style.display = 'none';
         setTimeout(() => {
