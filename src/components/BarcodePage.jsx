@@ -120,6 +120,8 @@ export const BarcodePage = ({
   console.log(subPillCounter, pillError);
   // need an update every scan and error state too only after 3 scans
 
+  // side effect to component where when subpillcounter is 3
+
   if (pillError && subPillCounter == 1) {
     return (
       <div>
