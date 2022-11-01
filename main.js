@@ -110,6 +110,8 @@ function createWindow() {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     controlWindow = null;
+    barcodeWindow.close()
+    timerWindow.close()
   });
 
   timerWindow.on("closed", function () {

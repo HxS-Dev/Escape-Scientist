@@ -34,9 +34,9 @@ const TimerButtons = ({
       <button
         onClick={handleRestartTimer}
         type="button"
-        className="btn btn-outline-danger timer-button timer-button-danger"
+        className="btn btn-outline-danger timer-button timer-button-danger mt-6"
       >
-        Restart Timer
+        Restart Lights
       </button>
     </ControlPanelCard>
   );
@@ -50,7 +50,7 @@ const ToggleClue = ({
 }) => {
   return (
     <ControlPanelCard cardTitle="Clue Controls" className="clue-controls">
-      <textarea autoFocus ref={inputRef} onChange={onClueTextChange} />
+      <textarea className="clue-area" autoFocus ref={inputRef} onChange={onClueTextChange} />
       <div className="row">
         <div className="col-8">
           <button

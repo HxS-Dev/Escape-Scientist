@@ -99,6 +99,8 @@ export const TimerPage = ({
               marginLeft: "13%",
               marginRight: "18%",
               overflowWrap: "break-word",
+              height: "20vh",
+              width: "70%",
             }}
           >
             <img className="clue" src={clueBox} alt={"clue"} />

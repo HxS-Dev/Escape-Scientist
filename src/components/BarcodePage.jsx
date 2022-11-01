@@ -121,6 +121,9 @@ export const BarcodePage = ({
     selectIngredientsPage(latestPillCompleted, subPillCounter);
   // side effect to component where when subpillcounter is 3
 
+  console.log({subPillCounter})
+  console.log({pillError})
+  console.log({latestPillCompleted})
   if (pillError && subPillCounter == 1) {
     return (
       <div>
@@ -137,7 +140,7 @@ export const BarcodePage = ({
   }
 
   if (latestPillCompleted == "Pill4") {
-    return <img src={insert} width={"100%"} height={"100%"} />;
+    return <img src={completed} width={"100%"} height={"100%"} />;
   }
 
   if (pillCompletedUi == "insert") {

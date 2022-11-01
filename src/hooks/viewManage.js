@@ -18,6 +18,8 @@ import {
   PILL_UI,
 } from "../../helpers/ipcActions";
 
+let portOpen = false;
+
 export const useViewManage = () => {
   const [toggleClue, setToggleClue] = useState(true);
   const [timerState, setTimerState] = useState({
@@ -175,11 +177,14 @@ export const useViewManage = () => {
     ipcRenderer.send(START_TIMER, timerState);
   };
 
-  const handleRestartTimer = () => {
+  const handleRestartTimer = async () => {
     focusTextBox();
+    
+    // await awaitTimeout(4000);
     if (confirm("Are you sure you want to reset?")) {
-      setTimerState({ start: false, pause: false, reset: true });
-      ipcRenderer.send(RESTART_TIMER, timerState);
+      // setTimerState({ start: false, pause: false, reset: true });
+      // ipcRenderer.send(RESTART_TIMER, timerState);
+      sendToken("TOKEN_ZERO");
     } else {
       return;
     }
@@ -197,7 +202,6 @@ export const useViewManage = () => {
   const sendToken = (text) => {
     SerialPort.list().then(async (devices) => {
       console.log(devices);
-
       port.open();
       await awaitTimeout(1000);
       port.write(text, (err) => {
@@ -223,11 +227,11 @@ export const useViewManage = () => {
 
   const cyclePillCompletedUi = async () => {
     setPillCompletedUi("insert");
-    await awaitTimeout(7000);
+    await awaitTimeout(6000);
     setPillCompletedUi("loading");
     await awaitTimeout(5000);
     setPillCompletedUi("complete");
-    await awaitTimeout(17000);
+    await awaitTimeout(16000);
     setPillCompletedUi("");
   };
 
@@ -332,7 +336,7 @@ export const useViewManage = () => {
           //This is the case where the correct pill is not completed
           setTimeout(() => {
             setPillError(false);
-          }, 7000);
+          }, 2000);
         } else {
           setPillError(false);
         }
