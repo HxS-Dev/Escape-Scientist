@@ -179,7 +179,7 @@ export const useViewManage = () => {
 
   const handleRestartTimer = async () => {
     focusTextBox();
-    
+
     // await awaitTimeout(4000);
     if (confirm("Are you sure you want to reset?")) {
       // setTimerState({ start: false, pause: false, reset: true });
@@ -244,33 +244,37 @@ export const useViewManage = () => {
     if (matching != -1) {
       setSubPillCounter(subPillCounter + 1);
       inputRef.current.value = value.replace(pills[matching], "");
-      const pillNumber = Math.floor(matching / 3) + 1;
-      const subPillNumber = Math.floor(matching % 3) + 1;
-      const pill = "Pill" + pillNumber;
-      let rightOrder = true;
-      for (let i = 0; i < subPillNumber - 1; i++) {
-        if (pillState[pill][i] === 0) {
+      if (matching < 12) {
+        const pillNumber = Math.floor(matching / 3) + 1;
+        const subPillNumber = Math.floor(matching % 3) + 1;
+        const pill = "Pill" + pillNumber;
+        let rightOrder = true;
+        for (let i = 0; i < subPillNumber - 1; i++) {
+          if (pillState[pill][i] === 0) {
+            rightOrder = false;
+          }
+        }
+        if (
+          pillNumber != 1 &&
+          pillState["Pill".concat(pillNumber - 1)].reduce(
+            (partial_sum, a) => partial_sum & a,
+            1
+          ) == 0
+        ) {
           rightOrder = false;
         }
-      }
-      if (
-        pillNumber != 1 &&
-        pillState["Pill".concat(pillNumber - 1)].reduce(
-          (partial_sum, a) => partial_sum & a,
-          1
-        ) == 0
-      ) {
+        if (rightOrder) {
+          setPillState((pillState) => {
+            pillState[pill][subPillNumber - 1] = 1;
+            return pillState;
+          });
+          ipcRenderer.send(TOKEN_STATE, [latestPillCompleted, pillState]);
+        }
+      } else {
         rightOrder = false;
       }
-      if (rightOrder) {
-        setPillState((pillState) => {
-          pillState[pill][subPillNumber - 1] = 1;
-          return pillState;
-        });
-        ipcRenderer.send(TOKEN_STATE, [latestPillCompleted, pillState]);
-      }
 
-      if (subPillCounter == 3) {
+      if (subPillCounter == 3 && rightOrder) {
         let latestPill = latestPillCompleted;
         let oldPillCompleted = latestPill;
 
