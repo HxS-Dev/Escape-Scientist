@@ -252,7 +252,7 @@ export const useViewManage = () => {
         console.log("Message Written");
       });
 
-      await awaitTimeout(1000);
+      await awaitTimeout(35000);
       port.close();
     });
   };
