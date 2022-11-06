@@ -24,10 +24,10 @@ let controlWindow, timerWindow, barcodeWindow;
 function createWindow() {
   let displays = electron.screen.getAllDisplays();
   controlWindow = new BrowserWindow({
-    // x: displays[0].bounds.x + 50,
-    // y: displays[0].bounds.y + 50,
-    // fullscreen: true,
-    frame: true,
+    x: displays[0].bounds.x + 50,
+    y: displays[0].bounds.y + 50,
+    fullscreen: true,
+    frame: false,
     name: "control",
     width: 1920,
     height: 1080,
@@ -38,11 +38,10 @@ function createWindow() {
   });
 
   timerWindow = new BrowserWindow({
-    // x: displays[2].bounds.x + 50,
-    // y: displays[2].bounds.y + 50,
-    // fullscreen: true,
-    // make false
-    frame: true,
+    x: displays[2].bounds.x + 50,
+    y: displays[2].bounds.y + 50,
+    fullscreen: true,
+    frame: false,
     name: "timer",
     width: 1280,
     height: 720,
@@ -53,10 +52,10 @@ function createWindow() {
   });
 
   barcodeWindow = new BrowserWindow({
-    // x: displays[1].bounds.x + 50,
-    // y: displays[1].bounds.y + 50,
-    // fullscreen: true,
-    frame: true,
+    x: displays[1].bounds.x + 50,
+    y: displays[1].bounds.y + 50,
+    fullscreen: true,
+    frame: false,
     name: "barcode",
     width: 1920,
     height: 1080,
