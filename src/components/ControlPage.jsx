@@ -50,7 +50,12 @@ const ToggleClue = ({
 }) => {
   return (
     <ControlPanelCard cardTitle="Clue Controls" className="clue-controls">
-      <textarea className="clue-area" autoFocus ref={inputRef} onChange={onClueTextChange} />
+      <textarea
+        className="clue-area"
+        autoFocus
+        ref={inputRef}
+        onChange={onClueTextChange}
+      />
       <div className="row">
         <div className="col-8">
           <button
@@ -97,10 +102,6 @@ export const ControlPage = ({
   useEffect(() => {
     ipcRenderer.send(HANDLE_TOGGLE_CLUE, [showClue, clue]);
   }, [showClue]);
-
-  useEffect(() => {
-    ipcRenderer.send(TOKEN_STATE, [latestPillCompleted, pillState]);
-  }, [latestPillCompleted, pillState]);
 
   return (
     <div className="control-bg">

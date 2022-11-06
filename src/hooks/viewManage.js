@@ -33,13 +33,14 @@ export const useViewManage = () => {
     Pill3: [0, 0, 0],
     Pill4: [0, 0, 0],
   });
+  const pillStateRef = useRef(pillState);
+
   const [subPillCounter, setSubPillCounter] = useState(1);
   const [latestPillCompleted, setLatestPillCompleted] = useState("asd");
   const [clueText, setClueText] = useState("");
   const [pillError, setPillError] = useState(false);
   const [pillCompletedUi, setPillCompletedUi] = useState("");
   const inputRef = useRef();
-
   const pills = [
     "8555358",
     "8900661",
@@ -96,7 +97,6 @@ export const useViewManage = () => {
   const focusTextBox = () => {
     inputRef.current.focus();
   };
-
   useEffect(() => {
     ipcRenderer.on(
       HANDLE_PILL_LOGIC,
@@ -128,6 +128,9 @@ export const useViewManage = () => {
     ipcRenderer.on(PAUSE_TIMER, (event, timerState) => {
       setTimerState({ start: false, pause: true, reset: false });
     });
+  }, []);
+
+  useEffect(() => {
     return () => {
       ipcRenderer.removeListener(
         HANDLE_PILL_LOGIC,
@@ -274,10 +277,8 @@ export const useViewManage = () => {
   };
 
   const onClueTextChange = async ({ target: { value } }) => {
-    if (pillError == "true")
-      setTimeout(() => {
-        setPillError(false);
-      }, 5000);
+    let rightOrder = true;
+
     const matching = indexOfR(value, pills);
     if (matching != -1) {
       setSubPillCounter(subPillCounter + 1);
@@ -285,10 +286,9 @@ export const useViewManage = () => {
       if (matching < 12) {
         const pillNumber = Math.floor(matching / 3) + 1;
         const subPillNumber = Math.floor(matching % 3) + 1;
-        const pill = "Pill" + pillNumber;
-        let rightOrder = true;
+        const pill = "Pill" + pillNumber.toString();
         for (let i = 0; i < subPillNumber - 1; i++) {
-          if (pillState[pill][i] === 0) {
+          if (pillState[pill][i] == 0) {
             rightOrder = false;
           }
         }
@@ -306,63 +306,98 @@ export const useViewManage = () => {
             pillState[pill][subPillNumber - 1] = 1;
             return pillState;
           });
+          pillStateRef.current[pill][subPillNumber - 1] = 1;
           ipcRenderer.send(TOKEN_STATE, [latestPillCompleted, pillState]);
         }
       } else {
         rightOrder = false;
       }
 
-      if (subPillCounter == 3 && rightOrder) {
+      if (subPillCounter == 3) {
+        if (!rightOrder) {
+          setSubPillCounter(1);
+          setPillError(true);
+          setTimeout(() => {
+            setPillError(false);
+          }, 2000);
+          return;
+        }
         let latestPill = latestPillCompleted;
         let oldPillCompleted = latestPill;
 
         switch (latestPillCompleted) {
           case "asd":
             if (
-              pillState["Pill1"].reduce(
+              pillStateRef.current["Pill1"].reduce(
                 (partial_sum, a) => partial_sum + a,
                 1
-              ) == 3
+              ) == 4
             ) {
+              console.log(pillState, "in if");
               latestPill = "Pill1";
               sendToken("TOKEN_ONE");
+              4;
               await cyclePillCompletedUi();
+            } else {
+              setPillState((pillState) => {
+                pillState["Pill1"] = [0, 0, 0];
+                return pillState;
+              });
+              pillStateRef.current["Pill1"] = [0, 0, 0];
             }
             break;
           case "Pill1":
             if (
-              pillState["Pill2"].reduce(
+              pillStateRef.current["Pill2"].reduce(
                 (partial_sum, a) => partial_sum + a,
                 1
-              ) == 3
+              ) == 4
             ) {
               latestPill = "Pill2";
               sendToken("TOKEN_TWO");
               await cyclePillCompletedUi();
+            } else {
+              setPillState((pillState) => {
+                pillState["Pill2"] = [0, 0, 0];
+                return pillState;
+              });
+              pillStateRef.current["Pill2"] = [0, 0, 0];
             }
             break;
           case "Pill2":
             if (
-              pillState["Pill3"].reduce(
+              pillStateRef.current["Pill3"].reduce(
                 (partial_sum, a) => partial_sum + a,
                 1
-              ) == 3
+              ) == 4
             ) {
               latestPill = "Pill3";
               sendToken("TOKEN_THREE");
               await cyclePillCompletedUi();
+            } else {
+              setPillState((pillState) => {
+                pillState["Pill3"] = [0, 0, 0];
+                return pillState;
+              });
+              pillStateRef.current["Pill3"] = [0, 0, 0];
             }
             break;
           case "Pill3":
             if (
-              pillState["Pill4"].reduce(
+              pillStateRef.current["Pill4"].reduce(
                 (partial_sum, a) => partial_sum + a,
                 1
-              ) == 3
+              ) == 4
             ) {
               latestPill = "Pill4";
               sendToken("TOKEN_FOUR");
               await cyclePillCompletedUi();
+            } else {
+              setPillState((pillState) => {
+                pillState["Pill4"] = [0, 0, 0];
+                return pillState;
+              });
+              pillStateRef.current["Pill4"] = [0, 0, 0];
             }
             break;
           default:
@@ -392,6 +427,7 @@ export const useViewManage = () => {
       latestPillCompleted,
       pillError,
     ]);
+    console.log(subPillCounter);
   }, [subPillCounter]);
 
   useEffect(() => {
