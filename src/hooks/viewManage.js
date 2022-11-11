@@ -336,7 +336,6 @@ export const useViewManage = () => {
               console.log(pillState, "in if");
               latestPill = "Pill1";
               sendToken("TOKEN_ONE");
-              4;
               await cyclePillCompletedUi();
             } else {
               setPillState((pillState) => {
@@ -429,6 +428,10 @@ export const useViewManage = () => {
     ]);
     console.log(subPillCounter);
   }, [subPillCounter]);
+
+  useEffect(() => {
+    ipcRenderer.send(TOKEN_STATE, [latestPillCompleted, pillState]);
+  }, [latestPillCompleted]);
 
   useEffect(() => {
     ipcRenderer.send(PILL_ERROR, pillError);
