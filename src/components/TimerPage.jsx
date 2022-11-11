@@ -104,7 +104,9 @@ export const TimerPage = ({
             }}
           >
             <img className="clue" src={clueBox} alt={"clue"} />
+            <div className="clue-text-wrapper">
             <h5 className="clue-text">{clue}</h5>
+            </div>
           </div>
         </div>
       )}

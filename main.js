@@ -38,8 +38,8 @@ function createWindow() {
   });
 
   timerWindow = new BrowserWindow({
-    x: displays[2].bounds.x + 50,
-    y: displays[2].bounds.y + 50,
+    x: displays[1].bounds.x + 50,
+    y: displays[1].bounds.y + 50,
     fullscreen: true,
     frame: false,
     name: "timer",
@@ -52,8 +52,8 @@ function createWindow() {
   });
 
   barcodeWindow = new BrowserWindow({
-    x: displays[1].bounds.x + 50,
-    y: displays[1].bounds.y + 50,
+    x: displays[2].bounds.x + 50,
+    y: displays[2].bounds.y + 50,
     fullscreen: true,
     frame: false,
     name: "barcode",

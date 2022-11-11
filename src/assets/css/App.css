@@ -84,15 +84,23 @@ h1 {
 
 .clue-text {
   color: white;
-  margin-top: 41%;
-  position: fixed;
-  font-size: 25px;
+  font-size: 45px;
   font-weight: 700 !important;
   z-index: 1;
-  width: 75%;
   word-break: break-all;
   white-space: pre-wrap;
   text-align: center;
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.clue-text-wrapper {
+  top:50vh;
+  left:-5vh;
+  position: absolute;
+  display: table;
+  width: 120%;
+  height: 80%;
 }
 
 .clue-visible-text {
@@ -232,4 +240,5 @@ iframe {
 .clue-area {
   font-size: 30px;
   text-align: center;
+  vertical-align: middle;
 }
